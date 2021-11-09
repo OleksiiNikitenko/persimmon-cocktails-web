@@ -1,0 +1,63 @@
+<div class="center-content">
+  <mat-card class="example-card">
+    <mat-card-header>
+
+      <mat-card-title>Persimmon Cocktails</mat-card-title>
+      <mat-card-subtitle>Login|Register</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-tab-group>
+        <mat-tab label="Login">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Email</mat-label>
+            <input type="email" matInput placeholder="Email" value="" [(ngModel)]="log_email"/>
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Password</mat-label>
+            <input type="password" matInput placeholder="Password" [(ngModel)]="log_password"/>
+            <mat-icon matSuffix>enhanced_encryption</mat-icon>
+          </mat-form-field>
+
+          <button mat-button color="primary" (click)="login()">Login</button>
+        </mat-tab>
+        <mat-tab label="Register">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Name</mat-label>
+            <input type="email" matInput placeholder="Name" value="" [(ngModel)]="reg_name"/>
+            <mat-icon matSuffix>person</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Email</mat-label>
+            <input type="email" matInput placeholder="Email" value="" [(ngModel)]="reg_email"/>
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Password</mat-label>
+            <input type="password" matInput placeholder="Password" [(ngModel)]="reg_password"/>
+            <mat-icon matSuffix>enhanced_encryption</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Confirm Password</mat-label>
+            <input type="password" matInput placeholder="Password" [(ngModel)]="reg_confirm_password"/>
+            <mat-icon matSuffix>enhanced_encryption</mat-icon>
+          </mat-form-field>
+
+          <button mat-button color="primary" (click)="register()">Register</button>
+        </mat-tab>
+
+      </mat-tab-group>
+
+    </mat-card-content>
+    <mat-card-actions>
+
+    </mat-card-actions>
+  </mat-card>
+
+</div>
+
