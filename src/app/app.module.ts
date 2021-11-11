@@ -12,6 +12,10 @@ import {FormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 
 import { LoginComponent } from './login/login.component';
+import { HeaderComponent } from './mainpage/header/components/header.component';
+import { MainSideComponent } from './mainpage/main/components/main-side.component';
+import { ToolbarComponent } from './mainpage/toolbar/components/toolbar.component';
+import { WraperComponent } from './mainpage/wraper/components/wraper.component';
 
 
 
@@ -20,7 +24,11 @@ import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    HeaderComponent,
+    MainSideComponent,
+    ToolbarComponent,
+    WraperComponent
   ],
   imports: [
     BrowserModule,
