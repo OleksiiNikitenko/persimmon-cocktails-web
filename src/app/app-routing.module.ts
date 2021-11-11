@@ -12,16 +12,15 @@ import {SettingsComponent} from "./mainpage/main/components/settings/settings.co
 const routes: Routes = [
   {
     path: '',
-    component:
-    WraperComponent,
-    redirectTo: "/blog",
+    component: WraperComponent,
     children: [
-      { path: '/blog', component: BlogComponent },
-      { path: '/cocktails', component: CocktailsComponent },
-      { path: '/events', component: EventsComponent },
-      { path: '/friends', component: FriendsComponent },
-      { path: '/ingredients', component: IngredientsComponent },
-      { path: '/settings', component: SettingsComponent }
+      { path: '', redirectTo: "blog", pathMatch: 'full' },
+      { path: 'blog', component: BlogComponent },
+      { path: 'cocktails', component: CocktailsComponent },
+      { path: 'events', component: EventsComponent },
+      { path: 'friends', component: FriendsComponent },
+      { path: 'ingredients', component: IngredientsComponent },
+      { path: 'settings', component: SettingsComponent }
     ]
   },
   { path: 'login', component: LoginComponent }

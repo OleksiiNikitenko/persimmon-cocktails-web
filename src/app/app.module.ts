@@ -25,8 +25,6 @@ import { IngredientsComponent } from './mainpage/main/components/ingredients/ing
 
 
 
-
-
 @NgModule({
   declarations: [
     AppComponent,

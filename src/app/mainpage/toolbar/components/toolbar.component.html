@@ -1,5 +1,9 @@
 <div class="bar">
   <div *ngFor="let item of menuItems" class="bar__item">
-    <div class="bar__item__text" [routerLink]="item.url"> {{item.text}} </div>
+    <div
+      (click)="navigateHandler(item.text)"
+      class="bar__item__text"
+      [ngClass]="{'active': item.isActive}"
+      [routerLink]="item.url"> {{item.text}} </div>
   </div>
 </div>

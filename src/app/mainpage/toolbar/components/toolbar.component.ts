@@ -6,6 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit {
+  // private menuItemModel: {
+  //   text: string,
+  //   url: string,
+  //   isActive: boolean
+  // }
+
   public menuItems: Array<{
     text: string,
     url: string,
@@ -45,7 +51,18 @@ export class ToolbarComponent implements OnInit {
   ]
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
+
+  navigateHandler(itemText: string): void {
+    this.menuItems.map(item => {
+      if (item.text !== itemText) {
+        item.isActive = false
+      } else {
+        item.isActive = true
+      }
+
+      return item
+    })
   }
 
 }
