@@ -1,5 +1,5 @@
 <div class="bar">
   <div *ngFor="let item of menuItems" class="bar__item">
-    <div class="bar__item__text"> {{item.text}} </div>
+    <div class="bar__item__text" [routerLink]="item.url"> {{item.text}} </div>
   </div>
 </div>

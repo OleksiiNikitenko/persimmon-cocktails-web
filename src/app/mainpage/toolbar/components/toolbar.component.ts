@@ -22,8 +22,8 @@ export class ToolbarComponent implements OnInit {
       isActive: false,
     },
     {
-      text: 'My ingridients',
-      url: '/ingridients',
+      text: 'My ingredients',
+      url: '/ingredients',
       isActive: false,
     },
     {
@@ -32,8 +32,8 @@ export class ToolbarComponent implements OnInit {
       isActive: false,
     },
     {
-      text: 'Coctails',
-      url: '/coctails',
+      text: 'Cocktails',
+      url: '/cocktails',
       isActive: false,
     },
     {

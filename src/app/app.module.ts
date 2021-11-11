@@ -16,6 +16,12 @@ import { HeaderComponent } from './mainpage/header/components/header.component';
 import { MainSideComponent } from './mainpage/main/components/main-side.component';
 import { ToolbarComponent } from './mainpage/toolbar/components/toolbar.component';
 import { WraperComponent } from './mainpage/wraper/components/wraper.component';
+import { BlogComponent } from './mainpage/main/components/blog/blog.component';
+import { CocktailsComponent } from './mainpage/main/components/cocktails/cocktails.component';
+import { EventsComponent } from './mainpage/main/components/events/events.component';
+import { FriendsComponent } from './mainpage/main/components/friends/friends.component';
+import { SettingsComponent } from './mainpage/main/components/settings/settings.component';
+import { IngredientsComponent } from './mainpage/main/components/ingredients/ingredients.component';
 
 
 
@@ -28,7 +34,13 @@ import { WraperComponent } from './mainpage/wraper/components/wraper.component';
     HeaderComponent,
     MainSideComponent,
     ToolbarComponent,
-    WraperComponent
+    WraperComponent,
+    BlogComponent,
+    CocktailsComponent,
+    EventsComponent,
+    FriendsComponent,
+    SettingsComponent,
+    IngredientsComponent
   ],
   imports: [
     BrowserModule,
