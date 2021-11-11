@@ -1,9 +1,13 @@
 <div class="bar">
-  <div *ngFor="let item of menuItems" class="bar__item">
-    <div
-      (click)="navigateHandler(item.text)"
-      class="bar__item__text"
-      [ngClass]="{'active': item.isActive}"
-      [routerLink]="item.url"> {{item.text}} </div>
-  </div>
+  <ng-container *ngFor="let item of menuItems">
+    <ng-container *ngIf="item.canActivate.includes(user.role)">
+      <div class="bar__item">
+      <div
+        (click)="navigateHandler(item.text)"
+        class="bar__item__text"
+        [ngClass]="{'active': item.isActive}"
+        [routerLink]="item.url"> {{item.text}} </div>
+      </div>
+    </ng-container>
+  </ng-container>
 </div>

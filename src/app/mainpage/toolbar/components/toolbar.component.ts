@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Roles} from "../../../core/models/roles";
+import {user} from "../../../core/models/user";
+import {routes} from "../../../core/models/routes";
 
 @Component({
   selector: 'app-toolbar',
@@ -6,49 +9,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit {
-  // private menuItemModel: {
-  //   text: string,
-  //   url: string,
-  //   isActive: boolean
-  // }
+  user = user
 
   public menuItems: Array<{
     text: string,
     url: string,
-    isActive: boolean
-  }> = [
-    {
-      text: 'My blog',
-      url: '/blog',
-      isActive: true,
-    },
-    {
-      text: 'Friends',
-      url: '/friends',
-      isActive: false,
-    },
-    {
-      text: 'My ingredients',
-      url: '/ingredients',
-      isActive: false,
-    },
-    {
-      text: 'Events',
-      url: '/events',
-      isActive: false,
-    },
-    {
-      text: 'Cocktails',
-      url: '/cocktails',
-      isActive: false,
-    },
-    {
-      text: 'Settings',
-      url: '/settings',
-      isActive: false,
-    }
-
-  ]
+    isActive: boolean,
+    canActivate: Roles[],
+  }> = [...routes]
   constructor() { }
 
   ngOnInit(): void { }

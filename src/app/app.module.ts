@@ -22,6 +22,8 @@ import { EventsComponent } from './mainpage/main/components/events/events.compon
 import { FriendsComponent } from './mainpage/main/components/friends/friends.component';
 import { SettingsComponent } from './mainpage/main/components/settings/settings.component';
 import { IngredientsComponent } from './mainpage/main/components/ingredients/ingredients.component';
+import { ModeratorsComponent } from './mainpage/main/components/moderators/moderators.component';
+import { AccountComponent } from './mainpage/main/components/account/account.component';
 
 
 
@@ -38,7 +40,9 @@ import { IngredientsComponent } from './mainpage/main/components/ingredients/ing
     EventsComponent,
     FriendsComponent,
     SettingsComponent,
-    IngredientsComponent
+    IngredientsComponent,
+    ModeratorsComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,
