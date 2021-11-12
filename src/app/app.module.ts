@@ -8,7 +8,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from "@angular/material/button";
-import {FormBuilder, FormControl, FormControlName, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 
 import { LoginComponent } from './login/login.component';
@@ -21,7 +21,7 @@ import { CocktailsComponent } from './mainpage/main/components/cocktails/cocktai
 import { EventsComponent } from './mainpage/main/components/events/events.component';
 import { FriendsComponent } from './mainpage/main/components/friends/friends.component';
 import { SettingsComponent } from './mainpage/main/components/settings/settings.component';
-// import { IngredientsComponent } from './mainpage/main/components/ingredients/ingredients.component';
+import { IngredientsComponent } from './mainpage/main/components/ingredients/ingredients.component';
 import { ModeratorsComponent } from './mainpage/main/components/moderators/moderators.component';
 import { AccountComponent } from './mainpage/main/components/account/account.component';
 import {MatTableModule} from "@angular/material/table";
@@ -44,7 +44,7 @@ import { ModeratorsMainComponent } from './mainpage/main/components/moderators/m
     EventsComponent,
     FriendsComponent,
     SettingsComponent,
-    // IngredientsComponent,
+    IngredientsComponent,
     ModeratorsComponent,
     AccountComponent,
     AddModeratorComponent,

@@ -7,7 +7,7 @@ import {BlogComponent} from "./mainpage/main/components/blog/blog.component";
 import {CocktailsComponent} from "./mainpage/main/components/cocktails/cocktails.component";
 import {EventsComponent} from "./mainpage/main/components/events/events.component";
 import {FriendsComponent} from "./mainpage/main/components/friends/friends.component";
-// import {IngredientsComponent} from "./mainpage/main/components/ingredients/ingredients.component";
+import {IngredientsComponent} from "./mainpage/main/components/ingredients/ingredients.component";
 import {SettingsComponent} from "./mainpage/main/components/settings/settings.component";
 import {AccountComponent} from "./mainpage/main/components/account/account.component";
 import {ModeratorsComponent} from "./mainpage/main/components/moderators/moderators.component";
@@ -28,7 +28,7 @@ const routes: Routes = [
       { path: 'cocktails', component: CocktailsComponent, canActivate: [CanActivateRoute] },
       { path: 'events', component: EventsComponent, canActivate: [CanActivateRoute] },
       { path: 'friends', component: FriendsComponent, canActivate: [CanActivateRoute] },
-      // { path: 'ingredients', component: IngredientsComponent, canActivate: [CanActivateRoute] },
+      { path: 'ingredients', component: IngredientsComponent, canActivate: [CanActivateRoute] },
       { path: 'settings', component: SettingsComponent, canActivate: [CanActivateRoute] },
       { path: 'account', component: AccountComponent, canActivate: [CanActivateRoute] },
       { path: 'moderators', component: ModeratorsComponent, children: [
