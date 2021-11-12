@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Roles} from "../../../core/models/roles";
 import {user} from "../../../core/models/user";
 import {routes} from "../../../core/models/routes";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-toolbar',
@@ -17,13 +18,16 @@ export class ToolbarComponent implements OnInit {
     isActive: boolean,
     canActivate: Roles[],
   }> = [...routes]
-  constructor() { }
 
-  ngOnInit(): void { }
+  constructor(private route: Router) { }
 
-  navigateHandler(itemText: string): void {
+  ngOnInit(): void {
+    this.navigateHandler(this.route.routerState.snapshot.url)
+  }
+
+  navigateHandler(itemUrl: string): void {
     this.menuItems.map(item => {
-      if (item.text !== itemText) {
+      if (item.url !== itemUrl) {
         item.isActive = false
       } else {
         item.isActive = true

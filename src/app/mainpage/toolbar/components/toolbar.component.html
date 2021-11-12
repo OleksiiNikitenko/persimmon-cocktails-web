@@ -3,7 +3,7 @@
     <ng-container *ngIf="item.canActivate.includes(user.role)">
       <div class="bar__item">
       <div
-        (click)="navigateHandler(item.text)"
+        (click)="navigateHandler(item.url)"
         class="bar__item__text"
         [ngClass]="{'active': item.isActive}"
         [routerLink]="item.url"> {{item.text}} </div>
