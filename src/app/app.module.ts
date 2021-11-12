@@ -21,9 +21,11 @@ import { CocktailsComponent } from './mainpage/main/components/cocktails/cocktai
 import { EventsComponent } from './mainpage/main/components/events/events.component';
 import { FriendsComponent } from './mainpage/main/components/friends/friends.component';
 import { SettingsComponent } from './mainpage/main/components/settings/settings.component';
-import { IngredientsComponent } from './mainpage/main/components/ingredients/ingredients.component';
+// import { IngredientsComponent } from './mainpage/main/components/ingredients/ingredients.component';
 import { ModeratorsComponent } from './mainpage/main/components/moderators/moderators.component';
 import { AccountComponent } from './mainpage/main/components/account/account.component';
+import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
 
 
 
@@ -40,7 +42,7 @@ import { AccountComponent } from './mainpage/main/components/account/account.com
     EventsComponent,
     FriendsComponent,
     SettingsComponent,
-    IngredientsComponent,
+    // IngredientsComponent,
     ModeratorsComponent,
     AccountComponent
   ],
@@ -53,7 +55,9 @@ import { AccountComponent } from './mainpage/main/components/account/account.com
     MatInputModule,
     MatButtonModule,
     FormsModule,
-    MatIconModule
+    MatIconModule,
+    MatTableModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]
