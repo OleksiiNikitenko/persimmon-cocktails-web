@@ -9,11 +9,12 @@ import {MatTableDataSource} from "@angular/material/table";
 @Component({
   selector: 'app-moderators',
   templateUrl: './moderators.component.html',
-  styleUrls: ['./moderators.component.css']
+  styleUrls: ['./moderators.component.css', '../../../../app.component.css']
 })
 export class ModeratorsComponent implements AfterViewInit, OnInit{
 
-  displayedColumns: string[] = ['personId', 'name', 'email'];
+  // displayedColumns: string[] = ['photoId', 'personId', 'name', 'email', 'editButton', 'statusButton'];
+  displayedColumns: string[] = ['photoId', 'personId', 'name', 'email', 'editButton', 'statusButton'];
   dataSource = new MatTableDataSource(MODERATORS);
 
   constructor(private _liveAnnouncer: LiveAnnouncer) {}

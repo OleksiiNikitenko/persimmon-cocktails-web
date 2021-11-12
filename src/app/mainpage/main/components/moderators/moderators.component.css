@@ -10,3 +10,22 @@ table {
 th.mat-sort-header-sorted {
   color: black;
 }
+
+.avatar {
+  padding-top: 5%;
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+}
+
+.avatar-container{
+  width: 6%;
+}
+
+.container-button-edit, .container-button-status{
+  width: 6%;
+}
+
+.button-edit{
+  margin-right: 10px;
+}

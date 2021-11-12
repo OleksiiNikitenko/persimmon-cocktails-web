@@ -45,11 +45,10 @@
   padding: 3px 10px;
 }
 
-.header__sign__in {
-  background-color: #4E5953;
-  margin-right: 20px;
+.button-sign-in {
+  margin-right: 15px;
 }
 
-.header__sign__up {
-  background-color: #282D27;
-}
+/*.header__sign__up {*/
+/*  background-color: #282D27;*/
+/*}*/
