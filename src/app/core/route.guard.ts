@@ -15,7 +15,7 @@ export class CanActivateRoute implements CanActivate {
   constructor() {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const url = state.url
+    const url = `/${state.url.split('/')[1]}`
 
     // @ts-ignore
     return of(routes.find(route => route.url === url).canActivate.includes(user.role));

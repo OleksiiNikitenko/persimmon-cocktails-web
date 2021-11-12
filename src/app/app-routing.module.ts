@@ -13,6 +13,8 @@ import {AccountComponent} from "./mainpage/main/components/account/account.compo
 import {ModeratorsComponent} from "./mainpage/main/components/moderators/moderators.component";
 import {Roles} from "./core/models/roles";
 import {user} from "./core/models/user";
+import {AddModeratorComponent} from "./mainpage/main/components/moderators/add-moderator/add-moderator.component";
+import {ModeratorsMainComponent} from "./mainpage/main/components/moderators/moderators-main/moderators-main.component";
 
 const BASE_URL = getBaseUrl()
 
@@ -29,11 +31,15 @@ const routes: Routes = [
       // { path: 'ingredients', component: IngredientsComponent, canActivate: [CanActivateRoute] },
       { path: 'settings', component: SettingsComponent, canActivate: [CanActivateRoute] },
       { path: 'account', component: AccountComponent, canActivate: [CanActivateRoute] },
-      { path: 'moderators', component: ModeratorsComponent, canActivate: [CanActivateRoute] }
-
+      { path: 'moderators', component: ModeratorsComponent, children: [
+          { path: '', component: ModeratorsMainComponent, canActivate: [CanActivateRoute] },
+          { path: 'add', component: AddModeratorComponent, canActivate: [CanActivateRoute] }
+        ]
+      },
     ]
   },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+
 ];
 
 @NgModule({

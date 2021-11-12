@@ -8,7 +8,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from "@angular/material/button";
-import {FormsModule} from "@angular/forms";
+import {FormBuilder, FormControl, FormControlName, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 
 import { LoginComponent } from './login/login.component';
@@ -26,6 +26,8 @@ import { ModeratorsComponent } from './mainpage/main/components/moderators/moder
 import { AccountComponent } from './mainpage/main/components/account/account.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
+import { AddModeratorComponent } from './mainpage/main/components/moderators/add-moderator/add-moderator.component';
+import { ModeratorsMainComponent } from './mainpage/main/components/moderators/moderators-main/moderators-main.component';
 
 
 
@@ -44,7 +46,9 @@ import {MatSortModule} from "@angular/material/sort";
     SettingsComponent,
     // IngredientsComponent,
     ModeratorsComponent,
-    AccountComponent
+    AccountComponent,
+    AddModeratorComponent,
+    ModeratorsMainComponent
   ],
   imports: [
     BrowserModule,
@@ -57,9 +61,10 @@ import {MatSortModule} from "@angular/material/sort";
     FormsModule,
     MatIconModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [FormBuilder],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

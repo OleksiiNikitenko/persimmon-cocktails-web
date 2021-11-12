@@ -24,9 +24,6 @@
   padding: 5px 20px;
 }
 
-.auth-buttons{
-  margin-left: auto;
-}
 
 .header__sign__in, .header__sign__up {
   border-radius: 21px;
@@ -35,10 +32,11 @@
   padding: 3px 10px;
 }
 
-.button-sign-in {
-  margin-right: 15px;
+.header__sign__in {
+  background-color: #4E5953;
+  margin-right: 20px;
 }
 
-/*.header__sign__up {*/
-/*  background-color: #282D27;*/
-/*}*/
+.header__sign__up {
+  background-color: #282D27;
+}

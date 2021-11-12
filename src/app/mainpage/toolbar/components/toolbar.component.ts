@@ -27,11 +27,7 @@ export class ToolbarComponent implements OnInit {
 
   navigateHandler(itemUrl: string): void {
     this.menuItems.map(item => {
-      if (item.url !== itemUrl) {
-        item.isActive = false
-      } else {
-        item.isActive = true
-      }
+      item.isActive = item.url === itemUrl;
 
       return item
     })

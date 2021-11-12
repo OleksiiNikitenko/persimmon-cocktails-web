@@ -11,28 +11,8 @@ import {MatTableDataSource} from "@angular/material/table";
   templateUrl: './moderators.component.html',
   styleUrls: ['./moderators.component.css', '../../../../app.component.css']
 })
-export class ModeratorsComponent implements AfterViewInit, OnInit{
+export class ModeratorsComponent implements OnInit{
 
-  // displayedColumns: string[] = ['photoId', 'personId', 'name', 'email', 'editButton', 'statusButton'];
-  displayedColumns: string[] = ['photoId', 'personId', 'name', 'email', 'editButton', 'statusButton'];
-  dataSource = new MatTableDataSource(MODERATORS);
-
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
-
-  @ViewChild(MatSort, { static: false }) sort!: MatSort;
-
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-  }
-
-  announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
 
   ngOnInit() {
   }
