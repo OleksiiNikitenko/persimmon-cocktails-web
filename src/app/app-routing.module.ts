@@ -55,7 +55,7 @@ function getBaseUrl() {
       return 'account'
     case Roles.User:
       return 'blog'
-    case Roles.Anonimus:
+    case Roles.Anonymous:
       return 'cocktails'
 
   }

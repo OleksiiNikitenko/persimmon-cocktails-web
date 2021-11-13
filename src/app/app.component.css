@@ -26,3 +26,11 @@
   position:relative;
   top:1px;
 }
+
+.thirdly-button{
+  margin-top: 10px;
+  width: 100%;
+  color: white;
+  height: 40px;
+  background-color: #4E5953;
+}

@@ -41,7 +41,7 @@ export const routes = [
     text: 'Cocktails',
     url: '/cocktails',
     isActive: false,
-    canActivate: [Roles.Admin, Roles.User, Roles.Moderator, Roles.Anonimus]
+    canActivate: [Roles.Admin, Roles.User, Roles.Moderator, Roles.Anonymous]
   },
   {
     text: 'Settings',
