@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Person} from "../../Person";
+import {ADMIN} from "../../../../core/models/admin";
 
 @Component({
   selector: 'app-settings',
@@ -7,6 +8,9 @@ import {Person} from "../../Person";
   styleUrls: ['./settings.component.css', '../../../../app.component.css']
 })
 export class SettingsComponent implements OnInit {
+
+   person = ADMIN;
+
 
   constructor() { }
 

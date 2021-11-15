@@ -1,5 +1,5 @@
 .settings__img{
-  margin: 50px 50px;
+  margin: 50px 20px;
   width: 205px;
   height: 205px;
 }
@@ -7,6 +7,7 @@
 .settings__content{
   display: flex;
   align-items: flex-start;
+  justify-content: space-between
 }
 
 .settings__buttons{
@@ -15,9 +16,17 @@ margin-bottom: 20px;
   width: 30%;
 }
 
-.settings__avatar{
-  /*margin-left: 50px ;*/
-  padding: 50px 20px;
+.settings__avatar {
   width: 150px;
   height: 150px;
+}
+
+.settings__account__info{
+  padding: 50px 20px ;
+  width: 30%;
+
+}
+label{
+  display: block;
+  align-items: center;
 }
