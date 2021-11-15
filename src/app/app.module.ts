@@ -8,10 +8,11 @@ import {MatCardModule} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from "@angular/material/button";
-import {FormsModule} from "@angular/forms";
+import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 
 import { LoginComponent } from './login/login.component';
+
 import { RecoverPasswordComponent } from './recover-password/recover-password.component';
 import {HttpClientModule} from "@angular/common/http";
 import {LoginService} from "./login/login.service";
@@ -20,15 +21,48 @@ import {LoginService} from "./login/login.service";
 
 
 
+import { HeaderComponent } from './mainpage/header/components/header.component';
+import { MainSideComponent } from './mainpage/main/components/main-side.component';
+import { ToolbarComponent } from './mainpage/toolbar/components/toolbar.component';
+import { WraperComponent } from './mainpage/wraper/components/wraper.component';
+import { BlogComponent } from './mainpage/main/components/blog/blog.component';
+import { CocktailsComponent } from './mainpage/main/components/cocktails/cocktails.component';
+import { EventsComponent } from './mainpage/main/components/events/events.component';
+import { FriendsComponent } from './mainpage/main/components/friends/friends.component';
+import { SettingsComponent } from './mainpage/main/components/settings/settings.component';
+import { IngredientsComponent } from './mainpage/main/components/ingredients/ingredients.component';
+import { ModeratorsComponent } from './mainpage/main/components/moderators/moderators.component';
+import { AccountComponent } from './mainpage/main/components/account/account.component';
+import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
+import { AddModeratorComponent } from './mainpage/main/components/moderators/add-moderator/add-moderator.component';
+import { ModeratorsMainComponent } from './mainpage/main/components/moderators/moderators-main/moderators-main.component';
+
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RecoverPasswordComponent
+    RecoverPasswordComponent,
+    HeaderComponent,
+    MainSideComponent,
+    ToolbarComponent,
+    WraperComponent,
+    BlogComponent,
+    CocktailsComponent,
+    EventsComponent,
+    FriendsComponent,
+    SettingsComponent,
+    IngredientsComponent,
+    ModeratorsComponent,
+    AccountComponent,
+    AddModeratorComponent,
+    ModeratorsMainComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -38,11 +72,12 @@ import {LoginService} from "./login/login.service";
     MatButtonModule,
     FormsModule,
     MatIconModule,
-
-    BrowserModule,
-    HttpClientModule
+    MatTableModule,
+    MatSortModule,
+    ReactiveFormsModule,
   ],
-  providers: [LoginService],
+  providers: [FormBuilder],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

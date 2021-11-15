@@ -1,0 +1,21 @@
+.main {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  background-color: #493F3B;
+}
+
+.toolbar {
+  width: 20%;
+}
+
+app-toolbar {
+  width: 100%;
+}
+
+.main__content {
+  /*display: flex;*/
+  width: 60%;
+  background-color: #FFF7F0;
+  max-height: 100%;
+}
