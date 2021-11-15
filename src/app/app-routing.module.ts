@@ -31,6 +31,8 @@ const routes: Routes = [
       { path: 'ingredients', component: IngredientsComponent, canActivate: [CanActivateRoute] },
       { path: 'settings', component: SettingsComponent, canActivate: [CanActivateRoute] },
       { path: 'account', component: AccountComponent, canActivate: [CanActivateRoute] },
+      { path: 'login', component: LoginComponent, canActivate: [CanActivateRoute] },
+
       { path: 'moderators', component: ModeratorsComponent, children: [
           { path: '', component: ModeratorsMainComponent, canActivate: [CanActivateRoute] },
           { path: 'add', component: AddModeratorComponent, canActivate: [CanActivateRoute] }
@@ -38,7 +40,7 @@ const routes: Routes = [
       },
     ]
   },
-  { path: 'login', component: LoginComponent },
+  // { path: 'login', component: LoginComponent },
 
 ];
 
