@@ -12,11 +12,6 @@ import {FormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 
 import { LoginComponent } from './login/login.component';
-import { RecoverPasswordComponent } from './recover-password/recover-password.component';
-import {HttpClientModule} from "@angular/common/http";
-import {LoginService} from "./login/login.service";
-
-
 
 
 
@@ -25,8 +20,7 @@ import {LoginService} from "./login/login.service";
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    RecoverPasswordComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -37,12 +31,9 @@ import {LoginService} from "./login/login.service";
     MatInputModule,
     MatButtonModule,
     FormsModule,
-    MatIconModule,
-
-    BrowserModule,
-    HttpClientModule
+    MatIconModule
   ],
-  providers: [LoginService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
