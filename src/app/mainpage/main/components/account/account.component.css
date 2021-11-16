@@ -1,0 +1,29 @@
+.account__info label{
+  display: block;
+  align-items: center;
+  padding-left: 100px;
+}
+.account__avatar{
+  width: 200px;
+  height: 200px;
+  padding: 20px 50px 10px;
+}
+
+.account__info{
+  display: block;
+}
+
+.account__content{
+  display: flex;
+}
+
+h1{
+  padding: 50px 50px 0px;
+  font-size: xx-large;
+}
+
+.account__stats label{
+  display: block;
+  padding: 10px 50px 0px;
+  font-size: large;
+}

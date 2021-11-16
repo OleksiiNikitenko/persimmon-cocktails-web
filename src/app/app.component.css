@@ -1,0 +1,36 @@
+.primary-button, .secondary-button {
+  border-radius: 21px;
+  border: 1px solid #FFF7F0;
+  color: #FFF7F0;
+  padding: 3px 10px;
+}
+
+.primary-button {
+  background-color: #4E5953;
+}
+.primary-button:hover {
+  background-color: #282D27;
+}
+.primary-button:active {
+  position:relative;
+  top:1px;
+}
+
+.secondary-button {
+  background-color: #282D27;
+}
+.secondary-button:hover {
+  background-color: #141714;
+}
+.secondary-button:active {
+  position:relative;
+  top:1px;
+}
+
+.thirdly-button{
+  margin-top: 10px;
+  width: 100%;
+  color: white;
+  height: 40px;
+  background-color: #4E5953;
+}
