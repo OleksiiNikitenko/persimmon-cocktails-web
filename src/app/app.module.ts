@@ -12,6 +12,15 @@ import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 
 import { LoginComponent } from './login/login.component';
+
+import { RecoverPasswordComponent } from './recover-password/recover-password.component';
+import {HttpClientModule} from "@angular/common/http";
+import {LoginService} from "./login/login.service";
+
+
+
+
+
 import { HeaderComponent } from './mainpage/header/components/header.component';
 import { MainSideComponent } from './mainpage/main/components/main-side.component';
 import { ToolbarComponent } from './mainpage/toolbar/components/toolbar.component';
@@ -31,10 +40,12 @@ import { ModeratorsMainComponent } from './mainpage/main/components/moderators/m
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    RecoverPasswordComponent,
     HeaderComponent,
     MainSideComponent,
     ToolbarComponent,
@@ -51,6 +62,7 @@ import { ModeratorsMainComponent } from './mainpage/main/components/moderators/m
     ModeratorsMainComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -65,6 +77,7 @@ import { ModeratorsMainComponent } from './mainpage/main/components/moderators/m
     ReactiveFormsModule,
   ],
   providers: [FormBuilder],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
