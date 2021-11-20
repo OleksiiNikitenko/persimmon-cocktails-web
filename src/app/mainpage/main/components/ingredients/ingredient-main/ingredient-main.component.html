@@ -1,20 +1,25 @@
 <div class="main" >
-  <button class="secondary-button moderator-add" type="button" routerLink="/moderators/add">Add moderator </button>
+  <mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+  </mat-form-field>
+
+  <button class="secondary-button ingredient-add" type="button" routerLink="/ingredients/add">Add ingredient </button>
   <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
          class="mat-elevation-z8">
 
     <ng-container matColumnDef="photoId">
       <th mat-header-cell *matHeaderCellDef sortActionDescription="">
-        Avatar
+        Photo
       </th>
-      <td class="avatar-container"  mat-cell *matCellDef="let element"><img class="avatar" src="./assets/images/moder-avatar.png" alt="avatar"></td>
+      <td class="photo-container"  mat-cell *matCellDef="let element"><img class="photo" src="./assets/images/Orange.jpg" alt="photo"></td>
     </ng-container>
 
-    <ng-container matColumnDef="personId">
+    <ng-container matColumnDef="ingredientId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by ID">
         ID
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.personId}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.ingredientId}} </td>
     </ng-container>
 
     <ng-container matColumnDef="name">
@@ -24,11 +29,11 @@
       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email">
-        Email
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by category">
+        Category
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.category}} </td>
     </ng-container>
 
     <ng-container matColumnDef="editButton">
@@ -42,7 +47,7 @@
       <th mat-header-cell *matHeaderCellDef>
 
       </th>
-      <td class="container-button-status" mat-cell *matCellDef="let element"><button class="primary-button">DISABLE</button></td>
+      <td class="container-button-status" mat-cell *matCellDef="let element"><button class="primary-button">DELETE</button></td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

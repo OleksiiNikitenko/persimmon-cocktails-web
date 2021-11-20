@@ -28,8 +28,8 @@ export const routes = [
   {
     text: 'My ingredients',
     url: '/ingredients',
-    isActive: false,
-    canActivate: [Roles.User]
+    isActive: true,
+    canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
   },
   {
     text: 'Events',
