@@ -59,8 +59,10 @@ export class AddModeratorComponent implements OnInit {
 
   resetFormHandler() {
     this.name?.setValue('')
-    this.email?.setValue('')
     this.status?.setValue(false)
+    if (!this.currentUserId) {
+      this.email?.setValue('')
+    }
   }
 
   createModerator() {
