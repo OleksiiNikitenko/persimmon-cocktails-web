@@ -27,6 +27,10 @@ export class ModeratorsService {
   }
 
   createModerator(data: ModeratorModel) {
-    return this.http.post(this.BASE_URLS.addModerator, data)
+    this.http.post(this.BASE_URLS.addModerator, data).pipe(first()).subscribe()
+  }
+
+  updateModerator(data: any) {
+    this.http.patch(this.BASE_URLS.updateModerator, data).pipe(first()).subscribe()
   }
 }

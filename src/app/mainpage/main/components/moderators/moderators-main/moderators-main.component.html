@@ -35,14 +35,18 @@
       <th mat-header-cell *matHeaderCellDef>
 
       </th>
-      <td class="container-button-edit" mat-cell *matCellDef="let element"><button class="primary-button button-edit">EDIT</button></td>
+      <td class="container-button-edit" mat-cell *matCellDef="let element">
+        <button class="primary-button button-edit" [routerLink]="'edit/' + element.personId">EDIT</button>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="statusButton">
       <th mat-header-cell *matHeaderCellDef>
 
       </th>
-      <td class="container-button-status" mat-cell *matCellDef="let element"><button class="primary-button">DISABLE</button></td>
+      <td class="container-button-status" mat-cell *matCellDef="let element">
+        <button class="primary-button">DISABLE</button>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

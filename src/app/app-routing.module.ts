@@ -33,7 +33,8 @@ const routes: Routes = [
       { path: 'account', component: AccountComponent, canActivate: [CanActivateRoute] },
       { path: 'moderators', component: ModeratorsComponent, children: [
           { path: '', component: ModeratorsMainComponent, canActivate: [CanActivateRoute] },
-          { path: 'add', component: AddModeratorComponent, canActivate: [CanActivateRoute] }
+          { path: 'add', component: AddModeratorComponent, canActivate: [CanActivateRoute] },
+          { path: 'edit/:id', component: AddModeratorComponent, canActivate: [CanActivateRoute] }
         ]
       },
     ]

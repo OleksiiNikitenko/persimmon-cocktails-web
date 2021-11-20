@@ -1,6 +1,9 @@
 <div>
   <div class="add-moderator">
-    <h1>Create moderator</h1>
+    <h1 *ngIf="!currentUserId else edit">Create moderator</h1>
+    <ng-template #edit>
+      <h1>Edit moderator</h1>
+    </ng-template>
   </div>
   <div class="add-moderator__content">
     <img class="add-moderator__avatar" src="./assets/images/moder-avatar.png" alt="avatar">
@@ -18,7 +21,10 @@
         <input type="checkbox" formControlName="status">
       </div>
       <div>
-        <button  class="primary-button createButton" type="button" (click)="submitForm()">Create</button>
+        <button *ngIf="!currentUserId else editButton" class="primary-button createButton" type="button" (click)="createModerator()">Create</button>
+        <ng-template #editButton>
+          <button class="primary-button createButton" type="button" (click)="editModerator()">Update</button>
+        </ng-template>
         <button class="secondary-button clearButton" type="button" (click)="resetFormHandler()">Clear</button>
       </div>
     </div>

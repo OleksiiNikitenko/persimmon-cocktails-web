@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ModeratorsService} from "../../../services/moderators.service";
 import {first} from "rxjs/operators";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ModeratorsQuery} from "../../../services/moderators.query";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 
+@UntilDestroy()
 @Component({
   selector: 'app-add-moderator',
   templateUrl: './add-moderator.component.html',
@@ -11,10 +14,12 @@ import {Router} from "@angular/router";
 })
 export class AddModeratorComponent implements OnInit {
   form: FormGroup
+  currentUserId: number | undefined
 
   constructor(
     private formBuilder: FormBuilder,
     private moderatorsService: ModeratorsService,
+    private moderatorsQuery: ModeratorsQuery,
     private router: Router,
   ) {
     this.form = this.formBuilder.group({
@@ -24,7 +29,21 @@ export class AddModeratorComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const route = this.router.routerState.snapshot.url.split('/')
+    this.currentUserId = parseInt(route[route.length - 1])
+
+    if (this.currentUserId) {
+      this.email?.disable()
+
+      this.moderatorsQuery.selectEntity(this.currentUserId).pipe(
+        untilDestroyed(this)
+      ).subscribe(moderator => {
+        this.name?.setValue(moderator?.name)
+        this.email?.setValue(moderator?.email)
+      })
+    }
+  }
 
   get name() {
     return this.form.get('name')
@@ -44,9 +63,20 @@ export class AddModeratorComponent implements OnInit {
     this.status?.setValue(false)
   }
 
-  submitForm() {
+  createModerator() {
     if (this.form.valid) {
-      // this.moderatorsService.createModerator(this.form.value).pipe(first()).subscribe()
+      this.moderatorsService.createModerator(this.form.value)
+      this.router.navigate(['moderators'])
+    }
+  }
+
+  editModerator() {
+    if (this.form.valid) {
+      this.moderatorsService.updateModerator({
+        personId: this.currentUserId,
+        name: this.name?.value,
+        status: this.status?.value,
+      })
       this.router.navigate(['moderators'])
     }
   }
