@@ -23,8 +23,9 @@ export class RecoverPasswordComponent implements OnInit {
 
   //need to fix
   recover(): void {
-    let recoverEmail: string = this.recover_email
-
+    let recoverEmail: object = {
+      email: this.recover_email
+    }
     this.personService.recover(recoverEmail).subscribe(
       (response: Person) => {
         this.personId = response;
