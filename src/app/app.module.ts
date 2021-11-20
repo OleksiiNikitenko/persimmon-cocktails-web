@@ -28,6 +28,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import { AddModeratorComponent } from './mainpage/main/components/moderators/add-moderator/add-moderator.component';
 import { ModeratorsMainComponent } from './mainpage/main/components/moderators/moderators-main/moderators-main.component';
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 
 
@@ -63,6 +64,7 @@ import { ModeratorsMainComponent } from './mainpage/main/components/moderators/m
     MatTableModule,
     MatSortModule,
     ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [FormBuilder],
   bootstrap: [AppComponent]
