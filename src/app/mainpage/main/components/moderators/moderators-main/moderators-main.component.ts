@@ -4,7 +4,11 @@ import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {MatSort, Sort} from "@angular/material/sort";
 import {ModeratorsService} from "../../../services/moderators.service";
 import {first} from "rxjs/operators";
+import {ModeratorsStore} from "../../../services/moderators.store";
+import {ModeratorsQuery} from "../../../services/moderators.query";
+import {untilDestroyed, UntilDestroy} from '@ngneat/until-destroy'
 
+@UntilDestroy()
 @Component({
   selector: 'app-moderators-main',
   templateUrl: './moderators-main.component.html',
@@ -19,6 +23,8 @@ export class ModeratorsMainComponent implements OnInit {
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
               private moderatorsService: ModeratorsService,
+              private moderatorsQuery: ModeratorsQuery,
+              private moderatorsStore: ModeratorsStore,
               private cdr: ChangeDetectorRef) {}
 
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
@@ -32,9 +38,11 @@ export class ModeratorsMainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.moderatorsService.fetchModerators().pipe(
-      first()
-    ).subscribe((moderators) => {
+    this.moderatorsService.fetchModerators()
+
+    this.moderatorsQuery.selectAll().pipe(
+      untilDestroyed(this)
+    ).subscribe(moderators => {
       this.dataSource = new MatTableDataSource(moderators)
       this.dataSource.sort = this.sort;
       this.cdr.markForCheck()
