@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ADMIN} from "../../../../core/models/admin";
-import {MODERATORS} from "../moderators/mock-moderators";
+import {Moderator} from "../../../../core/models/moderator.model";
 
 @Component({
   selector: 'app-account',
@@ -9,12 +9,11 @@ import {MODERATORS} from "../moderators/mock-moderators";
 })
 export class AccountComponent implements OnInit {
   person = ADMIN;
-  moderators = MODERATORS;
+  moderator = new Moderator();
 
   constructor() {
   }
 
   ngOnInit(): void {
   }
-
 }
