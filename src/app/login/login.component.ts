@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpErrorResponse} from "@angular/common/http";
 import {Person} from "../model/person";
 import {LoginService} from "./login.service";
@@ -21,18 +21,17 @@ export class LoginComponent implements OnInit {
   // public editEmployee: Employee;
   // public deleteEmployee: Employee;
 
-  constructor(private personService: LoginService) {};
+  constructor(private personService: LoginService) {
+  };
 
 
-
-
-  public login(): void{
+  public login(): void {
     let person: object = {
       email: this.log_email,
       password: this.log_password
     }
     this.personService.login(person).subscribe(
-      (response: Person) =>{
+      (response: Person) => {
         this.personId = response;
         console.log(response);
         this.log_email = "";
@@ -44,7 +43,7 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  public register(): void{
+  public register(): void {
     let person: object = {
       name: this.reg_name,
       email: this.reg_email,
@@ -52,7 +51,7 @@ export class LoginComponent implements OnInit {
       confirm_password: this.reg_confirm_password
     }
     this.personService.register(person).subscribe(
-      (response: Person) =>{
+      (response: Person) => {
         this.personId = response;
         console.log(response);
 

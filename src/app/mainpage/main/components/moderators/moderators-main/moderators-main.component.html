@@ -47,3 +47,9 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 </div>
+
+<ul>
+  <li *ngFor="let person of moderators; let i = index">
+    {{ person.photoId }} - {{ person.personId }} - {{ person.name }} - {{ person.email }}
+  </li>
+</ul>

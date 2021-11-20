@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ADMIN} from "../../../../core/models/admin";
 import {MODERATORS} from "../moderators/mock-moderators";
 
@@ -8,9 +8,11 @@ import {MODERATORS} from "../moderators/mock-moderators";
   styleUrls: ['./account.component.css']
 })
 export class AccountComponent implements OnInit {
-person = ADMIN;
-moderators= MODERATORS;
-  constructor() { }
+  person = ADMIN;
+  moderators = MODERATORS;
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
