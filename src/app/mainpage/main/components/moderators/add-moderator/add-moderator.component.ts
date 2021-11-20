@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ModeratorsService} from "../../../services/moderators.service";
+import {first} from "rxjs/operators";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-add-moderator',
@@ -10,11 +13,13 @@ export class AddModeratorComponent implements OnInit {
   form: FormGroup
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private moderatorsService: ModeratorsService,
+    private router: Router,
   ) {
     this.form = this.formBuilder.group({
-      name: '',
-      email: '',
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       status: false,
     })
   }
@@ -37,5 +42,12 @@ export class AddModeratorComponent implements OnInit {
     this.name?.setValue('')
     this.email?.setValue('')
     this.status?.setValue(false)
+  }
+
+  submitForm() {
+    if (this.form.valid) {
+      // this.moderatorsService.createModerator(this.form.value).pipe(first()).subscribe()
+      this.router.navigate(['moderators'])
+    }
   }
 }
