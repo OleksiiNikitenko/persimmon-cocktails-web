@@ -16,15 +16,15 @@ th.mat-sort-header-sorted {
   color: black;
 }
 
-.avatar {
+.photo {
   padding-top: 5%;
   width: 90%;
   height: 90%;
-  border-radius: 50%;
+  border-radius: 30%;
 }
 
-.avatar-container{
-  width: 6%;
+.photo-container{
+  width: 20%;
 }
 
 .container-button-edit, .container-button-status{
@@ -34,7 +34,7 @@ th.mat-sort-header-sorted {
 .button-edit{
   margin-right: 10px;
 }
-.moderator-add {
+.ingredient-add {
   display: block;
   padding: 8px 20px !important;
   margin: 20px 20px 0 auto;

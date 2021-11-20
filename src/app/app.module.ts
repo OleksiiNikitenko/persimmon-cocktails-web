@@ -30,13 +30,16 @@ import { CocktailsComponent } from './mainpage/main/components/cocktails/cocktai
 import { EventsComponent } from './mainpage/main/components/events/events.component';
 import { FriendsComponent } from './mainpage/main/components/friends/friends.component';
 import { SettingsComponent } from './mainpage/main/components/settings/settings.component';
-import { IngredientsComponent } from './mainpage/main/components/ingredients/ingredients.component';
+import { IngredientComponent } from './mainpage/main/components/ingredients/ingredient.component';
 import { ModeratorsComponent } from './mainpage/main/components/moderators/moderators.component';
 import { AccountComponent } from './mainpage/main/components/account/account.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
-import { AddModeratorComponent } from './mainpage/main/components/moderators/add-moderator/add-moderator.component';
 import { ModeratorsMainComponent } from './mainpage/main/components/moderators/moderators-main/moderators-main.component';
+import { AddModeratorComponent } from './mainpage/main/components/moderators/add-moderator/add-moderator.component';
+import { IngredientMainComponent } from './mainpage/main/components/ingredients/ingredient-main/ingredient-main.component';
+import { AddIngredientComponent } from './mainpage/main/components/ingredients/add-ingredient/add-ingredient.component';
+
 
 
 
@@ -55,11 +58,13 @@ import { ModeratorsMainComponent } from './mainpage/main/components/moderators/m
     EventsComponent,
     FriendsComponent,
     SettingsComponent,
-    IngredientsComponent,
+    IngredientComponent,
     ModeratorsComponent,
     AccountComponent,
     AddModeratorComponent,
-    ModeratorsMainComponent
+    ModeratorsMainComponent,
+    AddIngredientComponent,
+    IngredientMainComponent
   ],
   imports: [
     HttpClientModule,
