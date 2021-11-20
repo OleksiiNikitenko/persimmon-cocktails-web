@@ -79,6 +79,7 @@ export class AddModeratorComponent implements OnInit {
         name: this.name?.value,
         status: this.status?.value,
       })
+      this.moderatorsService.fetchModerators()
       this.router.navigate(['moderators'])
     }
   }
