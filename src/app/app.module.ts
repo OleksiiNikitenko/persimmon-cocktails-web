@@ -39,9 +39,7 @@ import { ModeratorsMainComponent } from './mainpage/main/components/moderators/m
 import { AddModeratorComponent } from './mainpage/main/components/moderators/add-moderator/add-moderator.component';
 import { IngredientMainComponent } from './mainpage/main/components/ingredients/ingredient-main/ingredient-main.component';
 import { AddIngredientComponent } from './mainpage/main/components/ingredients/add-ingredient/add-ingredient.component';
-
-
-
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
@@ -80,6 +78,7 @@ import { AddIngredientComponent } from './mainpage/main/components/ingredients/a
     MatTableModule,
     MatSortModule,
     ReactiveFormsModule,
+    MatPaginatorModule
   ],
   providers: [FormBuilder],
 
