@@ -23,7 +23,7 @@ export const routes = [
     text: 'Friends',
     url: '/friends',
     isActive: false,
-    canActivate: [Roles.Admin, Roles.User]
+    canActivate: [Roles.User]
   },
   {
     text: 'My ingredients',
