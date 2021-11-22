@@ -3,6 +3,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {INGREDIENTS} from "../mock-ingredients";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {MatSort, Sort} from "@angular/material/sort";
+import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-ingredient-main',
@@ -17,11 +18,13 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
   constructor(private _liveAnnouncer: LiveAnnouncer) {}
 
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
-
+  @ViewChild(MatPaginator) paginator: MatPaginator = null!;
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
+
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
