@@ -31,6 +31,7 @@ import { EventsComponent } from './mainpage/main/components/events/events.compon
 import { FriendsComponent } from './mainpage/main/components/friends/friends.component';
 import { SettingsComponent } from './mainpage/main/components/settings/settings.component';
 import { IngredientComponent } from './mainpage/main/components/ingredients/ingredient.component';
+import {KitchenwareComponent } from './mainpage/main/components/kitchenware/kitchenware.component';
 import { ModeratorsComponent } from './mainpage/main/components/moderators/moderators.component';
 import { AccountComponent } from './mainpage/main/components/account/account.component';
 import {MatTableModule} from "@angular/material/table";
@@ -41,6 +42,9 @@ import { IngredientMainComponent } from './mainpage/main/components/ingredients/
 import { AddIngredientComponent } from './mainpage/main/components/ingredients/add-ingredient/add-ingredient.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {EditIngredientComponent} from "./mainpage/main/components/ingredients/edit-ingredient/edit-ingredient.component";
+import {KitchenwareMainComponent} from './mainpage/main/components/kitchenware/kitchenware-main/kitchenware-main.component';
+import {AddKitchenwareComponent} from './mainpage/main/components/kitchenware/add-kitchenware/add-kitchenware.component';
+import {EditKitchenwareComponent} from './mainpage/main/components/kitchenware/edit-kitchenware/edit-kitchenware.component';
 
 
 @NgModule({
@@ -58,13 +62,17 @@ import {EditIngredientComponent} from "./mainpage/main/components/ingredients/ed
     FriendsComponent,
     SettingsComponent,
     IngredientComponent,
+    KitchenwareComponent,
     ModeratorsComponent,
     AccountComponent,
     AddModeratorComponent,
     ModeratorsMainComponent,
     AddIngredientComponent,
     IngredientMainComponent,
-    EditIngredientComponent
+    EditIngredientComponent,
+    AddKitchenwareComponent,
+    KitchenwareMainComponent,
+    EditKitchenwareComponent
   ],
   imports: [
     HttpClientModule,
