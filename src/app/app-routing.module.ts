@@ -17,7 +17,7 @@ import {AddModeratorComponent} from "./mainpage/main/components/moderators/add-m
 import {ModeratorsMainComponent} from "./mainpage/main/components/moderators/moderators-main/moderators-main.component";
 import { IngredientMainComponent } from './mainpage/main/components/ingredients/ingredient-main/ingredient-main.component';
 import { AddIngredientComponent } from './mainpage/main/components/ingredients/add-ingredient/add-ingredient.component';
-
+import { EditIngredientComponent } from './mainpage/main/components/ingredients/edit-ingredient/edit-ingredient.component';
 
 const BASE_URL = getBaseUrl()
 
@@ -43,7 +43,8 @@ const routes: Routes = [
 
       { path: 'ingredients', component: IngredientComponent, children: [
           { path: '', component: IngredientMainComponent, canActivate: [CanActivateRoute] },
-          { path: 'add', component: AddIngredientComponent, canActivate: [CanActivateRoute] }
+          { path: 'add', component: AddIngredientComponent, canActivate: [CanActivateRoute] },
+          { path: 'edit', component: EditIngredientComponent, canActivate: [CanActivateRoute] }
         ]
       },
     ]
