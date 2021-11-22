@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ADMIN} from "../../../../core/models/admin";
 import {Moderator} from "../../../../core/models/moderator.model";
+import {ModeratorsMainComponent} from "../moderators/moderators-main/moderators-main.component";
 
 @Component({
   selector: 'app-account',
@@ -9,7 +10,7 @@ import {Moderator} from "../../../../core/models/moderator.model";
 })
 export class AccountComponent implements OnInit {
   person = ADMIN;
-  moderator = new Moderator();
+  // moderators = ModeratorsMainComponent().getModerators();
 
   constructor() {
   }

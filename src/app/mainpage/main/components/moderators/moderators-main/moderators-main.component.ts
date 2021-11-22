@@ -13,10 +13,14 @@ import {Moderator} from "../../../../../core/models/moderator.model";
 export class ModeratorsMainComponent implements AfterViewInit, OnInit {
 
   displayedColumns: string[] = ['photoId', 'personId', 'name', 'email', 'editButton', 'statusButton'];
-  private moderators: Moderator[] = [];
+  moderators: Moderator[] = [];
   dataSource: any;
 
   constructor(private _liveAnnouncer: LiveAnnouncer, private moderatorService: ModeratorsMainService) {
+  }
+
+  getModerators(): Moderator[]{
+    return this.moderators;
   }
 
   @ViewChild(MatSort, {static: false}) sort!: MatSort;

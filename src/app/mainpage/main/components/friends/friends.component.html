@@ -1,1 +1,81 @@
-<p>friends works!</p>
+<div class="main" *ngIf="invites.length>0">
+  <!--  <button class="secondary-button moderator-add" type="button" routerLink="/moderators/add">Add moderator </button>-->
+  <h3>Your invites</h3>
+  <table mat-table [dataSource]="friendsDataSource" matSort (matSortChange)="announceSortChange($event)"
+         class="mat-elevation-z8">
+
+    <ng-container matColumnDef="photoId">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td class="avatar-invite-container" mat-cell *matCellDef="let element"><img class="avatar" src="./assets/images/moder-avatar.png" alt="avatar"></td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
+        Name
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="writeButton">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td class="container-button-edit" mat-cell *matCellDef="let element"><button class="primary-button button-action">Accept</button></td>
+    </ng-container>
+
+    <ng-container matColumnDef="profileButton">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td class="container-button-edit" mat-cell *matCellDef="let element"><button class="primary-button button-action">Decline</button></td>
+    </ng-container>
+
+    <ng-container matColumnDef="addToButton">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td class="container-button-edit" mat-cell *matCellDef="let element"><button class="primary-button button-action">Profile</button></td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="friendsDisplayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: friendsDisplayedColumns;"></tr>
+  </table>
+</div>
+
+<h1>Your friends</h1>
+<div  *ngIf="friends.length == 0">
+  <h3 class="message">you have no friends yet :(</h3>
+</div>
+<div class="main" *ngIf="friends.length > 0">
+<!--  <button class="secondary-button moderator-add" type="button" routerLink="/moderators/add">Add moderator </button>-->
+  <input class="search-field" value="{{searchRequest}}" placeholder="Search friend..." (submit)="getFriendsByName(searchRequest, 0)">
+  <table mat-table [dataSource]="friendsDataSource" matSort (matSortChange)="announceSortChange($event)"
+         class="mat-elevation-z8">
+
+    <ng-container matColumnDef="photoId">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td class="avatar-friend-container" mat-cell *matCellDef="let element"><img class="avatar" src="./assets/images/moder-avatar.png" alt="avatar"></td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
+        Name
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="writeButton">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td class="container-button-edit" mat-cell *matCellDef="let element"><button class="primary-button button-action">Write</button></td>
+    </ng-container>
+
+    <ng-container matColumnDef="profileButton">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td class="container-button-edit" mat-cell *matCellDef="let element"><button class="primary-button button-action">Profile</button></td>
+    </ng-container>
+
+    <ng-container matColumnDef="addToButton">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td class="container-button-edit" mat-cell *matCellDef="let element"><button class="primary-button button-action">Add to...</button></td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="friendsDisplayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: friendsDisplayedColumns;"></tr>
+  </table>
+</div>
+
+
