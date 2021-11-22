@@ -41,7 +41,9 @@
       <th mat-header-cell *matHeaderCellDef>
 
       </th>
-      <td class="container-button-edit" mat-cell *matCellDef="let element"><button class="primary-button button-edit">EDIT</button></td>
+      <td class="container-button-edit" mat-cell *matCellDef="let element">
+        <button class="primary-button button-edit" type="button" routerLink="/ingredients/edit">EDIT</button>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="statusButton">

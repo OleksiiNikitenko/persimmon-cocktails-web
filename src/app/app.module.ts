@@ -40,6 +40,7 @@ import { AddModeratorComponent } from './mainpage/main/components/moderators/add
 import { IngredientMainComponent } from './mainpage/main/components/ingredients/ingredient-main/ingredient-main.component';
 import { AddIngredientComponent } from './mainpage/main/components/ingredients/add-ingredient/add-ingredient.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {EditIngredientComponent} from "./mainpage/main/components/ingredients/edit-ingredient/edit-ingredient.component";
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     AddModeratorComponent,
     ModeratorsMainComponent,
     AddIngredientComponent,
-    IngredientMainComponent
+    IngredientMainComponent,
+    EditIngredientComponent
   ],
   imports: [
     HttpClientModule,
