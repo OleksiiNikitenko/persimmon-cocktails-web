@@ -1,8 +1,9 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
-import {MODERATORS} from "../mock-moderators";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {MatSort, Sort} from "@angular/material/sort";
+import {ModeratorsMainService} from "./moderators-main.service";
+import {Moderator} from "../../../../../core/models/moderator.model";
 
 @Component({
   selector: 'app-moderators-main',
@@ -11,18 +12,18 @@ import {MatSort, Sort} from "@angular/material/sort";
 })
 export class ModeratorsMainComponent implements AfterViewInit, OnInit {
 
-  // displayedColumns: string[] = ['photoId', 'personId', 'name', 'email', 'editButton', 'statusButton'];
   displayedColumns: string[] = ['photoId', 'personId', 'name', 'email', 'editButton', 'statusButton'];
-  dataSource = new MatTableDataSource(MODERATORS);
+  moderators: Moderator[] = [];
+  dataSource: any;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
-
-  @ViewChild(MatSort, { static: false }) sort!: MatSort;
-
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
+  constructor(private _liveAnnouncer: LiveAnnouncer, private moderatorService: ModeratorsMainService) {
   }
+
+  getModerators(): Moderator[]{
+    return this.moderators;
+  }
+
+  @ViewChild(MatSort, {static: false}) sort!: MatSort;
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
@@ -32,7 +33,20 @@ export class ModeratorsMainComponent implements AfterViewInit, OnInit {
     }
   }
 
-  ngOnInit(): void {
+  private getAllModerators(): void {
+    this.moderatorService
+      .getAllModerators()
+      .subscribe((moderators: Moderator[]) => {
+        this.moderators = moderators;
+        this.dataSource = new MatTableDataSource(this.moderators);
+        this.dataSource.sort = this.sort;
+      });
   }
 
+  ngAfterViewInit() {
+  }
+
+  ngOnInit(): void {
+    this.getAllModerators();
+  }
 }

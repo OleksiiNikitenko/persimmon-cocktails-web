@@ -1,4 +1,4 @@
-.primary-button, .secondary-button {
+button {
   border-radius: 21px;
   border: 1px solid #FFF7F0;
   color: #FFF7F0;
@@ -42,6 +42,25 @@
   border-radius: 5px;
   color: #141714;
 }
+
 .field:active{
   border: #000000;
+}
+
+h1 {
+  margin: 10px;
+  color: #141714;
+  font:  small-caps bold 35px/2 cursive;
+}
+
+h2 {
+  margin: 8px;
+  color: #141714;
+  font:  small-caps bold 28px/2 cursive;
+}
+
+h3 {
+  margin: 6px;
+  color: #141714;
+  font:  small-caps bold 22px/2 cursive;
 }

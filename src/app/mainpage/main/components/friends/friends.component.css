@@ -1,0 +1,55 @@
+.main {
+  width: 100%;
+}
+
+.message {
+  margin-left: 50px;
+}
+
+table {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 0 0 white;
+  background-color: #FFF7F0;
+  /*overflow: scroll;*/
+  max-height: 500px;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.avatar {
+  padding-top: 5%;
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+}
+
+.avatar-friend-container{
+  width: 20%;
+}
+
+.avatar-invite-container{
+  width: 10%;
+}
+
+.container-button-edit, .container-button-status{
+  width: 6%;
+}
+
+.button-action {
+  margin-right: 5px;
+  width: 80px;
+  /*height: 40px;*/
+}
+.moderator-add {
+  display: block;
+  padding: 8px 20px !important;
+  margin: 20px 20px 0 auto;
+}
+
+.search-field {
+  margin: 10px;
+}
