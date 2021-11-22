@@ -35,13 +35,14 @@ button {
   background-color: #4E5953;
 }
 
-input{
+.field{
   background: #FFFFFF;
   border: 1px solid #141714;
   box-sizing: border-box;
   border-radius: 5px;
   color: #141714;
 }
+
 .field:active{
   border: #000000;
 }

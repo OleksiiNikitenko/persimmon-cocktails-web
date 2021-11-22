@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Moderator} from "../../../../core/models/moderator.model";
+// import {Moderator} from "../../../../core/models/moderator.model";
 import {MatTableDataSource} from "@angular/material/table";
 import {FriendsService} from "./friends.service";
 import {FriendModel} from "../../../../core/models/friend.model";
@@ -17,14 +17,18 @@ export class FriendsComponent implements OnInit {
   constructor(private _liveAnnouncer: LiveAnnouncer, private friendsService: FriendsService) { }
 
   friends: FriendModel[] = [];
+  persons: FriendModel[] = [];
   invites: InviteFriendModel[] = [];
 
-  friendsDisplayedColumns: string[] = ['photoId', 'name', 'writeButton', 'profileButton', 'addToButton'];
+  friendsDisplayedColumns: string[] = ['photoId', 'name', 'inviteButton', 'profileButton'];
+  personsDisplayedColumns: string[] = ['photoId', 'name', 'writeButton', 'profileButton', 'addToButton'];
   invitationDisplayedColumns: string[] = ['photoId', 'name', 'date', 'acceptButton', 'declineButton', 'profileButton'];
   friendsDataSource: any;
+  personsDataSource: any;
   invitationDataSource: any;
 
-  searchRequest: string = "";
+  searchFriendsRequest: string = "";
+  searchPersonsRequest: string = "";
 
   @ViewChild(MatSort, {static: false}) sort!: MatSort;
 
@@ -53,7 +57,7 @@ export class FriendsComponent implements OnInit {
 
   getFriendsByName(name: string, page: number): void {
     this.friendsService
-      .getFriends(page)
+      .getFriendsByName(name, page)
       .subscribe((friends: FriendModel[]) => {
         this.friends = friends;
         this.friendsDataSource = new MatTableDataSource(this.friends);
@@ -64,10 +68,28 @@ export class FriendsComponent implements OnInit {
   getInvitations(page: number): void {
     this.friendsService
       .getInvitations(page)
-      .subscribe((invites: FriendModel[]) => {
+      .subscribe((invites: InviteFriendModel[]) => {
         this.invites = invites;
         this.invitationDataSource = new MatTableDataSource(this.invites);
         this.invitationDataSource.sort = this.sort;
       });
+  }
+
+  getPersonsByName(name: string, page: number): void {
+    console.log(name)
+    if (name.length < 3){
+      console.log("ENTER1")
+      this.persons = [];
+    } else {
+      console.log("ENTER2")
+
+      this.friendsService
+        .getPersonsByName(name, page)
+        .subscribe((persons: FriendModel[]) => {
+          this.persons = persons;
+          this.personsDataSource = new MatTableDataSource(this.friends);
+          // this.personsDataSource.sort = this.sort;
+        });
+    }
   }
 }

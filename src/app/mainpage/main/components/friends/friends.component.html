@@ -1,5 +1,9 @@
-<div class="main" *ngIf="invites.length>0">
-  <!--  <button class="secondary-button moderator-add" type="button" routerLink="/moderators/add">Add moderator </button>-->
+<mat-form-field class="example-full-width search-field" appearance="fill">
+  <mat-label>Search users...</mat-label>
+  <input matInput [(ngModel)]="searchPersonsRequest" placeholder="Ex. Mark" value="" (keyup.enter)="getPersonsByName(searchPersonsRequest, 0)">
+</mat-form-field>
+
+<div class="main" *ngIf="invites.length>0 && persons.length==0">
   <h3>Your invites</h3>
   <table mat-table [dataSource]="friendsDataSource" matSort (matSortChange)="announceSortChange($event)"
          class="mat-elevation-z8">
@@ -37,12 +41,14 @@
 </div>
 
 <h1>Your friends</h1>
-<div  *ngIf="friends.length == 0">
-  <h3 class="message">you have no friends yet :(</h3>
+<div  *ngIf="friends.length == 0 && persons.length == 0">
+  <h3 class="message">You have no friends yet :(</h3>
 </div>
 <div class="main" *ngIf="friends.length > 0">
-<!--  <button class="secondary-button moderator-add" type="button" routerLink="/moderators/add">Add moderator </button>-->
-  <input class="search-field" value="{{searchRequest}}" placeholder="Search friend..." (submit)="getFriendsByName(searchRequest, 0)">
+  <mat-form-field class="example-full-width search-field" appearance="fill">
+    <mat-label>Search friend...</mat-label>
+    <input matInput [(ngModel)]="searchFriendsRequest" placeholder="Ex. Mark" value="" (keyup.enter)="getPersonsByName(searchFriendsRequest, 0)">
+  </mat-form-field>
   <table mat-table [dataSource]="friendsDataSource" matSort (matSortChange)="announceSortChange($event)"
          class="mat-elevation-z8">
 

@@ -1,8 +1,8 @@
 export class InviteFriendModel{
   personId!: number;
   name!: string;
-  email!: string;
+  date!: Date;
   photoId!: number;
   blogId!: number;
-  // roleId!: number;
+  message!: string;
 }
