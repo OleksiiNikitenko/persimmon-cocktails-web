@@ -32,6 +32,12 @@ export const routes = [
     canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
   },
   {
+    text: 'My kitchenware',
+    url: '/kitchenware',
+    isActive: true,
+    canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
+  },
+  {
     text: 'Events',
     url: '/events',
     isActive: false,
