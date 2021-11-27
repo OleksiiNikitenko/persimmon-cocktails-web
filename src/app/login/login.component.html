@@ -1,10 +1,6 @@
-<!--<div *ngFor="let employee of persons">-->
-<!--  <div>{{employee.name}}</div>-->
-<!--</div>-->
-
-
 
 <div class="center-content">
+
   <mat-card class="example-card">
     <mat-card-header>
 
@@ -12,57 +8,88 @@
       <mat-card-subtitle>Login|Register</mat-card-subtitle>
     </mat-card-header>
 
+
     <mat-card-content>
       <mat-tab-group>
-        <mat-tab label="Login">
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Email</mat-label>
-            <input type="email" matInput placeholder="Email" value="" [(ngModel)]="log_email"/>
-            <mat-icon matSuffix>email</mat-icon>
-          </mat-form-field>
+        <form [formGroup]="loginForm">
+          <mat-tab label="Login">
 
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Password</mat-label>
-            <input type="password" matInput placeholder="Password" [(ngModel)]="log_password"/>
-            <mat-icon matSuffix>enhanced_encryption</mat-icon>
-          </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Email</mat-label>
+              <input formControlName="log_email" type="email" matInput placeholder="Email" value=""/>
+              <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
 
-          <button mat-button color="primary" (click)="login()">Login</button>
-        </mat-tab>
-        <mat-tab label="Register">
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Name</mat-label>
-            <input type="email" matInput placeholder="Name" value="" [(ngModel)]="reg_name"/>
-            <mat-icon matSuffix>person</mat-icon>
-          </mat-form-field>
+            <small *ngIf="loginForm.get('log_email').invalid && loginForm.get('log_email').touched"
+                   class="text-danger">Email is Required (example@example.com)</small>
 
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Email</mat-label>
-            <input type="email" matInput placeholder="Email" value="" [(ngModel)]="reg_email"/>
-            <mat-icon matSuffix>email</mat-icon>
-          </mat-form-field>
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Password</mat-label>
+              <input formControlName="log_password" type="password" matInput placeholder="Password"/>
+              <mat-icon matSuffix>enhanced_encryption</mat-icon>
+            </mat-form-field>
 
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Password</mat-label>
-            <input type="password" matInput placeholder="Password" [(ngModel)]="reg_password"/>
-            <mat-icon matSuffix>enhanced_encryption</mat-icon>
-          </mat-form-field>
+            <small *ngIf="loginForm.get('log_password').invalid && loginForm.get('log_password').touched" class="text-danger">
+              Password is Required(eXamp1ePaSSw0r4)</small>
 
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Confirm Password</mat-label>
-            <input type="password" matInput placeholder="Password" [(ngModel)]="reg_confirm_password"/>
-            <mat-icon matSuffix>enhanced_encryption</mat-icon>
-          </mat-form-field>
+            <button [disabled]="loginForm.invalid" mat-button color="primary" (click)="login()">Login</button>
 
-          <button mat-button color="primary" (click)="register()">Register</button>
-        </mat-tab>
+          </mat-tab>
+        </form>
+        <form [formGroup]="registerForm">
+          <mat-tab label="Register">
+            <mat-form-field class="example-full-width" appearance="fill">
 
+              <mat-label>Name</mat-label>
+              <input formControlName="reg_name" type="email" matInput placeholder="Name" value=""/>
+              <mat-icon matSuffix>person</mat-icon>
+            </mat-form-field>
+
+            <small *ngIf="registerForm.get('reg_name').invalid && registerForm.get('reg_name').touched" class="text-danger">Name is
+              Required(Min length 3 for a Name)</small>
+
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Email</mat-label>
+              <input formControlName="reg_email" type="email" matInput placeholder="Email" value=""/>
+              <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+
+            <small *ngIf="registerForm.get('reg_email').invalid && registerForm.get('reg_email').touched" class="text-danger">Email
+              is Required(Enter the correct Email)</small>
+
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Password</mat-label>
+              <input formControlName="reg_password" type="password" matInput placeholder="Password"/>
+              <mat-icon matSuffix>enhanced_encryption</mat-icon>
+            </mat-form-field>
+
+            <small *ngIf="registerForm.get('reg_password').invalid && registerForm.get('reg_password').touched" class="text-danger">
+              Password is Required(Password must contains at least one capital letter, lower case letter and number)</small>
+
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Confirm Password</mat-label>
+              <input formControlName="reg_confirm_password" type="password" matInput placeholder="Password"/>
+              <mat-icon matSuffix>enhanced_encryption</mat-icon>
+            </mat-form-field>
+
+            <small *ngIf="registerForm.get('reg_confirm_password').invalid && registerForm.get('reg_confirm_password').touched"
+                   class="text-danger">Password is Required</small>
+
+            <small *ngIf="(registerForm.get('reg_confirm_password') == registerForm.get('reg_confirm_password')) && registerForm.get('reg_confirm_password').invalid && registerForm.get('reg_confirm_password').touched"
+                   class="text-danger"> Password must match</small>
+
+            <button [disabled]="registerForm.invalid" mat-button color="primary" (click)="register()">Register</button>
+          </mat-tab>
+        </form>
       </mat-tab-group>
 
     </mat-card-content>
+
+
     <mat-card-actions>
 
     </mat-card-actions>
+
   </mat-card>
 
 </div>

@@ -40,7 +40,6 @@ import { ModeratorsMainComponent } from './mainpage/main/components/moderators/m
 
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
