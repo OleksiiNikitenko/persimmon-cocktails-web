@@ -16,20 +16,20 @@
 
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Email</mat-label>
-              <input formControlName="log_email" type="email" matInput placeholder="Email" value=""/>
+              <input formControlName="email" type="email" matInput placeholder="Email" value=""/>
               <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
 
-            <small *ngIf="loginForm.get('log_email').invalid && loginForm.get('log_email').touched"
+            <small *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched"
                    class="text-danger">Email is Required (example@example.com)</small>
 
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Password</mat-label>
-              <input formControlName="log_password" type="password" matInput placeholder="Password"/>
+              <input formControlName="password" type="password" matInput placeholder="Password"/>
               <mat-icon matSuffix>enhanced_encryption</mat-icon>
             </mat-form-field>
 
-            <small *ngIf="loginForm.get('log_password').invalid && loginForm.get('log_password').touched" class="text-danger">
+            <small *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched" class="text-danger">
               Password is Required(eXamp1ePaSSw0r4)</small>
 
             <button [disabled]="loginForm.invalid" mat-button color="primary" (click)="login()">Login</button>
