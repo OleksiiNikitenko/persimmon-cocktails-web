@@ -14,10 +14,6 @@ export class LoginService{
 
   constructor(private http: HttpClient){}
 
-  public getEmployees(): Observable<Person[]> {
-    return this.http.get<Person[]>(`${this.apiServerUrl}/employee/all`);
-  }
-
   public login(jsonLog: object): Observable<Person> {
     return this.http.post<Person>(`${this.apiServerUrl}/login`, jsonLog);
   }
