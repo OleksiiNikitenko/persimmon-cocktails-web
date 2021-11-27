@@ -1,9 +1,6 @@
-import { Injectable } from "@angular/core";
-import { Observable } from 'rxjs';
+import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Person} from "../model/person";
 import {environment} from "../../environments/environment";
-
 
 
 @Injectable({
@@ -12,14 +9,21 @@ import {environment} from "../../environments/environment";
 export class LoginService{
   private apiServerUrl = environment.apiBaseUrl;
 
+
+
   constructor(private http: HttpClient){}
 
-  public login(jsonLog: object): Observable<Person> {
-    return this.http.post<Person>(`${this.apiServerUrl}/login`, jsonLog);
+  public login(jsonLog: object): Promise<Number> {
+    return this.http.post<any>(`${this.apiServerUrl}/login`, jsonLog, {observe: 'response'});
   }
 
-  public register(jsonReg: object): Observable<Person> {
-    return this.http.post<Person>(`${this.apiServerUrl}/registration`, jsonReg);
+  public async register(jsonReg: object): Promise<Number> {
+    return this.http.post<any>(`${this.apiServerUrl}/registration`, jsonReg, {observe: 'response'}).toPromise().then(res => {
+      console.log(res.status);
+      return this.login(registerRequest :  {email: jsonReg.email, password: jsonReg.password});
+    })
+
+
   }
 
 }

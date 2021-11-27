@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   registerForm: FormGroup | any;
 
   public persons: Person[] | undefined;
-  public personId: Person | undefined;
+  public personId: number | any;
 
 
   constructor(private personService: LoginService) {
@@ -22,8 +22,9 @@ export class LoginComponent implements OnInit {
 
 
   public login(): void {
-    this.personService.login(this.loginForm.value).subscribe(
-      (response: Person) => {
+    console.log(this.loginForm.value)
+    this.personService.login(this.loginForm.value).then(
+      (response: Number) => {
         this.personId = response;
         console.log(response);
         console.log(this.loginForm.value)
@@ -32,12 +33,16 @@ export class LoginComponent implements OnInit {
       (error: HttpErrorResponse) => {
         alert(error.message);
       }
-    );
+    ).catch(err => {
+
+    }) ;
   }
 
-  public register(): void {
-    this.personService.register(this.registerForm.value).subscribe(
-      (response: Person) => {
+  public register(): void
+     {console.log(this.registerForm.value)
+
+    this.personService.register(this.registerForm.value).then(
+      (response: Number) => {
         this.personId = response;
         console.log(response);
         console.log(this.registerForm.value)
@@ -46,15 +51,17 @@ export class LoginComponent implements OnInit {
       (error: HttpErrorResponse) => {
         alert(error.message);
       }
-    );
+    ).catch(err => {
+
+    }) ;
   }
 
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      'log_email': new FormControl(null, [Validators.required, Validators.email],
+      'email': new FormControl(null, [Validators.required, Validators.email],
       ),
-      'log_password': new FormControl(null,
+      'password': new FormControl(null,
         [Validators.required,
           Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')])
     });
