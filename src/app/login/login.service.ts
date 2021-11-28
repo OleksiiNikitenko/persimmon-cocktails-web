@@ -14,9 +14,9 @@ export class LoginService{
   constructor(private http: HttpClient){}
 
   public login(jsonLog: object): Promise<Number> {
-    console.log("im here")
+
     return this.http.post<any>(`${this.apiServerUrl}/login`, jsonLog, {observe: 'response'}).toPromise().then(res => {
-      alert(res.headers)
+      console.log(JSON.stringify(res.headers.get("Authorization")))
       return 100;
     }).catch(err => {
       console.error(err);
