@@ -4,6 +4,8 @@ import {KitchenwareList} from "../mock-kitchenware";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {MatSort, Sort} from "@angular/material/sort";
 import {MatPaginator} from '@angular/material/paginator';
+import {generate} from "rxjs";
+import {KitchenwareService} from "./kitchenware.service";
 
 @Component({
   selector: 'app-kitchenware-main',
@@ -15,7 +17,7 @@ export class KitchenwareMainComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['photoId', 'kitchenwareId', 'name', 'category', 'editButton', 'statusButton'];
   dataSource = new MatTableDataSource(KitchenwareList);
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
+  constructor(private _liveAnnouncer: LiveAnnouncer, private kitchenwareService: KitchenwareService) {}
 
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator = null!;
@@ -39,6 +41,9 @@ export class KitchenwareMainComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
+    this.kitchenwareService.getAllActiveKitchenware().subscribe(res => {
+      console.log(res)
+    })
   }
 
 }
