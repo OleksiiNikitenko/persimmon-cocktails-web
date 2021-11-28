@@ -41,41 +41,41 @@
             <mat-form-field class="example-full-width" appearance="fill">
 
               <mat-label>Name</mat-label>
-              <input formControlName="reg_name" type="email" matInput placeholder="Name" value=""/>
+              <input formControlName="name" type="email" matInput placeholder="Name" value=""/>
               <mat-icon matSuffix>person</mat-icon>
             </mat-form-field>
 
-            <small *ngIf="registerForm.get('reg_name').invalid && registerForm.get('reg_name').touched" class="text-danger">Name is
+            <small *ngIf="registerForm.get('name').invalid && registerForm.get('name').touched" class="text-danger">Name is
               Required(Min length 3 for a Name)</small>
 
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Email</mat-label>
-              <input formControlName="reg_email" type="email" matInput placeholder="Email" value=""/>
+              <input formControlName="email" type="email" matInput placeholder="Email" value=""/>
               <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
 
-            <small *ngIf="registerForm.get('reg_email').invalid && registerForm.get('reg_email').touched" class="text-danger">Email
+            <small *ngIf="registerForm.get('email').invalid && registerForm.get('email').touched" class="text-danger">Email
               is Required(Enter the correct Email)</small>
 
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Password</mat-label>
-              <input formControlName="reg_password" type="password" matInput placeholder="Password"/>
+              <input formControlName="password" type="password" matInput placeholder="Password"/>
               <mat-icon matSuffix>enhanced_encryption</mat-icon>
             </mat-form-field>
 
-            <small *ngIf="registerForm.get('reg_password').invalid && registerForm.get('reg_password').touched" class="text-danger">
+            <small *ngIf="registerForm.get('password').invalid && registerForm.get('password').touched" class="text-danger">
               Password is Required(Password must contains at least one capital letter, lower case letter and number)</small>
 
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Confirm Password</mat-label>
-              <input formControlName="reg_confirm_password" type="password" matInput placeholder="Password"/>
+              <input formControlName="confirm_password" type="password" matInput placeholder="Password"/>
               <mat-icon matSuffix>enhanced_encryption</mat-icon>
             </mat-form-field>
 
-            <small *ngIf="registerForm.get('reg_confirm_password').invalid && registerForm.get('reg_confirm_password').touched"
+            <small *ngIf="registerForm.get('confirm_password').invalid && registerForm.get('confirm_password').touched"
                    class="text-danger">Password is Required</small>
 
-            <small *ngIf="(registerForm.get('reg_confirm_password') == registerForm.get('reg_confirm_password')) && registerForm.get('reg_confirm_password').invalid && registerForm.get('reg_confirm_password').touched"
+            <small *ngIf="(registerForm.get('confirm_password') == registerForm.get('confirm_password')) && registerForm.get('confirm_password').invalid && registerForm.get('confirm_password').touched"
                    class="text-danger"> Password must match</small>
 
             <button [disabled]="registerForm.invalid" mat-button color="primary" (click)="register()">Register</button>

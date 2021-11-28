@@ -34,9 +34,7 @@ export class LoginComponent implements OnInit {
       (error: HttpErrorResponse) => {
         alert(error.message);
       }
-    ).catch(err => {
-
-    }) ;
+    );
   }
 
   public register(): void
@@ -45,39 +43,41 @@ export class LoginComponent implements OnInit {
     this.personService.register(this.registerForm.value).then(
       (response: Number) => {
         this.personId = response;
-        console.log(response);
-        console.log(this.registerForm.value)
+        // console.log(response);
+        // console.log(this.registerForm.value)
         this.registerForm.reset();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
+        console.log(error.message)
       }
-    ).catch(err => {
-
-    }) ;
+    );
   }
 
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      'email': new FormControl(null, [Validators.required, Validators.email],
+      'email': new FormControl(null, [Validators.required,
+                                                           Validators.pattern('^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$')],
       ),
       'password': new FormControl(null,
         [Validators.required,
           Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')])
     });
     this.registerForm = new FormGroup({
-      'reg_email': new FormControl(null, [Validators.required, Validators.email],
+      'email': new FormControl(null, [Validators.required,
+                                                           Validators.pattern('^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$')],
       ),
-      'reg_password': new FormControl(null,
+      'password': new FormControl(null,
         [Validators.required,
           Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')]),
-      'reg_name': new FormControl(null, [Validators.required,
-        Validators.minLength(3)]),
-      'reg_confirm_password': new FormControl(null, [Validators.required,
+      'name': new FormControl(null, [Validators.required,
+                                                          Validators.pattern('^[a-zA-Z0-9 ]{3,255}$')]
+      ),
+      'confirm_password': new FormControl(null, [Validators.required,
           Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')]
         )
-    })
+    });
   }
 
 
