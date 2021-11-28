@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {LocalStorageService} from "../local-storage.service";
 import {JwtService} from "../jwt.service";
-import {RegisterDto, LoginDto} from "../model/Auth";
+import {RegisterDto, LoginDto} from "../model/auth/Auth";
 
 
 @Injectable({
