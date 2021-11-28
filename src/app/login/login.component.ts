@@ -28,6 +28,8 @@ export class LoginComponent implements OnInit {
         this.personId = response;
         console.log(response);
         this.loginForm.reset();
+        // this.router.navigateByUrl('/');
+
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
