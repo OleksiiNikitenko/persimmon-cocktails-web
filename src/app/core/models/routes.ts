@@ -54,12 +54,11 @@ export const routes = [
     url: '/settings',
     isActive: false,
     canActivate: [Roles.Admin, Roles.User, Roles.Moderator]
-  }
-  ,
+  },
   {
     text: 'Login',
     url: '/login',
     isActive: false,
     canActivate: [Roles.Admin, Roles.User, Roles.Moderator]
-  }
+  },
 ]
