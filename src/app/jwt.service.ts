@@ -1,8 +1,7 @@
-import {Injectable, NgModule} from "@angular/core";
 import jwt_decode from 'jwt-decode';
 import {AccessUser} from "./model/access_user";
 import {ROLE} from "./model/role";
-import {JwtPayload} from "./model/jwtPayload"
+import {Authority, JwtPayload} from "./model/jwtPayload"
 
 
 export class JwtService{
@@ -10,23 +9,27 @@ export class JwtService{
   constructor() {
   }
 
-  DecodeToken(token: string): string {
+  DecodeToken(token: string): JwtPayload {
     return jwt_decode(token);
   }
 
   parseAccessUser(token: string): AccessUser {
-    let string: string = this.DecodeToken(token)
-    console.log(string)
-    let payload: JwtPayload = JSON.parse(string)
-    let accessUser: AccessUser = {
+    let payload: JwtPayload = this.DecodeToken(token)
+    return {
       id: payload.user_id,
-      role: ROLE.Admin,
+      role: this.recogniseRole(payload.authorities),
       token: token
-    }
-
-
-    // parseInt(payload.user_id)
-    return accessUser;
+    };
   }
+
+  recogniseRole(array: Array<Authority>): ROLE  {
+    for (const authority of array) {
+      if (authority.authority == "ROLE_CLIENT") return ROLE.Authorised
+      if (authority.authority == "ROLE_MODERATOR") return ROLE.Moderator
+      if (authority.authority == "ROLE_ADMIN") return ROLE.Admin
+    }
+    throw "role is not valid"
+  }
+
 
 }

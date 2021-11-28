@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {LocalStorageService} from "../local-storage.service";
 import {JwtService} from "../jwt.service";
+import {RegisterDto, LoginDto} from "../model/Auth";
 
 
 @Injectable({
@@ -17,7 +18,7 @@ export class LoginService{
   constructor(private http: HttpClient,
               private localStorageService: LocalStorageService){}
 
-  public login(jsonLog: object): Promise<Number> {
+  public login(jsonLog: LoginDto): Promise<Number> {
 
     return this.http.post<any>(`${this.apiServerUrl}/login`, jsonLog, {observe: 'response'}).toPromise().then(res => {
       let token = res.headers.get("Authorization");
@@ -26,19 +27,16 @@ export class LoginService{
       // this.localStorageService.set("jwt_token", token);
       this.localStorageService.set("accessUser", accessUser);
       console.log(this.localStorageService.get("accessUser"))
-      console.log(this.localStorageService.get("jwt_token"))
 
-      return 100;
-    }).catch(err => {
-      console.error(err);
-      return 0;
+      return accessUser.id
     });
   }
 
-  public async register(jsonReg: object): Promise<Number> {
+  public async register(jsonReg: RegisterDto): Promise<Number> {
     return this.http.post<any>(`${this.apiServerUrl}/registration`, jsonReg, {observe: 'response'}).toPromise().then(res => {
       console.log(res.status);
-      return this.login(jsonReg);
+
+      return this.login({email: jsonReg.email, password: jsonReg.password});
     })
 
 

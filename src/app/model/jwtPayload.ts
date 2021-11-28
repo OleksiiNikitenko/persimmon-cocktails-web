@@ -5,5 +5,9 @@ export class JwtPayload {
   exp!: any;
   iat!: any;
   sub!: any;
-  authorities!: any;
+  authorities!: Array<Authority>;
+}
+
+export class Authority {
+  authority!: string
 }
