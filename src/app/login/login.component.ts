@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
       (response: Number) => {
         this.personId = response;
         console.log(response);
-        console.log(this.loginForm.value)
         this.loginForm.reset();
       },
       (error: HttpErrorResponse) => {
