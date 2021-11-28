@@ -1,9 +1,6 @@
-import { Injectable } from "@angular/core";
-import { Observable } from 'rxjs';
+import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Person} from "../model/person";
 import {environment} from "../../environments/environment";
-
 
 
 @Injectable({
@@ -12,18 +9,28 @@ import {environment} from "../../environments/environment";
 export class LoginService{
   private apiServerUrl = environment.apiBaseUrl;
 
+
+
   constructor(private http: HttpClient){}
 
-  public getEmployees(): Observable<Person[]> {
-    return this.http.get<Person[]>(`${this.apiServerUrl}/employee/all`);
+  public login(jsonLog: object): Promise<Number> {
+
+    return this.http.post<any>(`${this.apiServerUrl}/login`, jsonLog, {observe: 'response'}).toPromise().then(res => {
+      console.log(JSON.stringify(res.headers.get("Authorization")))
+      return 100;
+    }).catch(err => {
+      console.error(err);
+      return 0;
+    });
   }
 
-  public login(jsonLog: object): Observable<Person> {
-    return this.http.post<Person>(`${this.apiServerUrl}/login`, jsonLog);
-  }
+  public async register(jsonReg: object): Promise<Number> {
+    return this.http.post<any>(`${this.apiServerUrl}/registration`, jsonReg, {observe: 'response'}).toPromise().then(res => {
+      console.log(res.status);
+      return this.login(jsonReg);
+    })
 
-  public register(jsonReg: object): Observable<Person> {
-    return this.http.post<Person>(`${this.apiServerUrl}/registration`, jsonReg);
+
   }
 
 }

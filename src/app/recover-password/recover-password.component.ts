@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Person} from "../model/person";
 import {HttpErrorResponse} from "@angular/common/http";
 import {RecoverPasswordService} from "./recover-password.service";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-recover-password',
@@ -9,7 +10,7 @@ import {RecoverPasswordService} from "./recover-password.service";
   styleUrls: ['./recover-password.component.css']
 })
 export class RecoverPasswordComponent implements OnInit {
-  recover_email: string = "";
+  recoverForm: FormGroup | any;
 
   public persons: Person[] | undefined;
   public personId: Person | undefined;
@@ -19,17 +20,16 @@ export class RecoverPasswordComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.recoverForm = new FormGroup(
+      {'recover_email': new FormControl(null, [Validators.required, Validators.email])});
   }
 
-  //need to fix
   recover(): void {
-    let recoverEmail: string = this.recover_email
-
-    this.personService.recover(recoverEmail).subscribe(
+    this.personService.recover(this.recoverForm.value).subscribe(
       (response: Person) => {
         this.personId = response;
         console.log(response);
-        this.recover_email = "";
+        this.recoverForm.reset();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

@@ -46,7 +46,6 @@ import {KitchenwareMainComponent} from './mainpage/main/components/kitchenware/k
 import {AddKitchenwareComponent} from './mainpage/main/components/kitchenware/add-kitchenware/add-kitchenware.component';
 import {EditKitchenwareComponent} from './mainpage/main/components/kitchenware/edit-kitchenware/edit-kitchenware.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
