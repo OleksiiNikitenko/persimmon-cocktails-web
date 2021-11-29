@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class LocalStorageService<T> {
   localStorage: Storage;
   constructor() {
-    this.localStorage = window.localStorage;
+    this.localStorage = sessionStorage
   }
   getItem(key: string): T | null {
     if (this.isLocalStorageSupported) {
