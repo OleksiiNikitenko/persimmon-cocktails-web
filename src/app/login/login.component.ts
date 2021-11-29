@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = new FormGroup({
       'email': new FormControl(null, [Validators.required,
-                                                           Validators.pattern('^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$')],
+                                                           Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$')],
       ),
       'password': new FormControl(null,
         [Validators.required,
@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
     });
     this.registerForm = new FormGroup({
       'email': new FormControl(null, [Validators.required,
-                                                           Validators.pattern('^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$')],
+                                                           Validators.pattern('^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$')],
       ),
       'password': new FormControl(null,
         [Validators.required,

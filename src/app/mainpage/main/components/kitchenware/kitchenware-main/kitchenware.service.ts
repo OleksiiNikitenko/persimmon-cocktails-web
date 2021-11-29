@@ -19,5 +19,4 @@ export class KitchenwareService {
     return this.http.get<Array<ActiveKitchenware>>(`${this.apiServerUrl}/kitchenware/active`)
   }
 
-
 }

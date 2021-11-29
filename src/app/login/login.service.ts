@@ -1,9 +1,10 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {LocalStorageService} from "../local-storage.service";
+import {LocalStorageService} from "../storage/local-storage.service";
 import {JwtService} from "../jwt.service";
 import {RegisterDto, LoginDto} from "../model/auth/Auth";
+import {AccessUserStorage} from "../storage/accessUserStorage";
 
 
 @Injectable({
@@ -12,11 +13,12 @@ import {RegisterDto, LoginDto} from "../model/auth/Auth";
 export class LoginService{
   private apiServerUrl = environment.apiBaseUrl;
   private jwtService: JwtService = new JwtService()
+  private accessUserStorage: AccessUserStorage = new AccessUserStorage()
 
 
 
-  constructor(private http: HttpClient,
-              private localStorageService: LocalStorageService){}
+
+  constructor(private http: HttpClient){}
 
   public login(jsonLog: LoginDto): Promise<Number> {
 
@@ -25,8 +27,8 @@ export class LoginService{
       if (token == null) throw null
       let accessUser = this.jwtService.parseAccessUser(token)
       // this.localStorageService.set("jwt_token", token);
-      this.localStorageService.set("accessUser", accessUser);
-      console.log(this.localStorageService.get("accessUser"))
+      this.accessUserStorage.set(accessUser);
+      console.log(this.accessUserStorage.get())
 
       return accessUser.id
     });
