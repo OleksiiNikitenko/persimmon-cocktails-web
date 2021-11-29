@@ -14,9 +14,8 @@ import {MatIconModule} from "@angular/material/icon";
 import { LoginComponent } from './login/login.component';
 
 import { RecoverPasswordComponent } from './recover-password/recover-password.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {LoginService} from "./login/login.service";
-
 
 
 
@@ -30,16 +29,22 @@ import { CocktailsComponent } from './mainpage/main/components/cocktails/cocktai
 import { EventsComponent } from './mainpage/main/components/events/events.component';
 import { FriendsComponent } from './mainpage/main/components/friends/friends.component';
 import { SettingsComponent } from './mainpage/main/components/settings/settings.component';
-import { IngredientsComponent } from './mainpage/main/components/ingredients/ingredients.component';
+import { IngredientComponent } from './mainpage/main/components/ingredients/ingredient.component';
+import {KitchenwareComponent } from './mainpage/main/components/kitchenware/kitchenware.component';
 import { ModeratorsComponent } from './mainpage/main/components/moderators/moderators.component';
 import { AccountComponent } from './mainpage/main/components/account/account.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
-import { AddModeratorComponent } from './mainpage/main/components/moderators/add-moderator/add-moderator.component';
 import { ModeratorsMainComponent } from './mainpage/main/components/moderators/moderators-main/moderators-main.component';
-
-
-
+import { AddModeratorComponent } from './mainpage/main/components/moderators/add-moderator/add-moderator.component';
+import { IngredientMainComponent } from './mainpage/main/components/ingredients/ingredient-main/ingredient-main.component';
+import { AddIngredientComponent } from './mainpage/main/components/ingredients/add-ingredient/add-ingredient.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import {EditIngredientComponent} from "./mainpage/main/components/ingredients/edit-ingredient/edit-ingredient.component";
+import {KitchenwareMainComponent} from './mainpage/main/components/kitchenware/kitchenware-main/kitchenware-main.component';
+import {AddKitchenwareComponent} from './mainpage/main/components/kitchenware/add-kitchenware/add-kitchenware.component';
+import {EditKitchenwareComponent} from './mainpage/main/components/kitchenware/edit-kitchenware/edit-kitchenware.component';
+import {Interceptor} from "./utils/interceptor";
 
 @NgModule({
   declarations: [
@@ -55,11 +60,18 @@ import { ModeratorsMainComponent } from './mainpage/main/components/moderators/m
     EventsComponent,
     FriendsComponent,
     SettingsComponent,
-    IngredientsComponent,
+    IngredientComponent,
+    KitchenwareComponent,
     ModeratorsComponent,
     AccountComponent,
     AddModeratorComponent,
-    ModeratorsMainComponent
+    ModeratorsMainComponent,
+    AddIngredientComponent,
+    IngredientMainComponent,
+    EditIngredientComponent,
+    AddKitchenwareComponent,
+    KitchenwareMainComponent,
+    EditKitchenwareComponent
   ],
   imports: [
     HttpClientModule,
@@ -75,8 +87,14 @@ import { ModeratorsMainComponent } from './mainpage/main/components/moderators/m
     MatTableModule,
     MatSortModule,
     ReactiveFormsModule,
+    MatPaginatorModule
   ],
-  providers: [FormBuilder],
+  providers: [FormBuilder,
+    {
+    provide: HTTP_INTERCEPTORS,
+    useClass: Interceptor,
+    multi: true
+  }],
 
   bootstrap: [AppComponent]
 })

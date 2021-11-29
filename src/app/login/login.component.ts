@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpErrorResponse} from "@angular/common/http";
 import {Person} from "../model/person";
 import {LoginService} from "./login.service";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -9,33 +10,25 @@ import {LoginService} from "./login.service";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  log_email: string | undefined;
-  log_password: string | undefined;
-  reg_name: string = "";
-  reg_email: string = "";
-  reg_password: string = "";
-  reg_confirm_password: string = "";
+  loginForm: FormGroup | any;
+  registerForm: FormGroup | any;
 
   public persons: Person[] | undefined;
-  public personId: Person | undefined;
-  // public editEmployee: Employee;
-  // public deleteEmployee: Employee;
+  public personId: number | any;
 
   constructor(private personService: LoginService) {
   };
 
-
   public login(): void {
-    let person: object = {
-      email: this.log_email,
-      password: this.log_password
-    }
-    this.personService.login(person).subscribe(
-      (response: Person) => {
+    console.log(this.loginForm.value)
+    this.personService.login(this.loginForm.value).then(
+      (response: Number) => {
+
         this.personId = response;
         console.log(response);
-        this.log_email = "";
-        this.log_password = "";
+        this.loginForm.reset();
+        // this.router.navigateByUrl('/');
+
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -43,28 +36,47 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  public register(): void {
-    let person: object = {
-      name: this.reg_name,
-      email: this.reg_email,
-      password: this.reg_password,
-      confirm_password: this.reg_confirm_password
-    }
-    this.personService.register(person).subscribe(
-      (response: Person) => {
-        this.personId = response;
-        console.log(response);
+  public register(): void
+     {console.log(this.registerForm.value)
 
+    this.personService.register(this.registerForm.value).then(
+      (response: Number) => {
+        this.personId = response;
+        // console.log(response);
+        // console.log(this.registerForm.value)
+        this.registerForm.reset();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
+        console.log(error.message)
       }
     );
   }
 
 
   ngOnInit(): void {
-
+    this.loginForm = new FormGroup({
+      'email': new FormControl(null, [Validators.required,
+                                                           Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$')],
+      ),
+      'password': new FormControl(null,
+        [Validators.required,
+          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')])
+    });
+    this.registerForm = new FormGroup({
+      'email': new FormControl(null, [Validators.required,
+                                                           Validators.pattern('^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$')],
+      ),
+      'password': new FormControl(null,
+        [Validators.required,
+          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')]),
+      'name': new FormControl(null, [Validators.required,
+                                                          Validators.pattern('^[a-zA-Z0-9 ]{3,255}$')]
+      ),
+      'confirm_password': new FormControl(null, [Validators.required,
+          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')]
+        )
+    });
   }
 }
 

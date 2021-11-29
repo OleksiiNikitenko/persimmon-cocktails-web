@@ -1,0 +1,20 @@
+.add-kitchenware {
+  padding: 10px 20px;
+}
+.add-kitchenware__avatar {
+  margin-left: 20px;
+  width: 105px;
+  height: 105px;
+}
+ .add-kitchenware__content{
+   display: flex;
+   align-items: flex-start;
+ }
+
+ .form {
+   margin-left: 20px;
+ }
+
+ .form div {
+   margin-bottom: 10px;
+ }

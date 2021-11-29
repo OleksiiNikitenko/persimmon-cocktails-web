@@ -7,14 +7,21 @@ import {BlogComponent} from "./mainpage/main/components/blog/blog.component";
 import {CocktailsComponent} from "./mainpage/main/components/cocktails/cocktails.component";
 import {EventsComponent} from "./mainpage/main/components/events/events.component";
 import {FriendsComponent} from "./mainpage/main/components/friends/friends.component";
-import {IngredientsComponent} from "./mainpage/main/components/ingredients/ingredients.component";
 import {SettingsComponent} from "./mainpage/main/components/settings/settings.component";
 import {AccountComponent} from "./mainpage/main/components/account/account.component";
+import {IngredientComponent} from './mainpage/main/components/ingredients/ingredient.component';
+import {KitchenwareComponent} from './mainpage/main/components/kitchenware/kitchenware.component';
 import {ModeratorsComponent} from "./mainpage/main/components/moderators/moderators.component";
 import {Roles} from "./core/models/roles";
 import {user} from "./core/models/user";
 import {AddModeratorComponent} from "./mainpage/main/components/moderators/add-moderator/add-moderator.component";
 import {ModeratorsMainComponent} from "./mainpage/main/components/moderators/moderators-main/moderators-main.component";
+import {IngredientMainComponent} from './mainpage/main/components/ingredients/ingredient-main/ingredient-main.component';
+import {AddIngredientComponent} from './mainpage/main/components/ingredients/add-ingredient/add-ingredient.component';
+import {EditIngredientComponent} from './mainpage/main/components/ingredients/edit-ingredient/edit-ingredient.component';
+import {KitchenwareMainComponent} from './mainpage/main/components/kitchenware/kitchenware-main/kitchenware-main.component';
+import {AddKitchenwareComponent} from './mainpage/main/components/kitchenware/add-kitchenware/add-kitchenware.component';
+import {EditKitchenwareComponent} from './mainpage/main/components/kitchenware/edit-kitchenware/edit-kitchenware.component';
 
 const BASE_URL = getBaseUrl()
 
@@ -28,7 +35,6 @@ const routes: Routes = [
       { path: 'cocktails', component: CocktailsComponent, canActivate: [CanActivateRoute] },
       { path: 'events', component: EventsComponent, canActivate: [CanActivateRoute] },
       { path: 'friends', component: FriendsComponent, canActivate: [CanActivateRoute] },
-      { path: 'ingredients', component: IngredientsComponent, canActivate: [CanActivateRoute] },
       { path: 'settings', component: SettingsComponent, canActivate: [CanActivateRoute] },
       { path: 'account', component: AccountComponent, canActivate: [CanActivateRoute] },
       { path: 'login', component: LoginComponent, canActivate: [CanActivateRoute] },
@@ -36,6 +42,20 @@ const routes: Routes = [
       { path: 'moderators', component: ModeratorsComponent, children: [
           { path: '', component: ModeratorsMainComponent, canActivate: [CanActivateRoute] },
           { path: 'add', component: AddModeratorComponent, canActivate: [CanActivateRoute] }
+        ]
+      },
+
+      { path: 'ingredients', component: IngredientComponent, children: [
+          { path: '', component: IngredientMainComponent, canActivate: [CanActivateRoute] },
+          { path: 'add', component: AddIngredientComponent, canActivate: [CanActivateRoute] },
+          { path: 'edit', component: EditIngredientComponent, canActivate: [CanActivateRoute] }
+        ]
+      },
+
+      { path: 'kitchenware', component: KitchenwareComponent, children: [
+          { path: '', component: KitchenwareMainComponent, canActivate: [CanActivateRoute] },
+          { path: 'add', component: AddKitchenwareComponent, canActivate: [CanActivateRoute] },
+          { path: 'edit', component: EditKitchenwareComponent, canActivate: [CanActivateRoute] }
         ]
       },
     ]

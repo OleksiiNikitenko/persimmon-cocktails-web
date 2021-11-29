@@ -28,8 +28,14 @@ export const routes = [
   {
     text: 'My ingredients',
     url: '/ingredients',
-    isActive: false,
-    canActivate: [Roles.User]
+    isActive: true,
+    canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
+  },
+  {
+    text: 'My kitchenware',
+    url: '/kitchenware',
+    isActive: true,
+    canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
   },
   {
     text: 'Events',
@@ -48,12 +54,11 @@ export const routes = [
     url: '/settings',
     isActive: false,
     canActivate: [Roles.Admin, Roles.User, Roles.Moderator]
-  }
-  ,
+  },
   {
     text: 'Login',
     url: '/login',
     isActive: false,
     canActivate: [Roles.Admin, Roles.User, Roles.Moderator]
-  }
+  },
 ]
