@@ -1,0 +1,29 @@
+<div>
+  <div class="edit-ingredient">
+    <h1>Edit ingredient</h1>
+  </div>
+
+  <div class="edit-ingredient__content">
+    <img class="edit-ingredient__avatar" src="../../../../../assets/images/Orange.jpg" alt="orange">
+    <div [formGroup]="form" class="form">
+      <div>
+        <label>Name: </label>
+        <input placeholder="Ingredient name" formControlName="name"/>
+      </div>
+
+
+
+
+      <div>
+        <label>Category: </label>
+        <input placeholder="Category" formControlName="category"/>
+      </div>
+      <div>
+        <button  class="primary-button changeButton" type="button" >Change image</button>
+        <button  class="primary-button createButton" type="button" >Change</button>
+        <button class="secondary-button clearButton" type="button" (click)="resetFormHandler()">Clear</button>
+      </div>
+    </div>
+
+  </div>
+</div>
