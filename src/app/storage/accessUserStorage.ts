@@ -1,5 +1,5 @@
 import {LocalStorageService} from "./local-storage.service";
-import {AccessUser} from "../model/auth/access_user";
+import {AccessUser} from "../modules/login/model/auth/access_user";
 
 export class AccessUserStorage extends LocalStorageService<AccessUser>{
 

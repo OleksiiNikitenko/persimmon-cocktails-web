@@ -11,39 +11,39 @@ import {MatButtonModule} from "@angular/material/button";
 import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './modules/login/components/login.component';
 
-import { RecoverPasswordComponent } from './recover-password/recover-password.component';
+import { RecoverPasswordComponent } from './modules/recover-password/components/recover-password.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {LoginService} from "./login/login.service";
+import {LoginService} from "./modules/login/services/login.service";
 
 
 
 
-import { HeaderComponent } from './mainpage/header/components/header.component';
-import { MainSideComponent } from './mainpage/main/components/main-side.component';
-import { ToolbarComponent } from './mainpage/toolbar/components/toolbar.component';
-import { WraperComponent } from './mainpage/wraper/components/wraper.component';
-import { BlogComponent } from './mainpage/main/components/blog/blog.component';
-import { CocktailsComponent } from './mainpage/main/components/cocktails/cocktails.component';
-import { EventsComponent } from './mainpage/main/components/events/events.component';
-import { FriendsComponent } from './mainpage/main/components/friends/friends.component';
-import { SettingsComponent } from './mainpage/main/components/settings/settings.component';
-import { IngredientComponent } from './mainpage/main/components/ingredients/ingredient.component';
-import {KitchenwareComponent } from './mainpage/main/components/kitchenware/kitchenware.component';
-import { ModeratorsComponent } from './mainpage/main/components/moderators/moderators.component';
-import { AccountComponent } from './mainpage/main/components/account/account.component';
+import { HeaderComponent } from './modules/header/components/header.component';
+import { MainSideComponent } from './modules/main-side/components/main-side.component';
+import { ToolbarComponent } from './modules/toolbar/components/toolbar.component';
+import { WraperComponent } from './modules/wraper/components/wraper.component';
+import { BlogComponent } from './modules/blog/components/blog.component';
+import { CocktailsComponent } from './modules/cocktails/components/cocktails.component';
+import { EventsComponent } from './modules/events/components/events.component';
+import { FriendsComponent } from './modules/friends/components/friends.component';
+import { SettingsComponent } from './modules/settings/components/settings.component';
+import { IngredientComponent } from './modules/ingredients/components/ingredient.component';
+import {KitchenwareComponent } from './modules/kitchenware/components/kitchenware.component';
+import { ModeratorsComponent } from './modules/moderators/components/moderators.component';
+import { AccountComponent } from './modules/account/components/account.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
-import { ModeratorsMainComponent } from './mainpage/main/components/moderators/moderators-main/moderators-main.component';
-import { AddModeratorComponent } from './mainpage/main/components/moderators/add-moderator/add-moderator.component';
-import { IngredientMainComponent } from './mainpage/main/components/ingredients/ingredient-main/ingredient-main.component';
-import { AddIngredientComponent } from './mainpage/main/components/ingredients/add-ingredient/add-ingredient.component';
+import { ModeratorsMainComponent } from './modules/moderators/components/moderators-main/moderators-main.component';
+import { AddModeratorComponent } from './modules/moderators/components/add-moderator/add-moderator.component';
+import { IngredientMainComponent } from './modules/ingredients/components/ingredient-main/ingredient-main.component';
+import { AddIngredientComponent } from './modules/ingredients/components/add-ingredient/add-ingredient.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import {EditIngredientComponent} from "./mainpage/main/components/ingredients/edit-ingredient/edit-ingredient.component";
-import {KitchenwareMainComponent} from './mainpage/main/components/kitchenware/kitchenware-main/kitchenware-main.component';
-import {AddKitchenwareComponent} from './mainpage/main/components/kitchenware/add-kitchenware/add-kitchenware.component';
-import {EditKitchenwareComponent} from './mainpage/main/components/kitchenware/edit-kitchenware/edit-kitchenware.component';
+import {EditIngredientComponent} from "./modules/ingredients/components/edit-ingredient/edit-ingredient.component";
+import {KitchenwareMainComponent} from './modules/kitchenware/components/kitchenware-main/kitchenware-main.component';
+import {AddKitchenwareComponent} from './modules/kitchenware/components/add-kitchenware/add-kitchenware.component';
+import {EditKitchenwareComponent} from './modules/kitchenware/components/edit-kitchenware/edit-kitchenware.component';
 import {Interceptor} from "./utils/interceptor";
 
 @NgModule({

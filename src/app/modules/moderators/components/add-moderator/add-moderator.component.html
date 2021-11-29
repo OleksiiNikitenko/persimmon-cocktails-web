@@ -1,0 +1,26 @@
+<div>
+  <div class="add-moderator">
+    <h1>Create moderator</h1>
+  </div>
+  <div class="add-moderator__content">
+    <img class="add-moderator__avatar" src="../../../../../assets/images/moder-avatar.png" alt="avatar">
+    <div [formGroup]="form" class="form">
+      <div>
+        <label>Name: </label>
+        <input placeholder="Moderator name" formControlName="name"/>
+      </div>
+      <div>
+        <label>Email: </label>
+        <input placeholder="Email" formControlName="email"/>
+      </div>
+      <div>
+        <label>Status: </label>
+        <input type="checkbox" formControlName="status">
+      </div>
+      <div>
+        <button  class="primary-button createButton" type="button" >Create</button>
+        <button class="secondary-button clearButton" type="button" (click)="resetFormHandler()">Clear</button>
+      </div>
+    </div>
+  </div>
+</div>

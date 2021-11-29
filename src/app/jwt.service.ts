@@ -1,7 +1,7 @@
 import jwt_decode from 'jwt-decode';
-import {AccessUser} from "./model/auth/access_user";
-import {ROLE} from "./model/auth/role";
-import {Authority, JwtPayload} from "./model/auth/jwtPayload"
+import {AccessUser} from "./modules/login/model/auth/access_user";
+import {ROLE} from "./modules/login/model/auth/role";
+import {Authority, JwtPayload} from "./modules/login/model/auth/jwtPayload";
 
 
 export class JwtService{
