@@ -14,7 +14,7 @@ import {MatIconModule} from "@angular/material/icon";
 import { LoginComponent } from './login/login.component';
 
 import { RecoverPasswordComponent } from './recover-password/recover-password.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {LoginService} from "./login/login.service";
 
 
@@ -44,6 +44,7 @@ import {EditIngredientComponent} from "./mainpage/main/components/ingredients/ed
 import {KitchenwareMainComponent} from './mainpage/main/components/kitchenware/kitchenware-main/kitchenware-main.component';
 import {AddKitchenwareComponent} from './mainpage/main/components/kitchenware/add-kitchenware/add-kitchenware.component';
 import {EditKitchenwareComponent} from './mainpage/main/components/kitchenware/edit-kitchenware/edit-kitchenware.component';
+import {Interceptor} from "./utils/interceptor";
 
 @NgModule({
   declarations: [
@@ -88,7 +89,12 @@ import {EditKitchenwareComponent} from './mainpage/main/components/kitchenware/e
     ReactiveFormsModule,
     MatPaginatorModule
   ],
-  providers: [FormBuilder],
+  providers: [FormBuilder,
+    {
+    provide: HTTP_INTERCEPTORS,
+    useClass: Interceptor,
+    multi: true
+  }],
 
   bootstrap: [AppComponent]
 })
