@@ -4,6 +4,9 @@ import {HttpClient} from "@angular/common/http";
 
 import {ActiveKitchenware} from "../../../../../model/kitchenware/activeKitchenware";
 import {Observable} from "rxjs";
+import {KitchenwareView} from "../../../../../model/kitchenware/kitchewareview";
+
+
 
 
 @Injectable({
@@ -11,6 +14,8 @@ import {Observable} from "rxjs";
 })
 export class KitchenwareService {
   private apiServerUrl = environment.apiBaseUrl;
+  kitchenwareList : Array<KitchenwareView> = []
+
 
   constructor(private http: HttpClient) {
   }
@@ -19,4 +24,14 @@ export class KitchenwareService {
     return this.http.get<Array<ActiveKitchenware>>(`${this.apiServerUrl}/kitchenware/active`)
   }
 
+  updateAllKitchenware() {
+    try {
+      this.getAllActiveKitchenware().subscribe(list => {
+        this.kitchenwareList = list.map(k => KitchenwareView.fromActiveKitchenwareDto(k));
+      })
+    }
+    catch (err){
+      console.error(err)
+    }
+  }
 }
