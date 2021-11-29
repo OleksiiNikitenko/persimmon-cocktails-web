@@ -1,11 +1,11 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
-import {KitchenwareList} from "../mock-kitchenware";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {MatSort, Sort} from "@angular/material/sort";
 import {MatPaginator} from '@angular/material/paginator';
 import {generate} from "rxjs";
 import {KitchenwareService} from "./kitchenware.service";
+import {ActiveKitchenware} from "../../../../../model/kitchenware/activeKitchenware";
 
 @Component({
   selector: 'app-kitchenware-main',
@@ -15,7 +15,7 @@ import {KitchenwareService} from "./kitchenware.service";
 export class KitchenwareMainComponent implements AfterViewInit, OnInit {
 
   displayedColumns: string[] = ['photoId', 'kitchenwareId', 'name', 'category', 'editButton', 'statusButton'];
-  dataSource = new MatTableDataSource(KitchenwareList);
+  dataSource = new MatTableDataSource(this.kitchenwareService.kitchenwareList);
 
   constructor(private _liveAnnouncer: LiveAnnouncer, private kitchenwareService: KitchenwareService) {}
 
@@ -41,9 +41,7 @@ export class KitchenwareMainComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
-    this.kitchenwareService.getAllActiveKitchenware().subscribe(res => {
-      console.log(res)
-    })
+    this.kitchenwareService.updateAllKitchenware();
   }
 
 }
