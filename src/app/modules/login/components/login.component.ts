@@ -3,6 +3,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {Person} from "../model/person";
 import {LoginService} from "../services/login.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
   public persons: Person[] | undefined;
   public personId: number | any;
 
-  constructor(private personService: LoginService) {
+  constructor(private personService: LoginService,  private router: Router,) {
+
   };
 
   public login(): void {
@@ -28,6 +30,7 @@ export class LoginComponent implements OnInit {
         console.log(response);
         this.loginForm.reset();
         // this.router.navigateByUrl('/');
+        this.router.navigate(['/blog']);
 
       },
       (error: HttpErrorResponse) => {
