@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ModeratorsService} from "../../../services/moderators.service";
+import {ModeratorsService} from "../../services/moderators.service";
 import {first} from "rxjs/operators";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ModeratorsQuery} from "../../../services/moderators.query";
+import {ModeratorsQuery} from "../../services/moderators.query";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
+
 
 @UntilDestroy()
 @Component({
   selector: 'app-add-moderator',
   templateUrl: './add-moderator.component.html',
-  styleUrls: ['./add-moderator.component.css', '../../../../app.component.css']
+  styleUrls: ['./add-moderator.component.css', '../../../../../app.component.css']
 })
 export class AddModeratorComponent implements OnInit {
   form: FormGroup

@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ADMIN} from "../../../core/models/admin";
-import {Moderator} from "../../moderators/models/moderator.model";
-import {ModeratorsMainComponent} from "../../moderators/components/moderators-main/moderators-main.component";
+import {AccessUserStorage} from "../../../storage/accessUserStorage";
 
 @Component({
   selector: 'app-account',
@@ -12,9 +11,12 @@ export class AccountComponent implements OnInit {
   person = ADMIN; //удалить и нормально подгружать текущую роль
   // moderators = ModeratorsMainComponent().getModerators();
 
+
+
   constructor() {
   }
 
   ngOnInit(): void {
+
   }
 }

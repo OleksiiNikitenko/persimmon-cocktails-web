@@ -59,6 +59,20 @@ const routes: Routes = [
           { path: 'edit', component: EditKitchenwareComponent, canActivate: [CanActivateRoute] }
         ]
       },
+
+      { path: 'ingredients', component: IngredientComponent, children: [
+          { path: '', component: IngredientMainComponent, canActivate: [CanActivateRoute] },
+          { path: 'add', component: AddIngredientComponent, canActivate: [CanActivateRoute] },
+          { path: 'edit', component: EditIngredientComponent, canActivate: [CanActivateRoute] }
+        ]
+      },
+
+      { path: 'kitchenware', component: KitchenwareComponent, children: [
+          { path: '', component: KitchenwareMainComponent, canActivate: [CanActivateRoute] },
+          { path: 'add', component: AddKitchenwareComponent, canActivate: [CanActivateRoute] },
+          { path: 'edit', component: EditKitchenwareComponent, canActivate: [CanActivateRoute] }
+        ]
+      },
     ]
   },
   // { path: 'login', component: LoginComponent },
