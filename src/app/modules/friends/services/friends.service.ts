@@ -9,13 +9,13 @@ import {InviteFriendModel} from "../models/invite-friend.model";
 @Injectable({
   providedIn: 'root'
 })
+
 export class FriendsService {
   private apiServerUrl = environment.apiBaseUrl;
   private friendsUrl = `${this.apiServerUrl}/person/friends?page=`
   private friendsSearchUrl = `${this.apiServerUrl}/person/friends/`
-  private invitesFiendUrl = `${this.apiServerUrl}/person/invites?page=`
+  private invitesFiendUrl = `${this.apiServerUrl}/person/friendship-invitations?page=`
   private personsSearchUrl = `${this.apiServerUrl}/person/search/`
-
 
   constructor(private http: HttpClient) {
   }
@@ -25,7 +25,7 @@ export class FriendsService {
   }
 
   getFriendsByName(name: string, page: number): Observable<FriendModel[]> {
-    return this.http.get<FriendModel[]>(this.friendsSearchUrl + name +'?page=' + page);
+    return this.http.get<FriendModel[]>(this.friendsSearchUrl + name + '?page=' + page);
   }
 
   getInvitations(page: number): Observable<InviteFriendModel[]> {
@@ -33,6 +33,6 @@ export class FriendsService {
   }
 
   getPersonsByName(name: string, page: number): Observable<FriendModel[]> {
-    return this.http.get<FriendModel[]>(this.personsSearchUrl + name +'?page=' + page);
+    return this.http.get<FriendModel[]>(this.personsSearchUrl + name + '?page=' + page);
   }
 }

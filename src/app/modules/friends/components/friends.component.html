@@ -1,6 +1,8 @@
 <mat-form-field class="example-full-width search-field" appearance="fill">
   <mat-label>Search users...</mat-label>
-  <input matInput [(ngModel)]="searchPersonsRequest" placeholder="Ex. Mark" value="" (keyup.enter)="getPersonsByName(searchPersonsRequest, 0)">
+  <input matInput [(ngModel)]="searchPersonsRequest" placeholder="Ex. Mark" value=""
+         (keyup.enter)="getPersonsByName(searchPersonsRequest, 0)">
+  <mat-icon matSuffix>supervisor_account</mat-icon>
 </mat-form-field>
 
 <div class="main" *ngIf="invites.length>0 && persons.length==0">
@@ -10,7 +12,9 @@
 
     <ng-container matColumnDef="photoId">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td class="avatar-invite-container" mat-cell *matCellDef="let element"><img class="avatar" src="../../../../assets/images/moder-avatar.png" alt="avatar"></td>
+      <td class="avatar-invite-container" mat-cell *matCellDef="let element"><img class="avatar"
+                                                                                  src="../../../../assets/images/moder-avatar.png"
+                                                                                  alt="avatar"></td>
     </ng-container>
 
     <ng-container matColumnDef="name">
@@ -22,17 +26,23 @@
 
     <ng-container matColumnDef="writeButton">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td class="container-button-edit" mat-cell *matCellDef="let element"><button class="primary-button button-action">Accept</button></td>
+      <td class="container-button-edit" mat-cell *matCellDef="let element">
+        <button class="primary-button button-action">Accept</button>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="profileButton">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td class="container-button-edit" mat-cell *matCellDef="let element"><button class="primary-button button-action">Decline</button></td>
+      <td class="container-button-edit" mat-cell *matCellDef="let element">
+        <button class="primary-button button-action">Decline</button>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="addToButton">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td class="container-button-edit" mat-cell *matCellDef="let element"><button class="primary-button button-action">Profile</button></td>
+      <td class="container-button-edit" mat-cell *matCellDef="let element">
+        <button class="primary-button button-action">Profile</button>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="friendsDisplayedColumns"></tr>
@@ -41,20 +51,43 @@
 </div>
 
 <h1>Your friends</h1>
-<div  *ngIf="friends.length == 0 && persons.length == 0">
+<div *ngIf='friends.length == 0 && persons.length == 0 && searchFriendsRequest==""'>
   <h3 class="message">You have no friends yet :(</h3>
 </div>
-<div class="main" *ngIf="friends.length > 0">
-  <mat-form-field class="example-full-width search-field" appearance="fill">
-    <mat-label>Search friend...</mat-label>
-    <input matInput [(ngModel)]="searchFriendsRequest" placeholder="Ex. Mark" value="" (keyup.enter)="getPersonsByName(searchFriendsRequest, 0)">
-  </mat-form-field>
+
+<div class="main">
+  <form [formGroup]="searchFriendsForm" autocomplete="off" novalidate fxLayout="column wrap"
+        (submit)="getFriendsByName(searchFriendsRequest, 0)"
+        fxLayoutAlign="center center" fxLayoutGap="10px">
+    <mat-card-content>
+      <mat-form-field class="search-field">
+        <mat-label>Search friends...</mat-label>
+        <input matInput [(ngModel)]="searchFriendsRequest" type="text" placeholder="Ex. Mark" formControlName="name"
+               id="name" (keypress)="checkValue($event)" (keyup.enter)="getFriendsByName(searchFriendsRequest, 0)"
+               (focusout)="fieldChanged(searchFriendsRequest, 0)">
+        <mat-hint align="end">More than 3 characters and no special characters.</mat-hint>
+        <mat-icon matSuffix>supervisor_account</mat-icon>
+
+        <mat-error *ngIf="searchFriendsForm.hasError('whitespace')">Name is required</mat-error>
+        <!--        <mat-error *ngIf="hasError('name', 'maxlength')">You have more than 60 characters</mat-error>-->
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+    </mat-card-actions>
+
+    <small
+      *ngIf="searchFriendsForm.get('name').invalid && searchFriendsForm.get('name').touched  && searchFriendsRequest != ''"
+      class="text-danger">Incorrect name format</small>
+  </form>
+
   <table mat-table [dataSource]="friendsDataSource" matSort (matSortChange)="announceSortChange($event)"
-         class="mat-elevation-z8">
+         class="mat-elevation-z8" *ngIf="friends.length > 0">
 
     <ng-container matColumnDef="photoId">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td class="avatar-friend-container" mat-cell *matCellDef="let element"><img class="avatar" src="../../../../assets/images/moder-avatar.png" alt="avatar"></td>
+      <td class="avatar-friend-container" mat-cell *matCellDef="let element"><img class="avatar"
+                                                                                  src="../../../../assets/images/moder-avatar.png"
+                                                                                  alt="avatar"></td>
     </ng-container>
 
     <ng-container matColumnDef="name">
@@ -66,17 +99,23 @@
 
     <ng-container matColumnDef="writeButton">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td class="container-button-edit" mat-cell *matCellDef="let element"><button class="primary-button button-action">Write</button></td>
+      <td class="container-button-edit" mat-cell *matCellDef="let element">
+        <button class="primary-button button-action">Write</button>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="profileButton">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td class="container-button-edit" mat-cell *matCellDef="let element"><button class="primary-button button-action">Profile</button></td>
+      <td class="container-button-edit" mat-cell *matCellDef="let element">
+        <button class="primary-button button-action">Profile</button>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="addToButton">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td class="container-button-edit" mat-cell *matCellDef="let element"><button class="primary-button button-action">Add to...</button></td>
+      <td class="container-button-edit" mat-cell *matCellDef="let element">
+        <button class="primary-button button-action">Add to...</button>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="friendsDisplayedColumns"></tr>
