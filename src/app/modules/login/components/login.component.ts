@@ -3,6 +3,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {Person} from "../model/person";
 import {LoginService} from "../services/login.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -16,19 +17,20 @@ export class LoginComponent implements OnInit {
   public persons: Person[] | undefined;
   public personId: number | any;
 
+  constructor(private personService: LoginService,  private router: Router,) {
 
-  constructor(private personService: LoginService) {
   };
-
 
   public login(): void {
     console.log(this.loginForm.value)
     this.personService.login(this.loginForm.value).then(
       (response: Number) => {
+
         this.personId = response;
         console.log(response);
         this.loginForm.reset();
         // this.router.navigateByUrl('/');
+        this.router.navigate(['/blog']);
 
       },
       (error: HttpErrorResponse) => {
@@ -79,10 +81,5 @@ export class LoginComponent implements OnInit {
         )
     });
   }
-
-
-
-
-
 }
 

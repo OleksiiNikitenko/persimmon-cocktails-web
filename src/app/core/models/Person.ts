@@ -7,3 +7,4 @@ export interface Person{
   blogId: number;
   roleId: number;
 }
+
