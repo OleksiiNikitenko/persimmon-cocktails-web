@@ -7,6 +7,7 @@ import {MatSort, Sort} from "@angular/material/sort";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {InviteFriendModel} from "../models/invite-friend.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-friends',
@@ -15,24 +16,25 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 })
 export class FriendsComponent implements OnInit {
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private friendsService: FriendsService) { }
+  constructor(private _liveAnnouncer: LiveAnnouncer, private friendsService: FriendsService) {
+  }
 
   friends: FriendModel[] = [];
   persons: FriendModel[] = [];
   invites: InviteFriendModel[] = [];
 
-
   personsDisplayedColumns: string[] = ['photoId', 'name', 'inviteButton', 'profileButton'];
   friendsDisplayedColumns: string[] = ['photoId', 'name', 'writeButton', 'profileButton', 'addToButton'];
   invitationDisplayedColumns: string[] = ['photoId', 'name', 'date', 'acceptButton', 'declineButton', 'profileButton'];
+
+  buttonEnabled: boolean[] = []
 
   friendsDataSource: any;
   personsDataSource: any;
   invitationDataSource: any;
 
-  searchUsersForm: FormGroup | any;
+  searchPersonsForm: FormGroup | any;
   searchFriendsForm: FormGroup | any;
-  searchFriendsField: FormControl | any;
 
   searchFriendsRequest: string = "";
   searchPersonsRequest: string = "";
@@ -48,18 +50,9 @@ export class FriendsComponent implements OnInit {
     this.searchFriendsForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.pattern(this.validationNamePattern)])
     });
-  }
-
-  findFriends(name: string, page: number) : void {
-    if (this.searchFriendsForm.valid){
-      this.friendsService
-        .getFriendsByName(name, page)
-        .subscribe((friends: FriendModel[]) => {
-          this.friends = friends;
-          this.friendsDataSource = new MatTableDataSource(this.friends);
-          this.friendsDataSource.sort = this.sort;
-        });
-    }
+    this.searchPersonsForm = new FormGroup({
+      name: new FormControl('', [Validators.required, Validators.pattern(this.validationNamePattern)])
+    });
   }
 
   announceSortChange(sortState: Sort) {
@@ -81,8 +74,7 @@ export class FriendsComponent implements OnInit {
   }
 
   getFriendsByName(name: string, page: number): void {
-    if (this.searchFriendsForm.valid ) {
-      console.log('str: ' + name)
+    if (this.searchFriendsForm.valid) {
       this.friendsService
         .getFriendsByName(name, page)
         .subscribe((friends: FriendModel[]) => {
@@ -90,7 +82,7 @@ export class FriendsComponent implements OnInit {
           this.friendsDataSource = new MatTableDataSource(this.friends);
           this.friendsDataSource.sort = this.sort;
         });
-    } else if (name == ""){
+    } else if (name == "") {
       this.getFriends(page)
     }
   }
@@ -106,26 +98,31 @@ export class FriendsComponent implements OnInit {
   }
 
   getPersonsByName(name: string, page: number): void {
-    console.log(name)
-    if (name.length < 3){
-      console.log("ENTER1")
-      this.persons = [];
-    } else {
-      console.log("ENTER2")
-
+    if (this.searchPersonsForm.valid) {
       this.friendsService
         .getPersonsByName(name, page)
         .subscribe((persons: FriendModel[]) => {
           this.persons = persons;
-          this.personsDataSource = new MatTableDataSource(this.friends);
+          this.personsDataSource = new MatTableDataSource(this.persons);
+          this.buttonEnabled = Array(persons.length).fill(true)
           // this.personsDataSource.sort = this.sort;
         });
     }
+    // else if (name == "") {
+    //   this.persons = [];
+    // }
   }
 
-  fieldChanged(name: string, page: number): void{
-    if (name.length == 0){
+  fieldFriendsChanged(name: string, page: number): void {
+    if (name.length == 0) {
       this.getFriends(page);
+    }
+  }
+
+  fieldPersonsChanged(name: string, page: number): void {
+    if (name.length == 0) {
+      this.persons = [];
+      this.personsDataSource = new MatTableDataSource(this.persons);
     }
   }
 
@@ -134,11 +131,21 @@ export class FriendsComponent implements OnInit {
       event.CharCode : event.preventDefault();
   }
 
-  noWhitespaceValidator(control: FormControl) {
-    const isWhitespace = (control.value || '').trim().length === 0;
-    const isValid = !isWhitespace;
-    return isValid ? null : { 'whitespace': true };
+  sendFriendshipInvitation(personId: number, message: string): void{
+    this.friendsService.sendFriendshipInvitation(personId, message).subscribe(
+
+      (response) => {                           //Next callback
+        console.log('response received')
+        // this.repos = response;
+      },
+      (error: HttpErrorResponse) => {                              //Error callback
+        alert(error.error.message);
+        // alert(JSON.parse(error.json()._body).errors[0])
+        // this.errorMessage = error;
+        // this.loading = false;
+
+        throw error;
+      }
+    );
   }
-
-
 }

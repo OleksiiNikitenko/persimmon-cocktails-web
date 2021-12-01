@@ -1,4 +1,4 @@
-.primary-button, .secondary-button {
+.primary-button, .secondary-button, .disabled-button {
   border-radius: 21px;
   border: 1px solid #FFF7F0;
   color: #FFF7F0;
@@ -16,6 +16,10 @@
 .primary-button:active {
   position: relative;
   top: 1px;
+}
+
+.disabled-button {
+  background-color: #808080;
 }
 
 .secondary-button {

@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {FriendModel} from "../models/friend.model";
 import {InviteFriendModel} from "../models/invite-friend.model";
+import {RequestFriendshipInvitationDto} from "../models/requestFriendshipInvitation.dto";
 
 
 @Injectable({
@@ -16,6 +17,7 @@ export class FriendsService {
   private friendsSearchUrl = `${this.apiServerUrl}/person/friends/`
   private invitesFiendUrl = `${this.apiServerUrl}/person/friendship-invitations?page=`
   private personsSearchUrl = `${this.apiServerUrl}/person/search/`
+  private sendFriendshipInvitationUrl = `${this.apiServerUrl}/person/friend-invitation/add`
 
   constructor(private http: HttpClient) {
   }
@@ -34,5 +36,20 @@ export class FriendsService {
 
   getPersonsByName(name: string, page: number): Observable<FriendModel[]> {
     return this.http.get<FriendModel[]>(this.personsSearchUrl + name + '?page=' + page);
+  }
+
+  sendFriendshipInvitation(personId: number, message: string): Observable<RequestFriendshipInvitationDto> {
+    let requestFriendshipInvitation = new RequestFriendshipInvitationDto(personId, message);
+    return this.http.post<RequestFriendshipInvitationDto>(this.sendFriendshipInvitationUrl, requestFriendshipInvitation)
+    //   .pipe(
+    //   catchError((err) => {
+    //     console.log('error caught in service')
+    //     console.error(err);
+    //
+    //     //Handle the error here
+    //
+    //     return throwError(err);    //Rethrow it back to component
+    //   })
+    // );
   }
 }
