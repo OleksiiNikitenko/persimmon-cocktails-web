@@ -1,4 +1,4 @@
-.primary-button, .secondary-button {
+.primary-button, .secondary-button, .disabled-button {
   border-radius: 21px;
   border: 1px solid #FFF7F0;
   color: #FFF7F0;
@@ -8,29 +8,61 @@
 .primary-button {
   background-color: #4E5953;
 }
+
 .primary-button:hover {
   background-color: #282D27;
 }
+
 .primary-button:active {
-  position:relative;
-  top:1px;
+  position: relative;
+  top: 1px;
+}
+
+.disabled-button {
+  background-color: #808080;
 }
 
 .secondary-button {
   background-color: #282D27;
 }
+
 .secondary-button:hover {
   background-color: #141714;
 }
+
 .secondary-button:active {
-  position:relative;
-  top:1px;
+  position: relative;
+  top: 1px;
 }
 
-.thirdly-button{
+.thirdly-button {
   margin-top: 10px;
   width: 100%;
   color: white;
   height: 40px;
   background-color: #4E5953;
+}
+
+.text-danger {
+  color: #c40000;
+  margin: 1px;
+  font: small-caps bold 12px/2 cursive;
+}
+
+h1 {
+  margin: 10px;
+  color: #141714;
+  font: small-caps bold 35px/2 cursive;
+}
+
+h2 {
+  margin: 8px;
+  color: #141714;
+  font: small-caps bold 28px/2 cursive;
+}
+
+h3 {
+  margin: 6px;
+  color: #141714;
+  font: small-caps bold 22px/2 cursive;
 }
