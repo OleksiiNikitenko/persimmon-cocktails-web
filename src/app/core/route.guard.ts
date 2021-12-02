@@ -2,7 +2,6 @@ import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from "@angular/router";
 import {of} from "rxjs";
 import {routes} from "./models/routes";
-import {user} from "./models/user";
 import {AccessUserStorage} from "../storage/accessUserStorage";
 
 @Injectable({
@@ -10,7 +9,8 @@ import {AccessUserStorage} from "../storage/accessUserStorage";
 })
 export class CanActivateRoute implements CanActivate {
   private routes = routes
-  // private user = user
+
+
 
   constructor(private accessUserStorage: AccessUserStorage) {
   }
