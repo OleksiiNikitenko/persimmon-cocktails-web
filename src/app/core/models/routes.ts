@@ -1,64 +1,64 @@
-import {Roles} from "./roles";
 
+import {ROLE} from "../../modules/login/model/auth/role";
 export const routes = [
   {
     text: 'My account',
     url: '/account',
     isActive: true,
-    canActivate: [Roles.Admin, Roles.Moderator]
+    canActivate: [ROLE.Admin, ROLE.Moderator]
   },
   {
     text: 'Moderators',
     url: '/moderators',
     isActive: true,
-    canActivate: [Roles.Admin]
+    canActivate: [ROLE.Admin]
   },
   {
     text: 'My blog',
     url: '/blog',
     isActive: true,
-    canActivate: [Roles.User]
+    canActivate: [ROLE.Authorised]
   },
   {
     text: 'Friends',
     url: '/friends',
     isActive: false,
-    canActivate: [Roles.User]
+    canActivate: [ROLE.Authorised]
   },
   {
     text: 'My ingredients',
     url: '/ingredients',
     isActive: true,
-    canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
+    canActivate: [ROLE.Authorised, ROLE.Moderator, ROLE.Admin]
   },
   {
     text: 'My kitchenware',
     url: '/kitchenware',
     isActive: true,
-    canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
+    canActivate: [ROLE.Authorised, ROLE.Moderator, ROLE.Admin]
   },
   {
     text: 'Events',
     url: '/events',
     isActive: false,
-    canActivate: [ Roles.User, Roles.Moderator]
+    canActivate: [ ROLE.Authorised, ROLE.Moderator]
   },
   {
     text: 'Cocktails',
     url: '/cocktails',
     isActive: false,
-    canActivate: [Roles.Admin, Roles.User, Roles.Moderator, Roles.Anonymous]
+    canActivate: [ROLE.Admin, ROLE.Authorised, ROLE.Moderator, undefined]
   },
   {
     text: 'Settings',
     url: '/settings',
     isActive: false,
-    canActivate: [Roles.Admin, Roles.User, Roles.Moderator]
+    canActivate: [ROLE.Admin, ROLE.Authorised, ROLE.Moderator]
   },
   {
     text: 'Login',
     url: '/login',
     isActive: false,
-    canActivate: [Roles.Admin, Roles.User, Roles.Moderator]
+    canActivate: [ROLE.Admin, ROLE.Authorised, ROLE.Moderator, undefined]
   },
 ]
