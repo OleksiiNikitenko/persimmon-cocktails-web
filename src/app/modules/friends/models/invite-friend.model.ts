@@ -1,8 +1,12 @@
+import {Timestamp} from "rxjs";
+
 export class InviteFriendModel{
   personId!: number;
   name!: string;
-  date!: Date;
+  message!: string;
   photoId!: number;
   blogId!: number;
-  message!: string;
+  localDateTime!: Date;
+  // localDateTime!: Timestamp<any>;
+  // localDateTime!: Date;
 }
