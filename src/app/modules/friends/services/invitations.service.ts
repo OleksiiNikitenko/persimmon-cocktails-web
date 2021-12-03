@@ -4,7 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {InviteFriendModel} from "../models/invite-friend.model";
 import {RequestFriendshipInvitationDto} from "../models/requestFriendshipInvitation.dto";
-// import {RequestOptions} from '@angular/http'
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,7 @@ export class InvitationsService {
   private sendFriendshipInvitationUrl = `${this.apiServerUrl}/person/friend-invitation/add`
   private acceptFriendshipInvitationUrl = `${this.apiServerUrl}/person/friends/add`
   private declineFriendshipInvitationUrl = `${this.apiServerUrl}/person/friendship-invitation/delete`
+  private invitationsPagesAmountUrl = `${this.apiServerUrl}/person/friendship-invitations-amount-pages`
 
   constructor(private http: HttpClient) {
   }
@@ -27,24 +28,23 @@ export class InvitationsService {
   sendFriendshipInvitation(personId: number, message: string): Observable<RequestFriendshipInvitationDto> {
     let requestFriendshipInvitation = new RequestFriendshipInvitationDto(personId, message);
     return this.http.post<RequestFriendshipInvitationDto>(this.sendFriendshipInvitationUrl, requestFriendshipInvitation)
-    //   .pipe(
-    //   catchError((err) => {
-    //     console.log('error caught in service')
-    //     console.error(err);
-    //
-    //     //Handle the error here
-    //
-    //     return throwError(err);    //Rethrow it back to component
-    //   })
-    // );
   }
 
-  acceptInvitation(personId: number){
+  acceptInvitation(personId: number) {
     return this.http.post<number>(this.acceptFriendshipInvitationUrl, personId);
   }
 
   declineInvitation(personId: number) {
     const options = {body: {personId: personId}}
     return this.http.delete<number>(this.declineFriendshipInvitationUrl, options);
+  }
+
+  handleMessage(message: string): string {
+    if (message.length == 0) return ""
+    else return "\"" + message + "\"";
+  }
+
+  getPagesAmount(): Observable<number> {
+    return this.http.get<number>(this.invitationsPagesAmountUrl);
   }
 }

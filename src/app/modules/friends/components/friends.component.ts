@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 // import {Moderator} from "../../../../core/models/moderator.model";
 import {MatTableDataSource} from "@angular/material/table";
 import {FriendsService} from "../services/friends.service";
@@ -11,7 +11,6 @@ import {InviteFriendModel} from "../models/invite-friend.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
 import {DatePipe} from "@angular/common";
-import {Timestamp} from "rxjs";
 import {MainService} from "../services/main.service";
 
 @Component({
@@ -19,7 +18,9 @@ import {MainService} from "../services/main.service";
   templateUrl: './friends.component.html',
   styleUrls: ['./friends.component.css', '../../../app.component.css']
 })
-export class FriendsComponent implements OnInit {
+export class FriendsComponent implements OnInit, AfterViewInit {
+
+  @ViewChild(MatSort, {static: false}) sort!: MatSort;
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
               private friendsService: FriendsService,
@@ -32,7 +33,6 @@ export class FriendsComponent implements OnInit {
   persons: FriendModel[] = [];
   invites: InviteFriendModel[] = [];
 
-  // personsDisplayedColumns: string[] = ['photoId', 'name', 'inviteButton', 'profileButton'];
   personsDisplayedColumns: string[] = ['photoId', 'name', 'buttonsBlock'];
   friendsDisplayedColumns: string[] = ['photoId', 'name', 'writeButton', 'profileButton', 'addToButton'];
   invitationDisplayedColumns: string[] = ['photoId', 'name', 'date', 'acceptButton', 'declineButton', 'profileButton'];
@@ -41,6 +41,7 @@ export class FriendsComponent implements OnInit {
   buttonAcceptInvitationEnabled: boolean[] = []
   buttonDeclineInvitationEnabled: boolean[] = []
   fieldInvitationMessageEnabled: boolean[] = []
+  fieldInvitationMessageText: string[] = []
 
   friendsDataSource: any;
   personsDataSource: any;
@@ -53,14 +54,20 @@ export class FriendsComponent implements OnInit {
   searchFriendsRequest: string = "";
   searchPersonsRequest: string = "";
 
-  validationNamePattern: RegExp = /^(|[a-zA-Z0-9 ]{3,255})$/
-  validationMessagePattern: RegExp = /^.{0,100}$/
+  currentPageNumberInvitation: number = 0;
+  currentPageNumberFriends: number = 0;
+  currentPageNumberPersons: number = 0;
 
-  @ViewChild(MatSort, {static: false}) sort!: MatSort;
+  amountPagesPersons: number = 0;
+  amountPagesFriends: number = 0;
+  amountPagesInvitation: number = 0;
+
+  validationNamePattern: RegExp = /^(|[a-zA-Z0-9 ]{3,255})$/
+  validationMessagePattern: RegExp = /^.{,100}$/
 
   ngOnInit(): void {
     this.getFriends(0);
-    this.getInvitations(0);
+    this.getInvitations();
 
     this.searchFriendsForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.pattern(this.validationNamePattern)])
@@ -71,6 +78,9 @@ export class FriendsComponent implements OnInit {
     this.messageInvitationForm = new FormGroup({
       message: new FormControl('', [Validators.required, Validators.pattern(this.validationMessagePattern)])
     });
+  }
+
+  ngAfterViewInit() {
   }
 
   announceSortChange(sortState: Sort) {
@@ -88,10 +98,12 @@ export class FriendsComponent implements OnInit {
         this.friends = friends;
         this.friendsDataSource = new MatTableDataSource(this.friends);
         this.friendsDataSource.sort = this.sort;
+        this.initFriendsPagesAmount();
       });
   }
 
-  getFriendsByName(name: string, page: number): void {
+  getFriendsByName(name: string): void {
+    let page = this.currentPageNumberFriends;
     if (this.searchFriendsForm.valid) {
       this.friendsService
         .getFriendsByName(name, page)
@@ -105,7 +117,8 @@ export class FriendsComponent implements OnInit {
     }
   }
 
-  getInvitations(page: number): void {
+  getInvitations(): void {
+    let page = this.currentPageNumberInvitation;
     this.invitationsService
       .getInvitations(page)
       .subscribe((invites: InviteFriendModel[]) => {
@@ -114,10 +127,12 @@ export class FriendsComponent implements OnInit {
         this.invitationDataSource.sort = this.sort;
         this.buttonAcceptInvitationEnabled = Array(invites.length).fill(true);
         this.buttonDeclineInvitationEnabled = Array(invites.length).fill(true);
+        this.initInvitationsPagesAmount();
       });
   }
 
-  getPersonsByName(name: string, page: number): void {
+  getPersonsByName(name: string): void {
+    let page = this.currentPageNumberPersons;
     if (this.searchPersonsForm.valid) {
       this.personsService
         .getPersonsByName(name, page)
@@ -126,12 +141,9 @@ export class FriendsComponent implements OnInit {
           this.personsDataSource = new MatTableDataSource(this.persons);
           this.buttonInvitePersonEnabled = Array(persons.length).fill(true);
           this.fieldInvitationMessageEnabled = Array(persons.length).fill(false);
-          // this.personsDataSource.sort = this.sort;
+          this.fieldInvitationMessageText = Array(persons.length).fill('');
         });
     }
-    // else if (name == "") {
-    //   this.persons = [];
-    // }
   }
 
   fieldFriendsChanged(name: string, page: number): void {
@@ -140,7 +152,7 @@ export class FriendsComponent implements OnInit {
     }
   }
 
-  fieldPersonsChanged(name: string, page: number): void {
+  fieldPersonsChanged(name: string): void {
     if (name.length == 0) {
       this.persons = [];
       this.personsDataSource = new MatTableDataSource(this.persons);
@@ -151,26 +163,22 @@ export class FriendsComponent implements OnInit {
     return this.mainService.checkValue(event);
   }
 
-  sendFriendshipInvitation(personId: number, message: string): void{
+  sendFriendshipInvitation(personId: number, message: string): void {
     this.invitationsService.sendFriendshipInvitation(personId, message).subscribe(
       (response) => {                           //Next callback
         console.log('response received')
-        // this.repos = response;
       },
       (error: HttpErrorResponse) => {                              //Error callback
         alert(error.error.message);
-        // alert(JSON.parse(error.json()._body).errors[0])
-        // this.errorMessage = error;
-        // this.loading = false;
-
         throw error;
       }
     );
   }
 
-  acceptInvitation(friendId: number){
+  acceptInvitation(friendId: number) {
     this.invitationsService.acceptInvitation(friendId).subscribe(
-      (response) => {},
+      (response) => {
+      },
       (error: HttpErrorResponse) => {
         alert(error.error.message);
         throw error;
@@ -179,27 +187,91 @@ export class FriendsComponent implements OnInit {
 
   declineInvitation(friendId: number) {
     this.invitationsService.declineInvitation(friendId).subscribe(
-      (response) => {},
+      (response) => {
+      },
       (error: HttpErrorResponse) => {
         alert(error.error.message);
         throw error;
       });
   }
 
-  getInvitationDate(dateTime: Date){
+  getInvitationDate(dateTime: Date) {
     dateTime = new Date(dateTime)
-    console.log(typeof dateTime)
-
     const datePipe: DatePipe = new DatePipe('en-US')
-    if (this.mainService.getDifferenceInDays(dateTime)<1){
-      console.log("Formatted date1:"+datePipe.transform(dateTime, 'HH:mm:ss'))
+    if (this.mainService.getDifferenceInDays(dateTime) < 1) {
       return datePipe.transform(dateTime, 'HH:mm:ss');
     }
-    console.log("Formatted date2:"+datePipe.transform(dateTime, 'dd-MM-YYYY HH:mm:ss'))
     return datePipe.transform(dateTime, 'dd-MM-YYYY HH:mm:ss');
   }
 
-  changeMessageFieldVisibility(i: number): void{
+  changeMessageFieldVisibility(i: number): void {
     this.fieldInvitationMessageEnabled[i] = !this.fieldInvitationMessageEnabled[i];
+  }
+
+  handleMessage(message: string): string {
+    return this.invitationsService.handleMessage(message);
+  }
+
+  initPersonsPagesAmount(): void {
+    this.personsService.getPagesAmount(this.searchPersonsRequest).subscribe((numberOfPages: number) => {
+      this.amountPagesPersons = numberOfPages;
+    });
+  }
+
+  initFriendsPagesAmount(): void {
+    this.friendsService.getPagesAmount(this.searchFriendsRequest).subscribe((numberOfPages: number) => {
+      this.amountPagesFriends = numberOfPages;
+    });
+  }
+
+  initInvitationsPagesAmount(): void {
+    this.invitationsService.getPagesAmount().subscribe((numberOfPages: number) => {
+      this.amountPagesInvitation = numberOfPages;
+    });
+  }
+
+  setPageDiffUsers(pageDiff: number): void {
+    this.currentPageNumberPersons += pageDiff
+    this.getPersonsByName(this.searchPersonsRequest)
+  }
+
+  endPageUsers() {
+    this.currentPageNumberPersons = this.amountPagesPersons - 1
+    this.getPersonsByName(this.searchPersonsRequest)
+  }
+
+  beginPageUsers() {
+    this.currentPageNumberPersons = 0
+    this.getPersonsByName(this.searchPersonsRequest)
+  }
+
+  setPageDiffFriends(pageDiff: number): void {
+    this.currentPageNumberFriends += pageDiff
+    this.getFriendsByName(this.searchFriendsRequest)
+  }
+
+  endPageFriends() {
+    this.currentPageNumberFriends = this.amountPagesFriends - 1
+    this.getFriendsByName(this.searchFriendsRequest)
+  }
+
+  beginPageFriends() {
+    this.currentPageNumberFriends = 0
+    this.getFriendsByName(this.searchFriendsRequest)
+  }
+
+  setPageDiffInvitations(pageDiff: number): void {
+    this.currentPageNumberInvitation += pageDiff
+    this.getInvitations()
+  }
+
+  endPageInvitations() {
+    this.currentPageNumberInvitation = this.amountPagesInvitation - 1
+    this.getInvitations()
+  }
+
+  beginPageInvitations() {
+    this.currentPageNumberInvitation = 0
+    this.getInvitations()
   }
 }

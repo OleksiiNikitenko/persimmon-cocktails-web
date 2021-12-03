@@ -12,7 +12,6 @@ table {
   margin-right: auto;
   box-shadow: 0 0 0 white;
   background-color: #FFF7F0;
-  /*overflow: scroll;*/
   max-height: 500px;
 }
 
@@ -35,10 +34,6 @@ th.mat-sort-header-sorted {
   width: 10%;
 }
 
-.container-name {
-  /*width: 10%;*/
-}
-
 .container-message-date {
   width: 35%;
   text-align: center;
@@ -54,6 +49,11 @@ th.mat-sort-header-sorted {
 
 .container-button-edit, .container-button-status {
   width: 6%;
+}
+
+.invite-button-reactions {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .button-action {
@@ -74,3 +74,5 @@ th.mat-sort-header-sorted {
 .search-field {
   margin: 10px;
 }
+
+

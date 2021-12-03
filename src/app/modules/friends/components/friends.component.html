@@ -1,13 +1,13 @@
 <form [formGroup]="searchPersonsForm" autocomplete="off" novalidate fxLayout="column wrap"
-      (submit)="getPersonsByName(searchPersonsRequest, 0)"
+      (submit)="getPersonsByName(searchPersonsRequest)"
       fxLayoutAlign="center center" fxLayoutGap="10px">
   <mat-card-content>
     <mat-form-field class="search-field">
       <mat-label>Search users...</mat-label>
       <input matInput [(ngModel)]="searchPersonsRequest" type="text" placeholder="Ex. Mark" formControlName="name"
              id="name_search_person" (keypress)="checkValue($event)"
-             (keyup.enter)="getPersonsByName(searchPersonsRequest, 0)"
-             (keyup)="fieldPersonsChanged(searchPersonsRequest, 0)">
+             (keyup.enter)="getPersonsByName(searchPersonsRequest); initPersonsPagesAmount()"
+             (keyup)="fieldPersonsChanged(searchPersonsRequest)">
       <mat-hint align="end">More than 3 characters and no special characters.</mat-hint>
       <mat-icon matSuffix>supervisor_account</mat-icon>
     </mat-form-field>
@@ -40,22 +40,21 @@
 
     <ng-container matColumnDef="buttonsBlock">
       <th mat-header-cell *matHeaderCellDef></th>
-      <!--      <td mat-cell *matCellDef="let element;let i = index"> {{ row_number }} </td>-->
       <td class="container-button-edit" mat-cell *matCellDef="let element;let i = index">
-        <!--        <button class="primary-button button-action" (click)="sendFriendshipInvitation(persons[i].personId, '')">Send invite</button>-->
-        <table>
+        <table class="invite-button-reactions">
           <tr>
-            <td><p>ID:{{persons[i].personId}}</p> </td>
+            <td><p>ID:{{persons[i].personId}}</p></td>
             <td>
               <button class="primary-button button-action" [hidden]="!buttonInvitePersonEnabled[i]"
-                      (click)="sendFriendshipInvitation(persons[i].personId, ''); buttonInvitePersonEnabled[i] = false">
+                      (click)="sendFriendshipInvitation(persons[i].personId, fieldInvitationMessageText[i]); buttonInvitePersonEnabled[i] = false">
                 Send invite
               </button>
               <button class="disabled-button" [hidden]="buttonInvitePersonEnabled[i]">Invited</button>
             </td>
             <td>
               <button class="primary-button button-show-field" [hidden]="!buttonInvitePersonEnabled[i]"
-                      (click)="changeMessageFieldVisibility(i)">ᐯ</button>
+                      (click)="changeMessageFieldVisibility(i); fieldInvitationMessageText[i]=''">ᐯ
+              </button>
               <button class="disabled-button" [hidden]="buttonInvitePersonEnabled[i]">ᐯ</button>
             </td>
             <td>
@@ -64,14 +63,14 @@
           </tr>
         </table>
 
-        <form [formGroup]="messageInvitationForm" autocomplete="off" novalidate fxLayout="column wrap"
+        <form autocomplete="off" novalidate fxLayout="column wrap"
               *ngIf="fieldInvitationMessageEnabled[i]" [hidden]="!buttonInvitePersonEnabled[i]"
               fxLayoutAlign="center center" fxLayoutGap="10px">
           <mat-card-content>
             <mat-form-field class="search-field">
               <mat-label>Message to user</mat-label>
-              <input matInput type="text" placeholder="Ex. Hello, Mark!" formControlName="message"
-                     id="field_message_invitation{{i}}">
+              <input matInput [(ngModel)]="fieldInvitationMessageText[i]" name="fieldInvitationMessageText" type="text"
+                     placeholder="Ex. Hello, Mark!" maxlength="99">
               <mat-hint align="end">You can leave your message to this user.</mat-hint>
               <mat-icon matSuffix>mail_outline</mat-icon>
             </mat-form-field>
@@ -82,23 +81,25 @@
             *ngIf="messageInvitationForm.get('message').invalid && messageInvitationForm.get('message').touched"
             class="text-danger">Message too long</small>
         </form>
-<!--        <button class="primary-button button-action" [hidden]="!buttonInvitePersonEnabled[i]"-->
-<!--                (click)="sendFriendshipInvitation(persons[i].personId, ''); buttonInvitePersonEnabled[i] = false">Send-->
-<!--          invite-->
-<!--        </button>-->
       </td>
     </ng-container>
-
-<!--    <ng-container matColumnDef="profileButton">-->
-<!--      <th mat-header-cell *matHeaderCellDef></th>-->
-<!--      <td class="container-button-edit" mat-cell *matCellDef="let element">-->
-<!--        <button class="primary-button button-action">Profile</button>-->
-<!--      </td>-->
-<!--    </ng-container>-->
-
     <tr mat-header-row *matHeaderRowDef="personsDisplayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: personsDisplayedColumns;"></tr>
   </table>
+
+  <div *ngIf="amountPagesPersons>1" class="center">
+    <div class="pagination">
+      <p *ngIf="currentPageNumberPersons==0">Begin</p>
+      <p *ngIf="currentPageNumberPersons!=0" (click)="beginPageUsers()">&laquo;</p>
+      <p *ngIf="currentPageNumberPersons>=2" (click)="setPageDiffUsers(-2)">{{currentPageNumberPersons-1}}</p>
+      <p *ngIf="currentPageNumberPersons!=0" (click)="setPageDiffUsers(-1)">{{currentPageNumberPersons}}</p>
+      <p class="active">{{currentPageNumberPersons+1}}</p>
+      <p *ngIf="currentPageNumberPersons+1<amountPagesPersons" (click)="setPageDiffUsers(1)">{{currentPageNumberPersons+2}}</p>
+      <p *ngIf="currentPageNumberPersons+2<amountPagesPersons" (click)="setPageDiffUsers(2)">{{currentPageNumberPersons+3}}</p>
+      <p *ngIf="currentPageNumberPersons+1<amountPagesPersons" (click)="endPageUsers()">&raquo;</p>
+      <p *ngIf="currentPageNumberPersons+1==amountPagesPersons">End</p>
+    </div>
+  </div>
 </div>
 
 <div class="main" *ngIf="invites.length>0 && persons.length==0">
@@ -117,15 +118,14 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
         Name
       </th>
-      <td mat-cell class="container-name" *matCellDef="let element"> {{element.name}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
     </ng-container>
 
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef></th>
       <td class="container-message-date" mat-cell *matCellDef="let element; let i = index;">
-        <p>"{{element.message}}"</p>
+        <p>{{handleMessage(element.message)}}</p>
         <p class="container-time">{{getInvitationDate(element.localDateTime)}}</p>
-        <!--        <p>date:{{invites[0].localDateTime.}}</p>-->
       </td>
     </ng-container>
 
@@ -163,6 +163,19 @@
     <tr mat-header-row *matHeaderRowDef="invitationDisplayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: invitationDisplayedColumns;"></tr>
   </table>
+  <div *ngIf="amountPagesInvitation>1" class="center">
+    <div class="pagination">
+      <p *ngIf="currentPageNumberInvitation==0">Begin</p>
+      <p *ngIf="currentPageNumberInvitation!=0" (click)="beginPageInvitations()">&laquo;</p>
+      <p *ngIf="currentPageNumberInvitation>=2" (click)="setPageDiffInvitations(-2)">{{currentPageNumberInvitation-1}}</p>
+      <p *ngIf="currentPageNumberInvitation!=0" (click)="setPageDiffInvitations(-1)">{{currentPageNumberInvitation}}</p>
+      <p class="active">{{currentPageNumberInvitation+1}}</p>
+      <p *ngIf="currentPageNumberInvitation+1<amountPagesInvitation" (click)="setPageDiffInvitations(1)">{{currentPageNumberInvitation+2}}</p>
+      <p *ngIf="currentPageNumberInvitation+2<amountPagesInvitation" (click)="setPageDiffInvitations(2)">{{currentPageNumberInvitation+3}}</p>
+      <p *ngIf="currentPageNumberInvitation+1<amountPagesInvitation" (click)="endPageInvitations()">&raquo;</p>
+      <p *ngIf="currentPageNumberInvitation+1==amountPagesInvitation">End</p>
+    </div>
+  </div>
 </div>
 
 <div *ngIf='persons.length == 0'>
@@ -173,14 +186,14 @@
 
   <div class="main">
     <form [formGroup]="searchFriendsForm" autocomplete="off" novalidate fxLayout="column wrap"
-          (submit)="getFriendsByName(searchFriendsRequest, 0)"
+          (submit)="getFriendsByName(searchFriendsRequest)"
           fxLayoutAlign="center center" fxLayoutGap="10px">
       <mat-card-content>
         <mat-form-field class="search-field">
           <mat-label>Search friends...</mat-label>
           <input matInput [(ngModel)]="searchFriendsRequest" type="text" placeholder="Ex. Mark" formControlName="name"
                  id="name_search_friends" (keypress)="checkValue($event)"
-                 (keyup.enter)="getFriendsByName(searchFriendsRequest, 0)"
+                 (keyup.enter)="getFriendsByName(searchFriendsRequest); initFriendsPagesAmount()"
                  (focusout)="fieldFriendsChanged(searchFriendsRequest, 0)">
           <mat-hint align="end">More than 3 characters and no special characters.</mat-hint>
           <mat-icon matSuffix>supervisor_account</mat-icon>
@@ -234,6 +247,19 @@
       <tr mat-header-row *matHeaderRowDef="friendsDisplayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: friendsDisplayedColumns;"></tr>
     </table>
+  </div>
+  <div *ngIf="amountPagesFriends>1" class="center">
+    <div class="pagination">
+      <p *ngIf="currentPageNumberFriends==0">Begin</p>
+      <p *ngIf="currentPageNumberFriends!=0" (click)="beginPageFriends()">&laquo;</p>
+      <p *ngIf="currentPageNumberFriends>=2" (click)="setPageDiffFriends(-2)">{{currentPageNumberFriends-1}}</p>
+      <p *ngIf="currentPageNumberFriends!=0" (click)="setPageDiffFriends(-1)">{{currentPageNumberFriends}}</p>
+      <p class="active">{{currentPageNumberFriends+1}}</p>
+      <p *ngIf="currentPageNumberFriends+1<amountPagesFriends" (click)="setPageDiffFriends(1)">{{currentPageNumberFriends+2}}</p>
+      <p *ngIf="currentPageNumberFriends+2<amountPagesFriends" (click)="setPageDiffFriends(2)">{{currentPageNumberFriends+3}}</p>
+      <p *ngIf="currentPageNumberFriends+1<amountPagesFriends" (click)="endPageFriends()">&raquo;</p>
+      <p *ngIf="currentPageNumberFriends+1==amountPagesFriends">End</p>
+    </div>
   </div>
 </div>
 

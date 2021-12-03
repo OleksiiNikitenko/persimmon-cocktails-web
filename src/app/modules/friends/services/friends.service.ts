@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {FriendModel} from "../models/friend.model";
@@ -11,17 +11,23 @@ import {FriendModel} from "../models/friend.model";
 
 export class FriendsService {
   private apiServerUrl = environment.apiBaseUrl;
-  private friendsUrl = `${this.apiServerUrl}/person/friends?page=`
   private friendsSearchUrl = `${this.apiServerUrl}/person/friends/`
+  private friendsPagesAmountUrl = `${this.apiServerUrl}/person/friends-pages-number`
 
   constructor(private http: HttpClient) {
   }
 
   getFriends(page: number): Observable<FriendModel[]> {
-    return this.http.get<FriendModel[]>(this.friendsUrl + page);
+    return this.http.get<FriendModel[]>(this.friendsSearchUrl + '?page=' + page);
   }
 
   getFriendsByName(name: string, page: number): Observable<FriendModel[]> {
     return this.http.get<FriendModel[]>(this.friendsSearchUrl + name + '?page=' + page);
+  }
+
+  getPagesAmount(name: string): Observable<number> {
+    if (name == "") {
+      return this.http.get<number>(this.friendsPagesAmountUrl);
+    } else return this.http.get<number>(this.friendsPagesAmountUrl + "/" + name);
   }
 }
