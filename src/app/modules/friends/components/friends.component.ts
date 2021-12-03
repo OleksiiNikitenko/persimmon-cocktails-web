@@ -1,5 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-// import {Moderator} from "../../../../core/models/moderator.model";
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {FriendsService} from "../services/friends.service";
 import {PersonsService} from "../services/persons.service";
@@ -12,13 +11,14 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
 import {DatePipe} from "@angular/common";
 import {MainService} from "../services/main.service";
+import {FoundUsersModel} from "../models/found-users.model";
 
 @Component({
   selector: 'app-friends',
   templateUrl: './friends.component.html',
   styleUrls: ['./friends.component.css', '../../../app.component.css']
 })
-export class FriendsComponent implements OnInit, AfterViewInit {
+export class FriendsComponent implements OnInit{
 
   @ViewChild(MatSort, {static: false}) sort!: MatSort;
 
@@ -30,7 +30,7 @@ export class FriendsComponent implements OnInit, AfterViewInit {
   }
 
   friends: FriendModel[] = [];
-  persons: FriendModel[] = [];
+  persons: FoundUsersModel[] = [];
   invites: InviteFriendModel[] = [];
 
   personsDisplayedColumns: string[] = ['photoId', 'name', 'buttonsBlock'];
@@ -78,9 +78,6 @@ export class FriendsComponent implements OnInit, AfterViewInit {
     this.messageInvitationForm = new FormGroup({
       message: new FormControl('', [Validators.required, Validators.pattern(this.validationMessagePattern)])
     });
-  }
-
-  ngAfterViewInit() {
   }
 
   announceSortChange(sortState: Sort) {
@@ -136,10 +133,11 @@ export class FriendsComponent implements OnInit, AfterViewInit {
     if (this.searchPersonsForm.valid) {
       this.personsService
         .getPersonsByName(name, page)
-        .subscribe((persons: FriendModel[]) => {
+        .subscribe((persons: FoundUsersModel[]) => {
           this.persons = persons;
           this.personsDataSource = new MatTableDataSource(this.persons);
           this.buttonInvitePersonEnabled = Array(persons.length).fill(true);
+          this.actualizeButtonInviteStatus();
           this.fieldInvitationMessageEnabled = Array(persons.length).fill(false);
           this.fieldInvitationMessageText = Array(persons.length).fill('');
         });
@@ -273,5 +271,13 @@ export class FriendsComponent implements OnInit, AfterViewInit {
   beginPageInvitations() {
     this.currentPageNumberInvitation = 0
     this.getInvitations()
+  }
+
+  private actualizeButtonInviteStatus() {
+    for (let i = 0; i < this.persons.length; i++) {
+      if (this.persons[i].isInvited) {
+        this.buttonInvitePersonEnabled[i] = false;
+      }
+    }
   }
 }

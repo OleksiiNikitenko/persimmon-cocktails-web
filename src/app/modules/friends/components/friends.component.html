@@ -49,13 +49,13 @@
                       (click)="sendFriendshipInvitation(persons[i].personId, fieldInvitationMessageText[i]); buttonInvitePersonEnabled[i] = false">
                 Send invite
               </button>
-              <button class="disabled-button" [hidden]="buttonInvitePersonEnabled[i]">Invited</button>
+              <button class="disabled-button expand-button" [hidden]="buttonInvitePersonEnabled[i]">Invited</button>
             </td>
             <td>
               <button class="primary-button button-show-field" [hidden]="!buttonInvitePersonEnabled[i]"
                       (click)="changeMessageFieldVisibility(i); fieldInvitationMessageText[i]=''">ᐯ
               </button>
-              <button class="disabled-button" [hidden]="buttonInvitePersonEnabled[i]">ᐯ</button>
+<!--              <button class="disabled-button" [hidden]="buttonInvitePersonEnabled[i]">ᐯ</button>-->
             </td>
             <td>
               <button class="primary-button button-action">Profile</button>

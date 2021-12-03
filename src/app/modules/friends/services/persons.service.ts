@@ -3,6 +3,7 @@ import {Observable} from 'rxjs';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {FriendModel} from "../models/friend.model";
+import {FoundUsersModel} from "../models/found-users.model";
 
 
 @Injectable({
@@ -17,8 +18,8 @@ export class PersonsService {
   constructor(private http: HttpClient) {
   }
 
-  getPersonsByName(name: string, page: number): Observable<FriendModel[]> {
-    return this.http.get<FriendModel[]>(this.personsSearchUrl + name + '?page=' + page);
+  getPersonsByName(name: string, page: number): Observable<FoundUsersModel[]> {
+    return this.http.get<FoundUsersModel[]>(this.personsSearchUrl + name + '?page=' + page);
   }
 
   getPagesAmount(name: string): Observable<number> {
