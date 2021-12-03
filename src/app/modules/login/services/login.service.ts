@@ -10,15 +10,13 @@ import {AccessUserStorage} from "../../../storage/accessUserStorage";
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService{
+export class LoginService {
   private apiServerUrl = environment.apiBaseUrl;
   private jwtService: JwtService = new JwtService()
   private accessUserStorage: AccessUserStorage = new AccessUserStorage()
 
-
-
-
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient) {
+  }
 
   public login(jsonLog: LoginDto): Promise<Number> {
 
@@ -40,8 +38,5 @@ export class LoginService{
 
       return this.login({email: jsonReg.email, password: jsonReg.password});
     })
-
-
   }
-
 }

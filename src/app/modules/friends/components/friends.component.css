@@ -12,7 +12,6 @@ table {
   margin-right: auto;
   box-shadow: 0 0 0 white;
   background-color: #FFF7F0;
-  /*overflow: scroll;*/
   max-height: 500px;
 }
 
@@ -27,23 +26,45 @@ th.mat-sort-header-sorted {
   border-radius: 50%;
 }
 
-.avatar-friend-container{
+.avatar-friend-container {
   width: 20%;
 }
 
-.avatar-invite-container{
+.avatar-invite-container {
   width: 10%;
 }
 
-.container-button-edit, .container-button-status{
+.container-message-date {
+  width: 35%;
+  text-align: center;
+  padding-top: 7px;
+  padding-right: 15px;
+}
+
+.container-time {
+  text-align: center;
+  color: rgba(78, 89, 83, 0.74);
+  font-size: 0.9em;
+}
+
+.container-button-edit, .container-button-status {
   width: 6%;
+}
+
+.invite-button-reactions {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .button-action {
   margin-right: 5px;
   width: 80px;
-  /*height: 40px;*/
 }
+
+.button-show-field {
+  margin-right: 5px;
+}
+
 .moderator-add {
   display: block;
   padding: 8px 20px !important;
@@ -53,3 +74,9 @@ th.mat-sort-header-sorted {
 .search-field {
   margin: 10px;
 }
+
+.expand-button {
+  margin-right: 4.5em;
+}
+
+

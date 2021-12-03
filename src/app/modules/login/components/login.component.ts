@@ -17,8 +17,7 @@ export class LoginComponent implements OnInit {
   public persons: Person[] | undefined;
   public personId: number | any;
 
-  constructor(private personService: LoginService,  private router: Router,) {
-
+  constructor(private personService: LoginService, private router: Router,) {
   };
 
   public login(): void {
@@ -39,8 +38,8 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  public register(): void
-     {console.log(this.registerForm.value)
+  public register(): void {
+    console.log(this.registerForm.value)
 
     this.personService.register(this.registerForm.value).then(
       (response: Number) => {
@@ -60,7 +59,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = new FormGroup({
       'email': new FormControl(null, [Validators.required,
-                                                           Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$')],
+        Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$')],
       ),
       'password': new FormControl(null,
         [Validators.required,
@@ -68,17 +67,17 @@ export class LoginComponent implements OnInit {
     });
     this.registerForm = new FormGroup({
       'email': new FormControl(null, [Validators.required,
-                                                           Validators.pattern('^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$')],
+        Validators.pattern('^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$')],
       ),
       'password': new FormControl(null,
         [Validators.required,
           Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')]),
       'name': new FormControl(null, [Validators.required,
-                                                          Validators.pattern('^[a-zA-Z0-9 ]{3,255}$')]
+        Validators.pattern('^[a-zA-Z0-9 ]{3,255}$')]
       ),
       'confirm_password': new FormControl(null, [Validators.required,
-          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')]
-        )
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')]
+      )
     });
   }
 }
