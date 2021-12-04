@@ -59,6 +59,7 @@ export const routes = [
     text: 'Login',
     url: '/login',
     isActive: false,
-    canActivate: [Roles.Admin, Roles.User, Roles.Moderator]
+    // canActivate: [Roles.Admin, Roles.User, Roles.Moderator]
+    canActivate: [Roles.Anonymous]
   },
 ]

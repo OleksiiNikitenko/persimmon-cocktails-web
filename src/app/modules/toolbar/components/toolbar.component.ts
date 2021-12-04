@@ -1,16 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {Roles} from "../../../core/models/roles";
-import {user} from "../../../core/models/user";
+import {getUser} from "../../../core/models/user";
 import {routes} from "../../../core/models/routes";
 import {Router} from "@angular/router";
 
+@Injectable({
+  providedIn: "root"
+})
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit {
-  user = user
 
   public menuItems: Array<{
     text: string,
@@ -33,4 +35,7 @@ export class ToolbarComponent implements OnInit {
     })
   }
 
+  getUser() {
+    return getUser()
+  }
 }

@@ -13,7 +13,7 @@ import {IngredientComponent} from './modules/ingredients/components/ingredient.c
 import {KitchenwareComponent} from './modules/kitchenware/components/kitchenware.component';
 import {ModeratorsComponent} from "./modules/moderators/components/moderators.component";
 import {Roles} from "./core/models/roles";
-import {user} from "./core/models/user";
+import {getUser} from "./core/models/user";
 import {AddModeratorComponent} from "./modules/moderators/components/add-moderator/add-moderator.component";
 import {ModeratorsMainComponent} from "./modules/moderators/components/moderators-main/moderators-main.component";
 import {IngredientMainComponent} from './modules/ingredients/components/ingredient-main/ingredient-main.component';
@@ -71,7 +71,7 @@ const routes: Routes = [
 export class AppRoutingModule { }
 
 function getBaseUrl() {
-  switch (user.role) {
+  switch (getUser().role) {
     case Roles.Admin:
     case Roles.Moderator:
       return 'account'

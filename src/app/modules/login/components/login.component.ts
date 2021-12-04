@@ -4,6 +4,7 @@ import {Person} from "../model/person";
 import {LoginService} from "../services/login.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
+import {ToolbarComponent} from "../../toolbar/components/toolbar.component";
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   public persons: Person[] | undefined;
   public personId: number | any;
 
-  constructor(private personService: LoginService, private router: Router,) {
+  constructor(private personService: LoginService, private router: Router, private toolbarComponent : ToolbarComponent) {
   };
 
   public login(): void {
@@ -29,7 +30,8 @@ export class LoginComponent implements OnInit {
         console.log(response);
         this.loginForm.reset();
         // this.router.navigateByUrl('/');
-        this.router.navigate(['/blog']);
+        this.toolbarComponent.navigateHandler('/cocktails');
+        this.router.navigate(['/cocktails'])
 
       },
       (error: HttpErrorResponse) => {
@@ -47,6 +49,8 @@ export class LoginComponent implements OnInit {
         // console.log(response);
         // console.log(this.registerForm.value)
         this.registerForm.reset();
+        this.toolbarComponent.navigateHandler('/cocktails');
+        this.router.navigate(['/cocktails'])
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
