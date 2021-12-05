@@ -6,10 +6,11 @@ import {MatTableDataSource} from "@angular/material/table";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {columnsToSortBy, Query} from "../models/query";
 
+
 @Component({
   selector: 'app-cocktails',
   templateUrl: './cocktails.component.html',
-  styleUrls: ['./cocktails.component.css']
+  styleUrls: ['./cocktails.component.css', '../../../app.component.css']
 })
 export class CocktailsComponent implements OnInit {
   private validationQueryStringPattern: RegExp = /^(?:[a-zA-Z0-9 -]{2,255})$/;

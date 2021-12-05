@@ -42,3 +42,18 @@
   display: flex;
   flex-direction: column;
 }
+
+.search-submit-button{
+  height: 2em;
+}
+
+.search-query-input-and-button{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.5em;
+}
+
+.search-query-input{
+  padding-bottom: 1em;
+}

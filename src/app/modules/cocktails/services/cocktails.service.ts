@@ -11,7 +11,7 @@ import {tap} from "rxjs/operators";
 })
 export class CocktailsService {
   private apiServerUrl = environment.apiBaseUrl;
-  private apiSearchBaseUrl = `${this.apiServerUrl}/cocktail/search`
+  private apiSearchBaseUrl = `${this.apiServerUrl}/cocktail/active/search`
 
   constructor(private http: HttpClient) { }
 
@@ -23,7 +23,7 @@ export class CocktailsService {
 
   searchQuery(query : Query) : HttpParams {
     let params = new HttpParams()
-    if(query.query != null){
+    if(query.query != null && query.query.length>=2){
       params = params.set("search", query.query)
     }
     if(query.sortByColumn != "nothing"){
