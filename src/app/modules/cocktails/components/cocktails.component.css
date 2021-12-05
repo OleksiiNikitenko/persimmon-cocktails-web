@@ -5,3 +5,25 @@
 .search-form{
   padding: 10px;
 }
+
+.found-list-table{
+  width: 100%;
+}
+
+/*.found-list-name{*/
+/*  width: 20%;*/
+/*}*/
+
+/*.found-list-description{*/
+/*  width: 30%;*/
+/*}*/
+
+.cocktail-small-photo{
+  width: 100%;
+
+}
+
+.cocktail-small-photo-container{
+  max-width: 20vw;
+  max-height: 40vh;
+}

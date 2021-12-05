@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {environment} from "../../../../environments/environment";
 import {CocktailBasicInfo} from "../models/cocktails-basic-info";
 import {DataSource} from "@angular/cdk/collections";
 import {CocktailsService} from "../services/cocktails.service";
@@ -19,8 +18,11 @@ export class CocktailsComponent implements OnInit {
   cocktailsDataSource : any
   currentQueryString: string = ''
   private currentPage: number = 0;
-  cocktailsDisplayedColumns: string[] = ["name", "description"];
+  cocktailsDisplayedColumns: string[] = ["name", "photoUrl", "receipt",
+    // "description", "dishType", "dishCategoryName", "labels", "likes", "isActive"
+  ];
   searchCocktailsForm: FormGroup | any;
+  defaultPhotoUrl: string = "https://www.yahire.com/blogs/wp-content/uploads/2017/04/summer-cocktails.jpg"
 
 
   ngOnInit(): void {

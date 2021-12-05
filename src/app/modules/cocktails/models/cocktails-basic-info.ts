@@ -5,8 +5,9 @@ export interface CocktailBasicInfo {
   dishType: string | null,
   dishCategoryName: string | null,
   dishCategoryId: number | null,
-  labels: Array<string>,
+  labels: string[],
   receipt: string,
   likes: number,
-  isActive: boolean
+  isActive: boolean,
+  photoUrl: string | null
 }
