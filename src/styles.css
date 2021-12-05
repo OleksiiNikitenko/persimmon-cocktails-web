@@ -2,3 +2,21 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/*.mat-dialog-container {*/
+/*  padding: 0 !important;*/
+/*}*/
+
+
+mat-dialog-container, .mat-dialog-container {
+  /*background-color: red;*/
+  /*padding: 0;*/
+  background-color: rgb(40,45,39);
+
+}
+
+
+
+.mat-tab-label-content{
+  color: #FFF7F0;
+}

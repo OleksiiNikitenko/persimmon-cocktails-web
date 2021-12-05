@@ -10,6 +10,10 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from "@angular/material/button";
 import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatDialog} from '@angular/material/dialog';
+
+
 
 import { LoginComponent } from './modules/login/components/login.component';
 
@@ -45,6 +49,9 @@ import {KitchenwareMainComponent} from './modules/kitchenware/components/kitchen
 import {AddKitchenwareComponent} from './modules/kitchenware/components/add-kitchenware/add-kitchenware.component';
 import {EditKitchenwareComponent} from './modules/kitchenware/components/edit-kitchenware/edit-kitchenware.component';
 import {Interceptor} from "./utils/interceptor";
+import {LogoutComponent} from './modules/logout/logout.component';
+import { ChangePasswordComponent } from './modules/change-password/change-password.component';
+
 
 @NgModule({
   declarations: [
@@ -71,7 +78,9 @@ import {Interceptor} from "./utils/interceptor";
     EditIngredientComponent,
     AddKitchenwareComponent,
     KitchenwareMainComponent,
-    EditKitchenwareComponent
+    EditKitchenwareComponent,
+    LogoutComponent,
+    ChangePasswordComponent
   ],
   imports: [
     HttpClientModule,
@@ -87,9 +96,11 @@ import {Interceptor} from "./utils/interceptor";
     MatTableModule,
     MatSortModule,
     ReactiveFormsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatDialogModule
   ],
   providers: [FormBuilder,
+    RecoverPasswordComponent,
     {
     provide: HTTP_INTERCEPTORS,
     useClass: Interceptor,

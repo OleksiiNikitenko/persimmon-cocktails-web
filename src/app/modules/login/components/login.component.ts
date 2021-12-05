@@ -4,11 +4,14 @@ import {Person} from "../model/person";
 import {LoginService} from "../services/login.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {RecoverPasswordComponent} from "../../recover-password/components/recover-password.component";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [RecoverPasswordComponent]
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup | any;
@@ -17,7 +20,7 @@ export class LoginComponent implements OnInit {
   public persons: Person[] | undefined;
   public personId: number | any;
 
-  constructor(private personService: LoginService,  private router: Router,) {
+  constructor(private personService: LoginService,  private router: Router, public dialog: MatDialog, public dialogConfPass: RecoverPasswordComponent) {
 
   };
 
@@ -29,7 +32,6 @@ export class LoginComponent implements OnInit {
         this.personId = response;
         console.log(response);
         this.loginForm.reset();
-        // this.router.navigateByUrl('/');
         this.router.navigate(['/blog']);
 
       },
@@ -81,5 +83,11 @@ export class LoginComponent implements OnInit {
         )
     });
   }
+
+  openDialog() {
+    this.dialog.open(LoginComponent, {panelClass: "notSoBad"});
+  }
+
+
 }
 
