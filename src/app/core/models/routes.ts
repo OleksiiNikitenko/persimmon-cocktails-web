@@ -5,7 +5,7 @@ export const routes = [
     text: 'My account',
     url: '/account',
     isActive: true,
-    canActivate: [Roles.Admin, Roles.Moderator]
+    canActivate: [Roles.Admin, Roles.Moderator, Roles.User]
   },
   {
     text: 'Moderators',
@@ -17,13 +17,13 @@ export const routes = [
     text: 'My blog',
     url: '/blog',
     isActive: true,
-    canActivate: [Roles.User]
+    canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
   },
   {
     text: 'Friends',
     url: '/friends',
     isActive: false,
-    canActivate: [Roles.User]
+    canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
   },
   {
     text: 'My ingredients',
@@ -41,7 +41,7 @@ export const routes = [
     text: 'Events',
     url: '/events',
     isActive: false,
-    canActivate: [ Roles.User, Roles.Moderator]
+    canActivate: [ Roles.User, Roles.Moderator, Roles.Admin]
   },
   {
     text: 'Cocktails',
@@ -55,11 +55,11 @@ export const routes = [
     isActive: false,
     canActivate: [Roles.Admin, Roles.User, Roles.Moderator]
   },
-  {
-    text: 'Login',
-    url: '/login',
-    isActive: false,
-    // canActivate: [Roles.Admin, Roles.User, Roles.Moderator]
-    canActivate: [Roles.Anonymous]
-  },
+  // {
+  //   text: 'Login',
+  //   url: '/login',
+  //   isActive: false,
+  //   // canActivate: [Roles.Admin, Roles.User, Roles.Moderator]
+  //   canActivate: [Roles.Anonymous]
+  // },
 ]

@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
         this.personId = response;
         console.log(response);
         this.loginForm.reset();
+        this.dialog.closeAll()
         this.toolbarComponent.navigateHandler('/cocktails');
         this.router.navigate(['/cocktails'])
 
