@@ -1,7 +1,7 @@
 import jwt_decode from 'jwt-decode';
 import {AccessUser} from "./modules/login/model/auth/access_user";
-import {ROLE} from "./modules/login/model/auth/role";
 import {Authority, JwtPayload} from "./modules/login/model/auth/jwtPayload";
+import {Roles} from "./core/models/roles";
 
 
 export class JwtService{
@@ -22,11 +22,11 @@ export class JwtService{
     };
   }
 
-  recogniseRole(array: Array<Authority>): ROLE  {
+  recogniseRole(array: Array<Authority>): Roles  {
     for (const authority of array) {
-      if (authority.authority == "ROLE_CLIENT") return ROLE.Authorised
-      if (authority.authority == "ROLE_MODERATOR") return ROLE.Moderator
-      if (authority.authority == "ROLE_ADMIN") return ROLE.Admin
+      if (authority.authority == "ROLE_CLIENT") return Roles.User
+      if (authority.authority == "ROLE_MODERATOR") return Roles.Moderator
+      if (authority.authority == "ROLE_ADMIN") return Roles.Admin
     }
     throw "role is not valid"
   }

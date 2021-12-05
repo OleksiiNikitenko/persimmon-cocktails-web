@@ -6,6 +6,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {RecoverPasswordComponent} from "../../recover-password/components/recover-password.component";
+import {ToolbarComponent} from "../../toolbar/components/toolbar.component";
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,9 @@ export class LoginComponent implements OnInit {
   public persons: Person[] | undefined;
   public personId: number | any;
 
-  constructor(private personService: LoginService,  private router: Router, public dialog: MatDialog, public dialogConfPass: RecoverPasswordComponent) {
+  constructor(private personService: LoginService,  private router: Router, public dialog: MatDialog,
+              public dialogConfPass: RecoverPasswordComponent,
+              private toolbarComponent : ToolbarComponent) {
 
   };
 
@@ -32,7 +35,8 @@ export class LoginComponent implements OnInit {
         this.personId = response;
         console.log(response);
         this.loginForm.reset();
-        this.router.navigate(['/blog']);
+        this.toolbarComponent.navigateHandler('/cocktails');
+        this.router.navigate(['/cocktails'])
 
       },
       (error: HttpErrorResponse) => {
@@ -50,6 +54,8 @@ export class LoginComponent implements OnInit {
         // console.log(response);
         // console.log(this.registerForm.value)
         this.registerForm.reset();
+        this.toolbarComponent.navigateHandler('/cocktails');
+        this.router.navigate(['/cocktails'])
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

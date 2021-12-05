@@ -1,8 +1,7 @@
-export class InviteFriendModel {
+export class FoundUsersModel {
   personId!: number;
   name!: string;
-  message!: string;
   photoId!: number;
   blogId!: number;
-  localDateTime!: Date;
+  isInvited!: boolean;
 }

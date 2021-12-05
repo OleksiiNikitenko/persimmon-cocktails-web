@@ -11,15 +11,12 @@ import {MatButtonModule} from "@angular/material/button";
 import {FormBuilder, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 import {MatDialogModule} from "@angular/material/dialog";
-import {MatDialog} from '@angular/material/dialog';
-
 
 
 import { LoginComponent } from './modules/login/components/login.component';
 
 import { RecoverPasswordComponent } from './modules/recover-password/components/recover-password.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {LoginService} from "./modules/login/services/login.service";
 
 
 
@@ -49,6 +46,7 @@ import {KitchenwareMainComponent} from './modules/kitchenware/components/kitchen
 import {AddKitchenwareComponent} from './modules/kitchenware/components/add-kitchenware/add-kitchenware.component';
 import {EditKitchenwareComponent} from './modules/kitchenware/components/edit-kitchenware/edit-kitchenware.component';
 import {Interceptor} from "./utils/interceptor";
+import {MatRadioModule} from "@angular/material/radio";
 import {LogoutComponent} from './modules/logout/logout.component';
 import { ChangePasswordComponent } from './modules/change-password/change-password.component';
 
@@ -97,15 +95,17 @@ import { ChangePasswordComponent } from './modules/change-password/change-passwo
     MatSortModule,
     ReactiveFormsModule,
     MatPaginatorModule,
-    MatDialogModule
+    MatDialogModule,
+    MatPaginatorModule,
+    MatRadioModule
   ],
   providers: [FormBuilder,
     RecoverPasswordComponent,
     {
-    provide: HTTP_INTERCEPTORS,
-    useClass: Interceptor,
-    multi: true
-  }],
+      provide: HTTP_INTERCEPTORS,
+      useClass: Interceptor,
+      multi: true
+    }],
 
   bootstrap: [AppComponent]
 })

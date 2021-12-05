@@ -5,9 +5,6 @@
   <div class="header__nav__bar">
     <div class="header__burger"></div>
     <div>
-<!--      <button  class="header__sign__in" type="button" routerLink="/login">Sign in</button>-->
-<!--      <button class="header__sign__up" type="button">Sign up</button>-->
-
       <button class="header__sign__in" type="button" (click)="dialogAuth.openDialog()">Auth</button>
       <button class="header__sign__up" type="button" (click)="dialogLogOut.openDialog()">Log out</button>
     </div>
