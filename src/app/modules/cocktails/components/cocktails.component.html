@@ -1,1 +1,33 @@
-<p>cocktails works!</p>
+<div>
+  <form [formGroup]="searchCocktailsForm" autocomplete="off" class="search-form"
+        (submit)="getCocktails(currentQueryString)">
+    <mat-card-content>
+      <mat-form-field class="search-field">
+        <mat-label>Search cocktails</mat-label>
+        <input matInput [(ngModel)]="currentQueryString" type="text" placeholder="Ex. Mark" formControlName="name"
+               id="cocktails_search_name" (keypress)="checkValue($event)"
+               (keyup)="fieldCocktailsChanged(currentQueryString)">
+        <mat-hint align="end">More than 2 characters, space and hyphen are available.</mat-hint>
+<!--        <mat-icon matSuffix>supervisor_account</mat-icon>-->
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+    </mat-card-actions>
+    <small
+      *ngIf="searchCocktailsForm.get('name').invalid && searchCocktailsForm.get('name').touched  && searchCocktailsForm != ''"
+      class="text-danger">Incorrect format</small>
+  </form>
+
+  <table mat-table [dataSource]="cocktailsDataSource">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let cocktail"> {{cocktail.name}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+      <mat-cell *matCellDef="let cocktail"> {{cocktail.description}} </mat-cell>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="cocktailsDisplayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: cocktailsDisplayedColumns;"></tr>
+  </table>
+</div>
