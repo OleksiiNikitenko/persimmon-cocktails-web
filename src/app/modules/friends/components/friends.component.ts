@@ -20,8 +20,6 @@ import {FoundUsersModel} from "../models/found-users.model";
 })
 export class FriendsComponent implements OnInit{
 
-  @ViewChild(MatSort, {static: false}) sort!: MatSort;
-
   constructor(private _liveAnnouncer: LiveAnnouncer,
               private friendsService: FriendsService,
               private personsService: PersonsService,
@@ -80,21 +78,13 @@ export class FriendsComponent implements OnInit{
     });
   }
 
-  announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
-
   getFriends(page: number): void {
     this.friendsService
       .getFriends(page)
       .subscribe((friends: FriendModel[]) => {
         this.friends = friends;
         this.friendsDataSource = new MatTableDataSource(this.friends);
-        this.friendsDataSource.sort = this.sort;
+        // this.friendsDataSource.sort = this.sort;
         this.initFriendsPagesAmount();
       });
   }
@@ -107,7 +97,7 @@ export class FriendsComponent implements OnInit{
         .subscribe((friends: FriendModel[]) => {
           this.friends = friends;
           this.friendsDataSource = new MatTableDataSource(this.friends);
-          this.friendsDataSource.sort = this.sort;
+          // this.friendsDataSource.sort = this.sort;
         });
     } else if (name == "") {
       this.getFriends(page)
@@ -121,7 +111,7 @@ export class FriendsComponent implements OnInit{
       .subscribe((invites: InviteFriendModel[]) => {
         this.invites = invites;
         this.invitationDataSource = new MatTableDataSource(this.invites);
-        this.invitationDataSource.sort = this.sort;
+        // this.invitationDataSource.sort = this.sort;
         this.buttonAcceptInvitationEnabled = Array(invites.length).fill(true);
         this.buttonDeclineInvitationEnabled = Array(invites.length).fill(true);
         this.initInvitationsPagesAmount();
