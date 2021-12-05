@@ -1,8 +1,8 @@
-import {ROLE} from "./role";
+import {Roles} from "../../../../core/models/roles";
 
 export interface AccessUser {
   id: number,
-  role: ROLE,
+  role: Roles,
   token: string
 }
 
