@@ -4,12 +4,15 @@ import {Person} from "../model/person";
 import {LoginService} from "../services/login.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {RecoverPasswordComponent} from "../../recover-password/components/recover-password.component";
 import {ToolbarComponent} from "../../toolbar/components/toolbar.component";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [RecoverPasswordComponent]
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup | any;
@@ -18,7 +21,10 @@ export class LoginComponent implements OnInit {
   public persons: Person[] | undefined;
   public personId: number | any;
 
-  constructor(private personService: LoginService, private router: Router, private toolbarComponent : ToolbarComponent) {
+  constructor(private personService: LoginService,  private router: Router, public dialog: MatDialog,
+              public dialogConfPass: RecoverPasswordComponent,
+              private toolbarComponent : ToolbarComponent) {
+
   };
 
   public login(): void {
@@ -29,7 +35,7 @@ export class LoginComponent implements OnInit {
         this.personId = response;
         console.log(response);
         this.loginForm.reset();
-        // this.router.navigateByUrl('/');
+        this.dialog.closeAll()
         this.toolbarComponent.navigateHandler('/cocktails');
         this.router.navigate(['/cocktails'])
 
@@ -40,8 +46,8 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  public register(): void {
-    console.log(this.registerForm.value)
+  public register(): void
+     {console.log(this.registerForm.value)
 
     this.personService.register(this.registerForm.value).then(
       (response: Number) => {
@@ -63,7 +69,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = new FormGroup({
       'email': new FormControl(null, [Validators.required,
-        Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$')],
+                                                           Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$')],
       ),
       'password': new FormControl(null,
         [Validators.required,
@@ -71,18 +77,24 @@ export class LoginComponent implements OnInit {
     });
     this.registerForm = new FormGroup({
       'email': new FormControl(null, [Validators.required,
-        Validators.pattern('^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$')],
+                                                           Validators.pattern('^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$')],
       ),
       'password': new FormControl(null,
         [Validators.required,
           Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')]),
       'name': new FormControl(null, [Validators.required,
-        Validators.pattern('^[a-zA-Z0-9 ]{3,255}$')]
+                                                          Validators.pattern('^[a-zA-Z0-9 ]{3,255}$')]
       ),
       'confirm_password': new FormControl(null, [Validators.required,
-        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')]
-      )
+          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')]
+        )
     });
   }
+
+  openDialog() {
+    this.dialog.open(LoginComponent, {panelClass: "notSoBad"});
+  }
+
+
 }
 

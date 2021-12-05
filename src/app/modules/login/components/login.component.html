@@ -1,22 +1,22 @@
 
 <div class="center-content">
 
-  <mat-card class="example-card">
+  <div class="example-card">
     <mat-card-header>
 
       <mat-card-title>Persimmon Cocktails</mat-card-title>
-      <mat-card-subtitle>Login|Register</mat-card-subtitle>
+<!--      <mat-card-subtitle>Login|Register</mat-card-subtitle>-->
     </mat-card-header>
 
 
     <mat-card-content>
       <mat-tab-group>
         <form [formGroup]="loginForm">
-          <mat-tab label="Login">
+          <mat-tab class="mat-tab-label" label="Login">
 
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Email</mat-label>
-              <input formControlName="email" type="email" matInput placeholder="Email" value=""/>
+              <input class="field" formControlName="email" type="email" matInput placeholder="Email" value=""/>
               <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
 
@@ -31,6 +31,8 @@
 
             <small *ngIf="loginForm.get('password').invalid && loginForm.get('password').touched" class="text-danger">
               Password is Required(eXamp1ePaSSw0r4)</small>
+
+            <p (click)="dialogConfPass.openDialog()" class="forgot-pass" >Forgot password?</p>
 
             <button [disabled]="loginForm.invalid" mat-button color="primary" (click)="login()">Login</button>
 
@@ -78,7 +80,7 @@
             <small *ngIf="(registerForm.get('confirm_password') == registerForm.get('confirm_password')) && registerForm.get('confirm_password').invalid && registerForm.get('confirm_password').touched"
                    class="text-danger"> Password must match</small>
 
-            <button [disabled]="registerForm.invalid" mat-button color="primary" (click)="register()">Register</button>
+            <button [disabled]="registerForm.invalid"  mat-button color="primary" (click)="register()">Register</button>
           </mat-tab>
         </form>
       </mat-tab-group>
@@ -90,7 +92,7 @@
 
     </mat-card-actions>
 
-  </mat-card>
+  </div>
 
 </div>
 

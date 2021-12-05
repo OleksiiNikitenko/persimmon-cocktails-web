@@ -7,6 +7,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 25px;
+
 }
 
 .mat-card-subtitle {
@@ -20,8 +22,10 @@
 }
 
 .center-content {
-  margin-top: 50px;
+  /*margin-top: 50px;*/
   text-align: -webkit-center;
+
+
 }
 
 .example-form {
@@ -34,13 +38,43 @@
 .example-full-width {
   margin-top: 10px;
   width: 100%;
-  color: #4E5953;
+  color: #FFF7F0;
+
 }
 
 .mat-button {
   margin-top: 10px;
   width: 100%;
-  color: white;
   height: 40px;
+  color: #FFF7F0;
   background-color: #4E5953;
+  /*background-color: red;*/
+}
+
+.text-danger{
+  color: red;
+  background-color: #FFF7F0;
+  border-radius: 5px;
+  max-width: 100px;
+  padding: 0.5em 5em;
+}
+
+
+.field{
+  color: #FFF7F0;
+
+}
+
+.mat-tab-label-content{
+  color: #FFF7F0;
+}
+
+
+.forgot-pass{
+  color: #FFF7F0;
+  margin-top: 1em;
+}
+
+.forgot-pass:hover{
+  color: lightskyblue;
 }

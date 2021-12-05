@@ -5,7 +5,8 @@
   <div class="header__nav__bar">
     <div class="header__burger"></div>
     <div>
-      <button  class="primary-button" type="button" routerLink="/login">Auth</button>
+      <button *ngIf="isNotAuthenticated()" class="header__sign__in secondary-button" type="button" (click)="dialogAuth.openDialog()">Auth</button>
+      <button *ngIf="!isNotAuthenticated()" class="header__sign__up secondary-button" type="button" (click)="dialogLogOut.openDialog()">Log out</button>
     </div>
   </div>
 </div>
