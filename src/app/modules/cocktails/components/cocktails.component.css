@@ -27,3 +27,18 @@
   max-width: 20vw;
   max-height: 40vh;
 }
+
+.mat-card-content{
+  display: flex;
+  flex-direction: row;
+}
+
+.sort-by-div{
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-radio-group{
+  display: flex;
+  flex-direction: column;
+}

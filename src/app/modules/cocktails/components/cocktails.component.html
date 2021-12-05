@@ -1,16 +1,28 @@
 <div>
   <form [formGroup]="searchCocktailsForm" autocomplete="off" class="search-form"
-        (submit)="getCocktails(currentQueryString)">
+        (submit)="getCocktails()">
     <mat-card-content>
       <mat-form-field class="search-field">
         <mat-label>Search cocktails</mat-label>
-        <input matInput [(ngModel)]="currentQueryString" type="text" placeholder="Cocktail name" formControlName="name"
+        <input matInput [(ngModel)]="currentQuery.query" type="text" placeholder="Cocktail name" formControlName="name"
                id="cocktails_search_name" (keypress)="checkValue($event)"
-               (keyup)="fieldCocktailsChanged(currentQueryString)">
+               (keyup)="fieldCocktailsChanged(currentQuery.query)">
         <mat-hint align="end">More than 2 characters, space and hyphen are available.</mat-hint>
         <!--        <mat-icon matSuffix>supervisor_account</mat-icon>-->
       </mat-form-field>
-      <button mat-button type="submit" value="submit" [disabled]="!searchCocktailsForm.valid" >Search</button>
+      <div class="search-field sort-by-div">
+        <label id="sort-by-radio-group-label">Choose the column to sort by</label>
+        <mat-radio-group
+          formControlName="sortColumn"
+          aria-labelledby="sort-by-radio-group-label"
+          class="sort-by-radio-group"
+          [(ngModel)]="currentQuery.sortByColumn">
+          <mat-radio-button class="sort-by-radio-button" *ngFor="let sortColumn of sortColumns" [value]="sortColumn">
+            {{sortColumn}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <button mat-stroked-button type="submit" value="submit" [disabled]="!searchCocktailsForm.valid" >Search</button>
     </mat-card-content>
     <mat-card-actions>
     </mat-card-actions>

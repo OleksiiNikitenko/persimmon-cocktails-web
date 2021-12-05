@@ -44,6 +44,7 @@ import {AddKitchenwareComponent} from './modules/kitchenware/components/add-kitc
 import {EditKitchenwareComponent} from './modules/kitchenware/components/edit-kitchenware/edit-kitchenware.component';
 import {Interceptor} from "./utils/interceptor";
 import { CocktailsTableComponent } from './modules/cocktails/cocktails-table/cocktails-table.component';
+import {MatRadioModule} from "@angular/material/radio";
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { CocktailsTableComponent } from './modules/cocktails/cocktails-table/coc
     MatTableModule,
     MatSortModule,
     ReactiveFormsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatRadioModule
   ],
   providers: [FormBuilder,
     {

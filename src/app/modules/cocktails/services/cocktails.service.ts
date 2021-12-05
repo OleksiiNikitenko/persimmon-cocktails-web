@@ -26,6 +26,9 @@ export class CocktailsService {
     if(query.query != null){
       params = params.set("search", query.query)
     }
+    if(query.sortByColumn != "nothing"){
+      params = params.set("sort-by", query.sortByColumn)
+    }
     params = params.set("page", query.page)
     return params
   }
