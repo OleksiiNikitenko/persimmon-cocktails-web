@@ -60,6 +60,8 @@ export class FriendsComponent implements OnInit{
   amountPagesFriends: number = 0;
   amountPagesInvitation: number = 0;
 
+  personsWasSearched: boolean = false;
+
   validationNamePattern: RegExp = /^(|[a-zA-Z0-9 ]{3,255})$/
   validationMessagePattern: RegExp = /^.{,100}$/
 
@@ -183,7 +185,8 @@ export class FriendsComponent implements OnInit{
       });
   }
 
-  getInvitationDate(dateTime: Date) {
+  getInvitationDate(dateTime: Date): any {
+    if (dateTime == null) return 'Date not specified'
     dateTime = new Date(dateTime)
     const datePipe: DatePipe = new DatePipe('en-US')
     if (this.mainService.getDifferenceInDays(dateTime) < 1) {

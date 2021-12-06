@@ -6,8 +6,8 @@
       <mat-label>Search users...</mat-label>
       <input matInput [(ngModel)]="searchPersonsRequest" type="text" placeholder="Ex. Mark" formControlName="name"
              id="name_search_person" (keypress)="checkValue($event)"
-             (keyup.enter)="getPersonsByName(searchPersonsRequest); initPersonsPagesAmount()"
-             (keyup)="fieldPersonsChanged(searchPersonsRequest)">
+             (keyup)="fieldPersonsChanged(searchPersonsRequest); personsWasSearched=false"
+             (keyup.enter)="getPersonsByName(searchPersonsRequest); initPersonsPagesAmount(); personsWasSearched=true">
       <mat-hint align="end">More than 3 characters and no special characters.</mat-hint>
       <mat-icon matSuffix>supervisor_account</mat-icon>
     </mat-form-field>
@@ -18,7 +18,7 @@
     *ngIf="searchPersonsForm.get('name').invalid && searchPersonsForm.get('name').touched  && searchPersonsRequest != ''"
     class="text-danger">Incorrect name format</small>
 </form>
-<div class="main" *ngIf="persons.length==0">
+<div class="main" *ngIf="persons.length==0 && searchPersonsRequest.length>=3 && personsWasSearched">
   <h2>Users not found users</h2>
 </div>
 <div class="main" *ngIf="persons.length!=0">
