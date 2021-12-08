@@ -14,10 +14,10 @@ import {columnsToSortBy, Query} from "../models/query";
 })
 export class CocktailsComponent implements OnInit {
   private validationQueryStringPattern: RegExp = /^(?:[a-zA-Z0-9 -]{2,255})$/;
-  public currentQuery: Query = {query: null, page: 0, sortByColumn: columnsToSortBy[0]}
 
   constructor(private cocktailsService : CocktailsService) { }
 
+  public currentQuery: Query = {query: null, page: 0, sortByColumn: columnsToSortBy[0], sortDirection: true}
   cocktails : CocktailBasicInfo[] = []
   cocktailsDataSource : any;
   cocktailsDisplayedColumns: string[] = ["name", "photoUrl", "receipt",
@@ -31,7 +31,8 @@ export class CocktailsComponent implements OnInit {
   ngOnInit(): void {
     this.searchCocktailsForm = new FormGroup({
       name: new FormControl(''),
-      sortColumn: new FormControl(columnsToSortBy)
+      sortColumn: new FormControl(columnsToSortBy),
+      sortDirection: new FormControl(true)
     });
     this.getCocktails()
   }
@@ -45,16 +46,8 @@ export class CocktailsComponent implements OnInit {
       })
   }
 
-  // private getQuery() {
-  //   if()
-  // }
-
   checkValue(event: KeyboardEvent) {
     return event.code.match(/^[a-zA-Z0-9 -]*$/) ?
       event.code : event.preventDefault();
-  }
-
-  fieldCocktailsChanged(currentQueryString: string | null) {
-
   }
 }
