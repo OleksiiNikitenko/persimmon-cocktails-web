@@ -49,6 +49,7 @@ import {Interceptor} from "./utils/interceptor";
 import {MatRadioModule} from "@angular/material/radio";
 import {LogoutComponent} from './modules/logout/logout.component';
 import { ChangePasswordComponent } from './modules/change-password/componets/change-password.component';
+import { RecoverPasswordReceiveComponent } from './modules/recover-password-receive/components/recover-password-receive.component';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import { ChangePasswordComponent } from './modules/change-password/componets/cha
     KitchenwareMainComponent,
     EditKitchenwareComponent,
     LogoutComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    RecoverPasswordReceiveComponent
   ],
   imports: [
     HttpClientModule,
