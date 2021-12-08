@@ -19,19 +19,29 @@ th.mat-sort-header-sorted {
   color: black;
 }
 
-.avatar {
+.avatar, .avatar-second {
+  object-fit: cover;
   padding-top: 5%;
-  width: 90%;
-  height: 90%;
+  /*width: 90%;*/
+  /*height: 90%;*/
+  width: 8em;
+  height: 8em;
   border-radius: 50%;
 }
 
-.avatar-friend-container {
-  width: 20%;
+.avatar-second {
+  width: 4em;
+  height: 4em;
 }
 
-.avatar-invite-container {
+.avatar-primary-container {
+  width: 20%;
+  padding-right: 1em;
+}
+
+.avatar-secondary-container {
   width: 10%;
+  padding-right: 1em;
 }
 
 .container-message-date {
