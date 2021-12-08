@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
+import {Person} from "../../login/model/person";
+import {HttpErrorResponse} from "@angular/common/http";
+import {ChangePasswordService} from "../services/change-password.service";
 
 @Component({
   selector: 'app-change-password',
@@ -10,18 +13,21 @@ import {MatDialog} from "@angular/material/dialog";
 export class ChangePasswordComponent implements OnInit {
 
   changePasswordForm: FormGroup | any;
+  public personId: Person | undefined;
 
-  constructor(public dialog: MatDialog) {
+
+
+  constructor(public dialog: MatDialog, private changePasswordService: ChangePasswordService) {
   }
 
   ngOnInit(): void {
     this.changePasswordForm = new FormGroup({
-        'old_password': new FormControl(null,
+        'oldPassword': new FormControl(null,
           [Validators.required]),
-        'new_password': new FormControl(null,
+        'newPassword': new FormControl(null,
           [Validators.required,
             Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')]),
-        'confirm_password': new FormControl(null, [Validators.required,
+        'confirmPassword': new FormControl(null, [Validators.required,
           Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$')]
         )
       },
@@ -30,7 +36,17 @@ export class ChangePasswordComponent implements OnInit {
 
 
   changePassword() {
-
+    this.changePasswordService.changePassword({newPassword: this.changePasswordForm.value.newPassword,
+      oldPassword: this.changePasswordForm.value.oldPassword}).subscribe(
+      (response: Person) => {
+        this.personId = response;
+        console.log(response);
+        this.changePasswordForm.reset();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
   }
 
   openDialog() {

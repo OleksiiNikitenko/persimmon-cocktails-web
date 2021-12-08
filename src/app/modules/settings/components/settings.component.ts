@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ADMIN} from "../../../core/models/admin";
-import {ChangePasswordComponent} from "../../change-password/change-password.component";
+import {ChangePasswordComponent} from "../../change-password/componets/change-password.component";
 
 @Component({
   selector: 'app-settings',

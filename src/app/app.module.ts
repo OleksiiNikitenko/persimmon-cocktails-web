@@ -48,7 +48,7 @@ import {EditKitchenwareComponent} from './modules/kitchenware/components/edit-ki
 import {Interceptor} from "./utils/interceptor";
 import {MatRadioModule} from "@angular/material/radio";
 import {LogoutComponent} from './modules/logout/logout.component';
-import { ChangePasswordComponent } from './modules/change-password/change-password.component';
+import { ChangePasswordComponent } from './modules/change-password/componets/change-password.component';
 
 
 @NgModule({
