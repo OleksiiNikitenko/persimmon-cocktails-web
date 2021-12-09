@@ -1,6 +1,7 @@
 import {Roles} from "./roles";
 import {AccessUserStorage} from "../../storage/accessUserStorage";
-//удалить и нормально подгружать текущую роль
+import {JwtService} from "../../jwt.service";
+
 const accessUserStorage: AccessUserStorage = new AccessUserStorage();
 export const getUser = () : HasRole => {
   let res : HasRole = {
@@ -13,10 +14,14 @@ export const getUser = () : HasRole => {
     }
   }
   return res;
+
 };
+
+export const getUserID =   accessUserStorage.get()?.id;
 
 interface HasRole {
   role: Roles;
 }
+
 
 
