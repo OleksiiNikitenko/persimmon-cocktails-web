@@ -28,9 +28,9 @@
 
     <ng-container matColumnDef="photoId">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td class="avatar-invite-container" mat-cell *matCellDef="let element"><img class="avatar"
-                                                                                  src="../../../../assets/images/moder-avatar.png"
-                                                                                  alt="avatar"></td>
+      <td class="avatar-secondary-container" mat-cell *matCellDef="let element;let i = index"><img class="avatar-second"
+                                                                                                   src="{{imagesUrlPersons[i]}}"
+                                                                                                   alt="avatar"></td>
     </ng-container>
 
     <ng-container matColumnDef="name">
@@ -111,9 +111,9 @@
 
     <ng-container matColumnDef="photoId">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td class="avatar-invite-container" mat-cell *matCellDef="let element"><img class="avatar"
-                                                                                  src="../../../../assets/images/moder-avatar.png"
-                                                                                  alt="avatar"></td>
+      <td class="avatar-secondary-container" mat-cell *matCellDef="let element;let i = index"><img class="avatar-second"
+                                                                                                   src="{{imagesUrlInvitation[i]}}"
+                                                                                                   alt="avatar"></td>
     </ng-container>
 
     <ng-container matColumnDef="name">
@@ -213,9 +213,9 @@
 
       <ng-container matColumnDef="photoId">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td class="avatar-friend-container" mat-cell *matCellDef="let element"><img class="avatar"
-                                                                                    src="../../../../assets/images/moder-avatar.png"
-                                                                                    alt="avatar"></td>
+        <td class="avatar-primary-container" mat-cell *matCellDef="let element;let i = index"><img class="avatar"
+                                                                                                   src="{{imagesUrlFriends[i]}}"
+                                                                                                   alt="avatar"></td>
       </ng-container>
 
       <ng-container matColumnDef="name">
