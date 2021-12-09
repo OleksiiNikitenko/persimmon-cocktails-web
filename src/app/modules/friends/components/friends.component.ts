@@ -185,7 +185,7 @@ export class FriendsComponent implements OnInit {
             this.mainService.getImageById(imageId).subscribe(
                 (response) => {
                     if (response != null)
-                        this.imagesUrlInvitation[i] = response.urlThumb
+                        this.imagesUrlInvitation[i] = response.urlMiddle
                     else this.imagesUrlInvitation[i] = this.imageNotAvailable
                 },
                 (error: HttpErrorResponse) => {
@@ -201,7 +201,8 @@ export class FriendsComponent implements OnInit {
             this.mainService.getImageById(imageId).subscribe(
                 (response) => {
                     if (response != null)
-                        this.imagesUrlFriends[i] = response.urlThumb
+                        // this.imagesUrlFriends[i] = response.urlThumb
+                        this.imagesUrlFriends[i] = response.urlMiddle
                     else
                         this.imagesUrlFriends[i] = this.imageNotAvailable
 
@@ -219,7 +220,7 @@ export class FriendsComponent implements OnInit {
             this.mainService.getImageById(imageId).subscribe(
                 (response) => {
                     if (response != null)
-                        this.imagesUrlPersons[i] = response.urlThumb
+                        this.imagesUrlPersons[i] = response.urlMiddle
                     else
                         this.imagesUrlPersons[i] = this.imageNotAvailable
                 },
