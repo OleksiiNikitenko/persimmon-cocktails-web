@@ -8,4 +8,8 @@ export const URLS = {
   getDish: `${environment.apiBaseUrl}/cocktail/search`,
   addDish: `${environment.apiBaseUrl}/cocktail/create`,
   updateDish: `${environment.apiBaseUrl}/cocktail/update`,
+
+  getUser: `${environment.apiBaseUrl}/person/:personId`,
+  updateUserName: `${environment.apiBaseUrl}/person/update-name`,
+  personGetUrl : `${environment.apiBaseUrl}/person/`
 }

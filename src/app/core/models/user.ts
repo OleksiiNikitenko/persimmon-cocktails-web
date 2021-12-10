@@ -1,15 +1,14 @@
 import {Roles} from "./roles";
 import {AccessUserStorage} from "../../storage/accessUserStorage";
-import {JwtService} from "../../jwt.service";
 
 const accessUserStorage: AccessUserStorage = new AccessUserStorage();
-export const getUser = () : HasRole => {
-  let res : HasRole = {
+export const getUser = (): HasRole => {
+  let res: HasRole = {
     role: Roles.Anonymous
   }
-  if(accessUserStorage.isPresent()){
+  if (accessUserStorage.isPresent()) {
     const user = accessUserStorage.get();
-    if(user != undefined) {
+    if (user != undefined) {
       res.role = user.role;
     }
   }
@@ -17,7 +16,7 @@ export const getUser = () : HasRole => {
 
 };
 
-export const getUserID =   accessUserStorage.get()?.id;
+export const getUserID = accessUserStorage.get()?.id;
 
 interface HasRole {
   role: Roles;

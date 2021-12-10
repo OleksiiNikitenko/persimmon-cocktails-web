@@ -1,11 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {ADMIN} from "../../../core/models/admin";
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ChangePasswordComponent} from "../../change-password/change-password.component";
-import {LoginService} from "../../login/services/login.service";
-import {getUserID} from "../../../core/models/user";
-import {SettingsService} from "../services/settings-services";
-import {Person} from "../../../core/models/Person";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UserQuery} from "../../account/services/user-query";
+import {User} from "../../account/models/user-model";
+import {UserService} from "../../account/services/user-service";
 
 @Component({
   selector: 'app-settings',
@@ -14,31 +12,35 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   providers: [ChangePasswordComponent]
 })
 export class SettingsComponent implements OnInit {
+  person: User | undefined;
   form: FormGroup
 
-  personID = getUserID;
-user: Person | undefined
-
-  constructor(public dialogChangePass: ChangePasswordComponent, private settingsService: SettingsService,
-  private formBuilder: FormBuilder) { {
+  constructor(
+    public dialogChangePass: ChangePasswordComponent,
+    // private settingsService: SettingsService,
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private userQuery: UserQuery,
+    private cdr: ChangeDetectorRef,
+  ) {
     this.form = this.formBuilder.group({
       name: ['', Validators.required]
-
     })
-  }}
-  // editModerator() {
-  //   if (this.form.valid) {
-  //     this.settingsService.updateUser(       this.name?.value
-  //     )
-  //     // this.moderatorsService.fetchModerators()
-  //     // this.router.navigate(['moderators'])
-  //   }
-  // }
+  }
+
+  get name() {
+    return this.form?.controls?.name
+  }
 
   ngOnInit(): void {
-
+    this.userQuery.select().subscribe(person => {
+      this.person = person
+      this.name?.setValue(person.name)
+      this.cdr.markForCheck()
+    })
   }
-  updateName(){
-    // this.settingsService.updateUser(this.user?.name).subscribe();
+
+  renameUser() {
+    this.userService.updateUserName(this.form.value)
   }
 }
