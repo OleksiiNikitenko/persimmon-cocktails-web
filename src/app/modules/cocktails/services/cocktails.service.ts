@@ -17,7 +17,6 @@ export class CocktailsService {
 
   fetchCocktails(query : Query) : Observable<CocktailBasicInfo[]> {
     const params : HttpParams = this.searchQuery(query)
-    console.log(params)
     return this.http.get<CocktailBasicInfo[]>(this.apiSearchBaseUrl, {params})
   }
 
