@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {RecoverPasswordComponent} from "../../recover-password/components/recover-password.component";
 import {ToolbarComponent} from "../../toolbar/components/toolbar.component";
+import {ErrorsPopupComponent} from "../../errors-popup/errors-popup.component";
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private personService: LoginService,  private router: Router, public dialog: MatDialog,
               public dialogConfPass: RecoverPasswordComponent,
-              private toolbarComponent : ToolbarComponent) {
+              private toolbarComponent : ToolbarComponent,
+              private errorPopup: ErrorsPopupComponent) {
 
   };
 
@@ -41,7 +43,9 @@ export class LoginComponent implements OnInit {
 
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        // alert(error.message);
+        // this.dialog.closeAll()
+        this.errorPopup.openDialog(error.error.message)
       }
     );
   }
@@ -61,6 +65,7 @@ export class LoginComponent implements OnInit {
       (error: HttpErrorResponse) => {
         alert(error.message);
         console.log(error.message)
+
       }
     );
   }
