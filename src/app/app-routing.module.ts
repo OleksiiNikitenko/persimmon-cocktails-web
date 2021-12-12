@@ -22,6 +22,10 @@ import {EditIngredientComponent} from './modules/ingredients/components/edit-ing
 import {KitchenwareMainComponent} from './modules/kitchenware/components/kitchenware-main/kitchenware-main.component';
 import {AddKitchenwareComponent} from './modules/kitchenware/components/add-kitchenware/add-kitchenware.component';
 import {EditKitchenwareComponent} from './modules/kitchenware/components/edit-kitchenware/edit-kitchenware.component';
+import {StockComponent} from "./modules/stock/components/stock.component";
+import {StockMainComponent} from "./modules/stock/components/stock-main/stock-main.component";
+import {AddStockIngredientComponent} from "./modules/stock/components/add-stock-ingredient/add-stock-ingredient.component";
+import {EditStockIngredientComponent} from "./modules/stock/components/edit-stock-ingredient/edit-stock-ingredient.component";
 
 const BASE_URL = getBaseUrl()
 
@@ -58,6 +62,14 @@ const routes: Routes = [
           { path: 'edit', component: EditKitchenwareComponent, canActivate: [CanActivateRoute] }
         ]
       },
+
+      { path: 'stock', component: StockComponent, children: [
+          {path: '', component: StockMainComponent, canActivate: [CanActivateRoute]},
+          {path: 'add-stock', component: AddStockIngredientComponent, canActivate: [CanActivateRoute]},
+          {path: 'edit-stock', component: EditStockIngredientComponent, canActivate: [CanActivateRoute]}
+        ]
+      },
+
     ]
   },
   // { path: 'login', component: LoginComponent },

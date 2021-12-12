@@ -10,7 +10,7 @@ import {ModeratorsMainComponent} from "../../moderators/components/moderators-ma
 })
 export class AccountComponent implements OnInit {
   person = ADMIN; //удалить и нормально подгружать текущую роль
-  // moderators = ModeratorsMainComponent().getModerators();
+  // moderators = StockMainComponent().getModerators();
 
   constructor() {
   }

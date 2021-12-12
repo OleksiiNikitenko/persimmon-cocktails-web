@@ -49,7 +49,10 @@ import {Interceptor} from "./utils/interceptor";
 import {MatRadioModule} from "@angular/material/radio";
 import {LogoutComponent} from './modules/logout/logout.component';
 import { ChangePasswordComponent } from './modules/change-password/change-password.component';
-
+import {StockComponent} from './modules/stock/components/stock.component';
+import {StockMainComponent} from './modules/stock/components/stock-main/stock-main.component';
+import {AddStockIngredientComponent} from './modules/stock/components/add-stock-ingredient/add-stock-ingredient.component';
+import {EditStockIngredientComponent} from "./modules/stock/components/edit-stock-ingredient/edit-stock-ingredient.component";
 
 @NgModule({
   declarations: [
@@ -78,7 +81,11 @@ import { ChangePasswordComponent } from './modules/change-password/change-passwo
     KitchenwareMainComponent,
     EditKitchenwareComponent,
     LogoutComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    StockComponent,
+    StockMainComponent,
+    AddStockIngredientComponent,
+    EditStockIngredientComponent
   ],
   imports: [
     HttpClientModule,
