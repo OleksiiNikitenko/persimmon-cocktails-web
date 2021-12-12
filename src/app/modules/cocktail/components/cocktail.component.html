@@ -1,0 +1,25 @@
+<div class="root">
+  <div class="photo-and-headlines">
+    <img [src]="cocktailData.image === null ? defaultImageUrl : cocktailData.image.urlMiddle" class="photo-image">
+    <div class="text">
+      <h2>{{cocktailData.name}}</h2>
+      <span *ngIf="cocktailData.description !== null">{{cocktailData.description}}</span>
+      <div>
+        <span>Likes: {{cocktailData.likes}}</span>
+        <button [disabled]="cocktailData.hasLike === null || cocktailData.hasLike === true"
+          (click)="likeCocktail()">Like</button>
+      </div>
+      <span *ngIf="canEdit">{{cocktailData.isActive ? "ACTIVE" : "INACTIVE"}}</span>
+      <span>{{cocktailData.dishCategoryName === null ? "No category" : cocktailData.dishCategoryName}}</span>
+      <span>{{cocktailData.dishType === null ? "No dish type" : cocktailData.dishType}}</span>
+    </div>
+  </div>
+  <div class="labels">
+    <div class="label" *ngFor="let label of cocktailData.labels">
+      {{label}}
+    </div>
+  </div>
+  <div class="receipt">
+    <p *ngFor="let line of divideReceiptIntoLines(cocktailData.receipt)">{{line}}</p>
+  </div>
+</div>

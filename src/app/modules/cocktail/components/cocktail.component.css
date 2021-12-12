@@ -1,0 +1,27 @@
+.root{
+  padding: 1em;
+}
+
+.photo-image{
+  max-width: 50%;
+}
+
+.photo-and-headlines{
+  display: flex;
+  flex-direction: row;
+}
+
+.photo-and-headlines .text{
+  padding-left: 1em;
+}
+
+.labels{
+  display: flex;
+  flex-direction: row;
+}
+
+.label{
+  font-size: 1.5em;
+  padding: 0.5em;
+  padding-right: 1.5em;
+}
