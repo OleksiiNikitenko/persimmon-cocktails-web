@@ -22,4 +22,18 @@ export class CocktailService {
   likeCocktail(id: number) : Observable<any> {
     return this.http.post<FullCocktail>(`${this.apiServerUrl}/cocktail/like`, id)
   }
+
+  removeIngredient(ingredientId: number, dishId: number) : Observable<any> {
+    return this.http.patch(`${this.apiServerUrl}/cocktail/ingredient/remove`, {
+      ingredientId: ingredientId,
+      cocktailId: dishId
+    })
+  }
+
+  removeKitchenware(kitchenwareId: any, dishId: number) : Observable<any> {
+    return this.http.patch(`${this.apiServerUrl}/cocktail/kitchenware/remove`, {
+        kitchenwareId: kitchenwareId,
+        cocktailId: dishId
+      })
+  }
 }

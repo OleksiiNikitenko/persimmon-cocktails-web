@@ -1,17 +1,19 @@
-<div class="root">
+<h1 *ngIf="!loaded">There's no such cocktail!</h1>
+<div *ngIf="loaded" class="root">
   <div class="photo-and-headlines">
-    <img [src]="cocktailData.image === null ? defaultImageUrl : cocktailData.image.urlMiddle" class="photo-image">
+    <img [src]="cocktailData.image === null ? defaultCocktailUrl : cocktailData.image.urlMiddle" class="photo-image">
     <div class="text">
       <h2>{{cocktailData.name}}</h2>
-      <span *ngIf="cocktailData.description !== null">{{cocktailData.description}}</span>
+      <p *ngIf="cocktailData.description !== null">{{cocktailData.description}}</p>
       <div>
         <span>Likes: {{cocktailData.likes}}</span>
         <button [disabled]="cocktailData.hasLike === null || cocktailData.hasLike === true"
-          (click)="likeCocktail()">Like</button>
+          (click)="likeCocktail()"
+          class="like-button primary-button">Like</button>
       </div>
-      <span *ngIf="canEdit">{{cocktailData.isActive ? "ACTIVE" : "INACTIVE"}}</span>
-      <span>{{cocktailData.dishCategoryName === null ? "No category" : cocktailData.dishCategoryName}}</span>
-      <span>{{cocktailData.dishType === null ? "No dish type" : cocktailData.dishType}}</span>
+      <p *ngIf="canEdit">{{cocktailData.isActive ? "ACTIVE" : "INACTIVE"}}</p>
+      <p>{{cocktailData.dishCategoryName === null ? "No category" : cocktailData.dishCategoryName}}</p>
+      <p>{{cocktailData.dishType === null ? "No dish type" : cocktailData.dishType}}</p>
     </div>
   </div>
   <div class="labels">
@@ -21,5 +23,27 @@
   </div>
   <div class="receipt">
     <p *ngFor="let line of divideReceiptIntoLines(cocktailData.receipt)">{{line}}</p>
+  </div>
+  <div class="ingredients">
+    <h4>Ingredients</h4>
+    <div class="ingredient-list">
+      <li class="ingredient" *ngFor="let ingredient of cocktailData.ingredientList">
+        <img class="ingredient-small-photo" [src]="ingredient.photoId === null ? defaultIngredientUrl : ingredient.photoId">
+        <div>{{ingredient.name}}</div>
+        <div>{{ingredient.category === null ? "No category" : ingredient.category.name}}</div>
+        <button *ngIf="canEdit" (click)="deleteIngredient(ingredient.ingredientId)">X</button>
+      </li>
+    </div>
+  </div>
+  <div class="kitchenwares">
+    <h4>Kitchenware</h4>
+    <div class="kitchenware-list">
+      <li class="kitchenware" *ngFor="let kitchenware of cocktailData.kitchenwareList">
+        <img class="kitchenware-small-photo" [src]="kitchenware.photoId === null ? defaultKitchenwareUrl : kitchenware.photoId">
+        <div>{{kitchenware.name}}</div>
+        <div>{{kitchenware.category === null ? "No category" : kitchenware.category.name}}</div>
+        <button *ngIf="canEdit" (click)="deleteKitchenware(kitchenware.kitchenwareId)">X</button>
+      </li>
+    </div>
   </div>
 </div>
