@@ -45,7 +45,10 @@
 
       </th>
       <td class="container-button-status" mat-cell *matCellDef="let element">
-        <button class="primary-button">DISABLE</button>
+        <button class="primary-button"
+                (click)="changeStatus()"
+                [ngClass]="{'enabled': toggle, 'disabled': !toggle}">
+          {{statusBtn}} </button>
       </td>
     </ng-container>
 

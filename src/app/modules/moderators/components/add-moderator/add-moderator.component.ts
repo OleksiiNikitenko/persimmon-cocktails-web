@@ -74,12 +74,12 @@ export class AddModeratorComponent implements OnInit {
       this.moderatorsService.updateModerator({
         personId: this.currentUserId,
         name: this.name?.value,
-        status: this.status?.value,
+         status: this.status?.value,
       })
-      console.log(this.currentUserId)
       this.moderatorsService.fetchModerators()
       this.router.navigate(['moderators'])
     }
   }
+
 }
 

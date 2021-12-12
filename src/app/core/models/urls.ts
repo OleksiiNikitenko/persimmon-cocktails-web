@@ -4,6 +4,7 @@ export const URLS = {
   getModerators: `${environment.apiBaseUrl}/moderator/all`,
   addModerator: `${environment.apiBaseUrl}/moderator/add`,
   updateModerator: `${environment.apiBaseUrl}/moderator/update-name`,
+  changeStatus: `${environment.apiBaseUrl}/moderator/change-status`,
 
   getDish: `${environment.apiBaseUrl}/cocktail/search`,
   addDish: `${environment.apiBaseUrl}/cocktail/create`,
