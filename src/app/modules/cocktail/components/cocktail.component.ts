@@ -1,28 +1,34 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {FullCocktail, mockCocktail} from "../models/fullCocktail";
+import {ActivatedRoute, Router} from "@angular/router";
+import {EditCocktail, FullCocktail, mockCocktail} from "../models/fullCocktail";
 import {CocktailService} from "../services/cocktail.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {getUser} from "../../../core/models/user";
 import {Roles} from "../../../core/models/roles";
+import {FormControl, FormGroup} from "@angular/forms";
+import {columnsToSortBy} from "../../cocktails/models/query";
 
 @Component({
   selector: 'app-cocktail',
   templateUrl: './cocktail.component.html',
-  styleUrls: ['./cocktail.component.css']
+  styleUrls: ['./cocktail.component.css', '../../../app.component.css']
 })
 export class CocktailComponent implements OnInit {
   id: number
   cocktailData: FullCocktail
+  public editedCocktailData: EditCocktail;
   isNew: boolean
   defaultCocktailUrl: string = "https://www.yahire.com/blogs/wp-content/uploads/2017/04/summer-cocktails.jpg"
   defaultIngredientUrl: string = "https://zestfulkitchen.com/wp-content/uploads/2018/02/Blood-Orange-Cocktail_-11.jpg"
   defaultKitchenwareUrl: string = "https://crystalglasscentre.co.uk/uploads/images/full/IMG_7030_1302191412.jpg"
   canEdit: boolean = getUser().role === Roles.Moderator || getUser().role === Roles.Admin
   public loaded: boolean = false;
+  viewMode: boolean = true;
+  editCocktailForm: FormGroup;
 
   constructor(private activateRoute: ActivatedRoute,
-              private cocktailService: CocktailService) {
+              private cocktailService: CocktailService,
+              private router: Router) {
     this.id = (Number)(activateRoute.snapshot.paramMap.get('id'))
     this.isNew = this.id === Number.NaN
     this.cocktailData = mockCocktail()
@@ -33,6 +39,7 @@ export class CocktailComponent implements OnInit {
             res => {
               this.cocktailData = res
               this.loaded = true
+              this.initEditForm()
             },
             error => this.handleFetchError(error)
           )
@@ -43,11 +50,14 @@ export class CocktailComponent implements OnInit {
             res => {
               this.cocktailData = res
               this.loaded = true
+              this.initEditForm()
             },
             error => this.handleFetchError(error)
           )
       }
     }
+    this.editedCocktailData = this.initEditCocktailData()
+    this.editCocktailForm = this.initEditForm()
   }
 
   ngOnInit(): void {
@@ -87,5 +97,57 @@ export class CocktailComponent implements OnInit {
           this.cocktailData.kitchenwareList = this.cocktailData.kitchenwareList.filter(i => i.kitchenwareId !== kitchenwareId)
         },
         err => console.error(err))
+  }
+
+  deleteCocktail(dishId: number) {
+    this.cocktailService.deleteCocktail(dishId).subscribe(()=>{
+        this.router.navigate(['/cocktails'])
+      },
+      err => console.error(err))
+  }
+
+  private initEditForm() : FormGroup {
+    return new FormGroup({
+      name: new FormControl(this.cocktailData.name),
+      description: new FormControl(this.cocktailData.description),
+      receipt: new FormControl(this.cocktailData.receipt),
+      isActive: new FormControl(this.cocktailData.isActive),
+      dishCategoryId: new FormControl(this.cocktailData.dishCategoryId)
+    });
+  }
+
+  editCocktail() {
+
+  }
+
+  goToMode(view: boolean) {
+    if(!view) {
+      this.editedCocktailData = this.initEditCocktailData()
+    }
+    this.viewMode = view
+  }
+
+  private initEditCocktailData() {
+    return {
+      name: this.cocktailData.name,
+      description: this.cocktailData.description,
+      receipt: this.cocktailData.receipt,
+      dishId: this.cocktailData.dishId,
+      dishCategoryId: this.cocktailData.dishCategoryId,
+      labels: this.cocktailData.labels,
+      isActive: this.cocktailData.isActive,
+      kitchenwareList: this.cocktailData.kitchenwareList.map(c => {
+        return {
+          kitchenwareId: c.kitchenwareId,
+          name: c.name
+        }
+      }),
+      ingredientList: this.cocktailData.ingredientList.map(c => {
+        return {
+          ingredientId: c.ingredientId,
+          name: c.name
+        }
+      }),
+    }
   }
 }

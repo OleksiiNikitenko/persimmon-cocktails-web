@@ -36,4 +36,8 @@ export class CocktailService {
         cocktailId: dishId
       })
   }
+
+  deleteCocktail(dishId: number) :Observable<any> {
+    return this.http.post(`${this.apiServerUrl}/cocktail/delete`, dishId)
+  }
 }

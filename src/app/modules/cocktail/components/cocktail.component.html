@@ -1,19 +1,40 @@
-<h1 *ngIf="!loaded">There's no such cocktail!</h1>
-<div *ngIf="loaded" class="root">
+<h3 *ngIf="!loaded">There's no such cocktail!</h3>
+<form [formGroup]="editCocktailForm" (submit)="editCocktail()" *ngIf="loaded" class="root">
+  <div class="header-buttons">
+    <button class="primary-button" *ngIf="viewMode && canEdit" (click)="goToMode(false)">Go to edit mode</button>
+    <button class="primary-button" *ngIf="!viewMode && canEdit" (click)="goToMode(true)">Go to view mode</button>
+    <button class="primary-button" *ngIf="canEdit" (click)="deleteCocktail(cocktailData.dishId)">Delete</button>
+  </div>
   <div class="photo-and-headlines">
     <img [src]="cocktailData.image === null ? defaultCocktailUrl : cocktailData.image.urlMiddle" class="photo-image">
     <div class="text">
-      <h2>{{cocktailData.name}}</h2>
-      <p *ngIf="cocktailData.description !== null">{{cocktailData.description}}</p>
-      <div>
+      <h3 *ngIf="viewMode">{{cocktailData.name}}</h3>
+      <label *ngIf="!viewMode" for="edit_cocktail_name">Cocktail name: </label>
+      <input *ngIf="!viewMode" matInput [(ngModel)]="editedCocktailData.name" type="text" placeholder="Cocktail name"
+             formControlName="name"
+             id="edit_cocktail_name">
+      <p *ngIf="viewMode && cocktailData.description !== null">{{cocktailData.description}}</p>
+      <label *ngIf="!viewMode" for="edit_cocktail_description">Cocktail description: </label>
+      <input *ngIf="!viewMode" matInput [(ngModel)]="editedCocktailData.description" type="text" placeholder="Cocktail description"
+             formControlName="description"
+             id="edit_cocktail_description">
+      <div *ngIf="viewMode">
         <span>Likes: {{cocktailData.likes}}</span>
         <button [disabled]="cocktailData.hasLike === null || cocktailData.hasLike === true"
           (click)="likeCocktail()"
           class="like-button primary-button">Like</button>
       </div>
-      <p *ngIf="canEdit">{{cocktailData.isActive ? "ACTIVE" : "INACTIVE"}}</p>
+      <p *ngIf="viewMode && canEdit">{{cocktailData.isActive ? "ACTIVE" : "INACTIVE"}}</p>
+      <mat-radio-group
+        *ngIf="!viewMode"
+        formControlName="isActive"
+        [(ngModel)]="editedCocktailData.isActive">
+        <mat-radio-button [value]="true">Active</mat-radio-button>
+        <mat-radio-button [value]="false">Inactive</mat-radio-button>
+      </mat-radio-group>
       <p>{{cocktailData.dishCategoryName === null ? "No category" : cocktailData.dishCategoryName}}</p>
       <p>{{cocktailData.dishType === null ? "No dish type" : cocktailData.dishType}}</p>
+      <button *ngIf="!viewMode" class="primary-button">Save</button>
     </div>
   </div>
   <div class="labels">
@@ -46,4 +67,4 @@
       </li>
     </div>
   </div>
-</div>
+</form>
