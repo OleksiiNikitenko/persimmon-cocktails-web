@@ -12,6 +12,7 @@ export class EditStockIngredientComponent implements OnInit {
 
   private _form: FormGroup
   selectedFile: File = null as any;
+  form: any;
 
 
   constructor(

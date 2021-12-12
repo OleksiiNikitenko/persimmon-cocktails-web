@@ -1,12 +1,12 @@
-.add-moderator {
+.add-stock-ingredient {
   padding: 10px 20px;
 }
-.add-moderator__avatar {
+.add-stock-ingredient__avatar {
   margin-left: 20px;
   width: 105px;
   height: 105px;
 }
- .add-moderator__content{
+ .add-stock-ingredient__content{
    display: flex;
    align-items: flex-start;
  }

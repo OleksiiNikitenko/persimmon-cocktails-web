@@ -1,24 +1,24 @@
 <div>
-  <div class="add-moderator">
+  <div class="add-stock-ingredient">
     <h1>Create moderator</h1>
   </div>
-  <div class="add-moderator__content">
-    <img class="add-moderator__avatar" src="../../../../../assets/images/moder-avatar.png" alt="avatar">
+  <div class="add-stock-ingredient__content">
+    <img class="add-stock-ingredient__avatar" src="../../../../../assets/images/moder-avatar.png" alt="avatar">
     <div [formGroup]="form" class="form">
       <div>
         <label>Name: </label>
         <input placeholder="Moderator name" formControlName="name"/>
       </div>
       <div>
-        <label>Email: </label>
-        <input placeholder="Email" formControlName="email"/>
+        <label>Amount: </label>
+        <input placeholder="Amount" formControlName="amount"/>
       </div>
       <div>
-        <label>Status: </label>
-        <input type="checkbox" formControlName="status">
+        <label>Measure Type: </label>
+        <input placeholder="MeasureType" formControlName="measureType">
       </div>
       <div>
-        <button  class="primary-button createButton" type="button" >Create</button>
+        <button  class="primary-button createButton" type="button" >Add</button>
         <button class="secondary-button clearButton" type="button" (click)="resetFormHandler()">Clear</button>
       </div>
     </div>
