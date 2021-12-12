@@ -2,7 +2,6 @@ import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@a
 import {MatTableDataSource} from "@angular/material/table";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {MatSort, Sort} from "@angular/material/sort";
-import {ModeratorsMainService} from "../../services/moderators-main.service";
 import {Moderator} from "../../models/moderator.model";
 import {ModeratorsQuery} from "../../services/moderators.query";
 import {ModeratorsStore} from "../../services/moderators.store";
@@ -21,8 +20,7 @@ export class ModeratorsMainComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['photoId', 'personId', 'name', 'email', 'editButton', 'statusButton'];
   moderators: Moderator[] = [];
   dataSource: any;
-
-  constructor(private _liveAnnouncer: LiveAnnouncer,
+    constructor(private _liveAnnouncer: LiveAnnouncer,
               private moderatorsService: ModeratorsService,
               private moderatorsQuery: ModeratorsQuery,
               private moderatorsStore: ModeratorsStore,
@@ -53,9 +51,13 @@ export class ModeratorsMainComponent implements AfterViewInit, OnInit {
       this.dataSource.sort = this.sort;
       this.cdr.markForCheck()
     })
+
+
+
   }
 
   ngAfterViewInit(): void {
+
   }
 
 }

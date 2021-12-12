@@ -7,10 +7,16 @@
     </div>
   </div>
   <div class="account__stats">
+    <div *ngIf="person?.roleId==1">
     <h1>Stats: </h1>
     <label>Users: 1152</label>
-    <!--<label>Moderators: {{moderators.length}}</label>-->
     <label>Moderators: N</label>
     <label>Cocktails: 125</label>
-    <label>Events: 35</label></div>
+    <label>Events: 35</label>
+    </div>
+    <div *ngIf="person?.roleId==3">
+      <h1>My blog </h1>
+    </div>
+  </div>
+
 </div>

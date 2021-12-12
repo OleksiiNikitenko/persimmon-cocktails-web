@@ -26,7 +26,7 @@ export class UserService {
 
 
   updateUserName(data: any) {
-    this.http.put(`${this.BASE_URLS.updateUserName}?name=${data.name}`, {})
+    this.http.patch(`${this.BASE_URLS.updateUserName}?name=${data.name}`, {})
       .pipe(
         first()
       ).subscribe({

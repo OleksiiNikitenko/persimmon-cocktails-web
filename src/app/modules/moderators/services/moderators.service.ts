@@ -4,7 +4,6 @@ import {URLS} from "../../../core/models/urls";
 import {ModeratorUIModel} from "../models/moderator.ui.model";
 import {Moderator} from "../models/moderator.model";
 import {first} from "rxjs/operators";
-import {MatTableDataSource} from "@angular/material/table";
 import {ModeratorsStore} from "./moderators.store";
 
 @Injectable({
@@ -31,6 +30,6 @@ export class ModeratorsService {
   }
 
   updateModerator(data: any) {
-    this.http.patch(this.BASE_URLS.updateModerator, data).pipe(first()).subscribe()
+    this.http.patch(`${this.BASE_URLS.updateModerator}?name=${data.name}`, {}).pipe(first()).subscribe()
   }
 }
