@@ -1,16 +1,28 @@
 <div class="settings">
   <div class="settings__content">
     <img class="settings__img" src="../../../../assets/images/settings.png" alt="settings">
-    <div class="settings__buttons">
-      <div> <button class="thirdly-button renameButton " type="button">Rename</button> </div>
-      <div> <button class="thirdly-button changeEmailButton" type="button">Change email</button> </div>
-      <div> <button class="thirdly-button changeEmailButton" type="button" (click)="dialogChangePass.openDialog()">Change password</button> </div>
-      <div> <button class="thirdly-button changeEmailButton" type="button">Change avatar</button></div>
+    <div class="settings__buttons" [formGroup]="form">
+
+      <div>
+        <input placeholder="Change name" formControlName="name"/>
+      </div>
+      <div>
+        <button class="thirdly-button renameButton" type="button" (click)="renameUser()">Rename</button>
+      </div>
+      <div>
+        <button class="thirdly-button changePasswordButton" type="button" (click)="dialogChangePass.openDialog()">Change
+          password
+        </button>
+      </div>
+
     </div>
     <div class="settings__account__info">
-    <img class="settings__avatar" src="../../../../assets/images/admin-avatar.png" alt="settings-avatar">
-      <label title="name">{{person.name}}</label>
-      <label title="email">{{person.email}}</label>
+      <img class="settings__avatar" src="../../../../assets/images/admin-avatar.png" alt="settings-avatar">
+      <div>
+        <button class="secondary-button changeAvatarButton" type="button">Change profile photo</button>
+      </div>
+      <!--      <label title="name">{{user.name}}</label>-->
+      <!--      <label title="email">{{user.email}}</label>-->
     </div>
   </div>
 </div>

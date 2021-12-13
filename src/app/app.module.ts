@@ -46,10 +46,14 @@ import {EditKitchenwareComponent} from './modules/kitchenware/components/edit-ki
 import {Interceptor} from "./utils/interceptor";
 import {MatRadioModule} from "@angular/material/radio";
 import {LogoutComponent} from './modules/logout/logout.component';
+
 import {ChangePasswordComponent} from './modules/change-password/componets/change-password.component';
 import {RecoverPasswordReceiveComponent} from './modules/recover-password-receive/components/recover-password-receive.component';
 import {ErrorDialog, ErrorsPopupComponent} from './modules/errors-popup/errors-popup.component';
 import {MatExpansionModule} from "@angular/material/expansion";
+
+import { UsersComponent } from './modules/users/components/users.component';
+
 
 
 @NgModule({
@@ -80,9 +84,13 @@ import {MatExpansionModule} from "@angular/material/expansion";
     EditKitchenwareComponent,
     LogoutComponent,
     ChangePasswordComponent,
+
     RecoverPasswordReceiveComponent,
     ErrorsPopupComponent,
-    ErrorDialog
+    ErrorDialog,
+
+    UsersComponent
+
   ],
   imports: [
     HttpClientModule,

@@ -24,9 +24,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private personService: LoginService,  private router: Router, public dialog: MatDialog,
               public dialogConfPass: RecoverPasswordComponent,
-              private toolbarComponent : ToolbarComponent,
-  // public errorPopup: ErrorsPopupComponent
-  ) {
+              private toolbarComponent : ToolbarComponent) {
 
   };
 
