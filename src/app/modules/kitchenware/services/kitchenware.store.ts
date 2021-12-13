@@ -8,7 +8,7 @@ export interface KitchenwareStoreState extends EntityState<KitchenwareUiModel> {
   providedIn: 'root'
 })
 @StoreConfig({
-  name: 'IKitchenware',
+  name: 'Kitchenware',
   idKey: 'kitchenwareId'
 })
 export class KitchenwareStore extends EntityStore<KitchenwareStoreState> {
