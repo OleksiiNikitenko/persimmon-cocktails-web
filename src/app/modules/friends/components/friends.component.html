@@ -225,17 +225,11 @@
         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
 
-<!--      <ng-container matColumnDef="writeButton">-->
-<!--        <th mat-header-cell *matHeaderCellDef></th>-->
-<!--        <td class="container-button-edit" mat-cell *matCellDef="let element">-->
-<!--          <button class="primary-button button-action">Write</button>-->
-<!--        </td>-->
-<!--      </ng-container>-->
-
-      <ng-container matColumnDef="profileButton">
+      <ng-container matColumnDef="deleteButton">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td class="container-button-edit" mat-cell *matCellDef="let element">
-          <button class="primary-button button-action">Profile</button>
+        <td class="container-button-edit" mat-cell *matCellDef="let element; let i = index">
+          <button *ngIf="buttonDeleteFriendEnabled[i]" class="primary-button button-action" (click)="deleteFriend(element.personId);buttonDeleteFriendEnabled[i]=false" >Delete</button>
+          <button *ngIf="!buttonDeleteFriendEnabled[i]" class="disabled-button">Deleted</button>
         </td>
       </ng-container>
 

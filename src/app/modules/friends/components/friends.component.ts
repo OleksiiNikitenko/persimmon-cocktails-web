@@ -37,12 +37,13 @@ export class FriendsComponent implements OnInit {
 
     personsDisplayedColumns: string[] = ['photoId', 'name', 'buttonsBlock'];
 
-    friendsDisplayedColumns: string[] = ['photoId', 'name', 'profileButton', 'addToButton'];
+    friendsDisplayedColumns: string[] = ['photoId', 'name', 'deleteButton', 'addToButton'];
     invitationDisplayedColumns: string[] = ['photoId', 'name', 'date', 'acceptButton', 'declineButton', 'profileButton'];
 
     buttonInvitePersonEnabled: boolean[] = []
     buttonAcceptInvitationEnabled: boolean[] = []
     buttonDeclineInvitationEnabled: boolean[] = []
+    buttonDeleteFriendEnabled: boolean[] = []
     fieldInvitationMessageEnabled: boolean[] = []
     fieldInvitationMessageText: string[] = []
 
@@ -96,9 +97,9 @@ export class FriendsComponent implements OnInit {
                 this.friends = friends;
                 this.friendsDataSource = new MatTableDataSource(this.friends);
                 this.imagesUrlFriends = Array(friends.length).fill(this.defaultAvatar);
-                // this.friendsDataSource.sort = this.sort;
                 this.initFriendsPagesAmount();
                 this.setImagesFriends(friends);
+                this.buttonDeleteFriendEnabled = Array(friends.length).fill(true);
             });
     }
 
@@ -111,6 +112,7 @@ export class FriendsComponent implements OnInit {
                     this.friends = friends;
                     this.friendsDataSource = new MatTableDataSource(this.friends);
                     this.imagesUrlFriends = Array(friends.length).fill(this.defaultAvatar);
+                    this.buttonDeleteFriendEnabled = Array(friends.length).fill(true);
                     this.setImagesFriends(friends);
                 });
         } else if (name == "") {
@@ -306,6 +308,15 @@ export class FriendsComponent implements OnInit {
             this.amountPagesInvitation = numberOfPages;
         });
     }
+
+  deleteFriend(personId: number): void {
+    this.friendsService.deleteFriend(personId).subscribe((response) => {
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.error.message);
+        throw error;
+      });
+  }
 
     setPageDiffUsers(pageDiff: number): void {
         this.currentPageNumberPersons += pageDiff
