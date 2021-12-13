@@ -5,8 +5,8 @@
     <mat-form-field class="search-field">
       <mat-label>Search users...</mat-label>
       <input matInput [(ngModel)]="searchPersonsRequest" type="text" placeholder="Ex. Mark" formControlName="name"
-             id="name_search_person" (keypress)="checkValue($event)"
-             (keyup)="fieldPersonsChanged(searchPersonsRequest); personsWasSearched=false"
+             id="name_search_person"
+             (keyup)="fieldPersonsChanged(searchPersonsRequest); personsWasSearched=false" maxlength="100"
              (keyup.enter)="getPersonsByName(searchPersonsRequest); initPersonsPagesAmount(); personsWasSearched=true">
       <mat-hint align="end">More than 3 characters and no special characters.</mat-hint>
       <mat-icon matSuffix>supervisor_account</mat-icon>
@@ -28,9 +28,9 @@
 
     <ng-container matColumnDef="photoId">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td class="avatar-invite-container" mat-cell *matCellDef="let element"><img class="avatar"
-                                                                                  src="../../../../assets/images/moder-avatar.png"
-                                                                                  alt="avatar"></td>
+      <td class="avatar-secondary-container" mat-cell *matCellDef="let element;let i = index"><img class="avatar-second"
+                                                                                                   src="{{imagesUrlPersons[i]}}"
+                                                                                                   alt="avatar"></td>
     </ng-container>
 
     <ng-container matColumnDef="name">
@@ -111,9 +111,9 @@
 
     <ng-container matColumnDef="photoId">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td class="avatar-invite-container" mat-cell *matCellDef="let element"><img class="avatar"
-                                                                                  src="../../../../assets/images/moder-avatar.png"
-                                                                                  alt="avatar"></td>
+      <td class="avatar-secondary-container" mat-cell *matCellDef="let element;let i = index"><img class="avatar-second"
+                                                                                                   src="{{imagesUrlInvitation[i]}}"
+                                                                                                   alt="avatar"></td>
     </ng-container>
 
     <ng-container matColumnDef="name">
@@ -194,9 +194,9 @@
         <mat-form-field class="search-field">
           <mat-label>Search friends...</mat-label>
           <input matInput [(ngModel)]="searchFriendsRequest" type="text" placeholder="Ex. Mark" formControlName="name"
-                 id="name_search_friends" (keypress)="checkValue($event)"
+                 id="name_search_friends"
                  (keyup.enter)="getFriendsByName(searchFriendsRequest); initFriendsPagesAmount()"
-                 (focusout)="fieldFriendsChanged(searchFriendsRequest, 0)">
+                 (focusout)="fieldFriendsChanged(searchFriendsRequest, 0)" maxlength="100">
           <mat-hint align="end">More than 3 characters and no special characters.</mat-hint>
           <mat-icon matSuffix>supervisor_account</mat-icon>
         </mat-form-field>
@@ -213,9 +213,9 @@
 
       <ng-container matColumnDef="photoId">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td class="avatar-friend-container" mat-cell *matCellDef="let element"><img class="avatar"
-                                                                                    src="../../../../assets/images/moder-avatar.png"
-                                                                                    alt="avatar"></td>
+        <td class="avatar-primary-container" mat-cell *matCellDef="let element;let i = index"><img class="avatar"
+                                                                                                   src="{{imagesUrlFriends[i]}}"
+                                                                                                   alt="avatar"></td>
       </ng-container>
 
       <ng-container matColumnDef="name">
@@ -225,17 +225,11 @@
         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="writeButton">
+      <ng-container matColumnDef="deleteButton">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td class="container-button-edit" mat-cell *matCellDef="let element">
-          <button class="primary-button button-action">Write</button>
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="profileButton">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td class="container-button-edit" mat-cell *matCellDef="let element">
-          <button class="primary-button button-action">Profile</button>
+        <td class="container-button-edit" mat-cell *matCellDef="let element; let i = index">
+          <button *ngIf="buttonDeleteFriendEnabled[i]" class="primary-button button-action" (click)="deleteFriend(element.personId);buttonDeleteFriendEnabled[i]=false" >Delete</button>
+          <button *ngIf="!buttonDeleteFriendEnabled[i]" class="disabled-button">Deleted</button>
         </td>
       </ng-container>
 

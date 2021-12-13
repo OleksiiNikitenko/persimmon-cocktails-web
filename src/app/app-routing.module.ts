@@ -23,6 +23,8 @@ import {KitchenwareMainComponent} from './modules/kitchenware/components/kitchen
 import {AddKitchenwareComponent} from './modules/kitchenware/components/add-kitchenware/add-kitchenware.component';
 import {EditKitchenwareComponent} from './modules/kitchenware/components/edit-kitchenware/edit-kitchenware.component';
 import {CocktailComponent} from "./modules/cocktail/components/cocktail.component";
+import {RecoverPasswordReceiveComponent} from "./modules/recover-password-receive/components/recover-password-receive.component";
+
 
 const BASE_URL = getBaseUrl()
 
@@ -43,10 +45,12 @@ const routes: Routes = [
       { path: 'settings', component: SettingsComponent, canActivate: [CanActivateRoute] },
       { path: 'account', component: AccountComponent, canActivate: [CanActivateRoute] },
       { path: 'login', component: LoginComponent, canActivate: [CanActivateRoute] },
+      {path: 'recover-password/:id/:nn', component: RecoverPasswordReceiveComponent},
 
       { path: 'moderators', component: ModeratorsComponent, children: [
           { path: '', component: ModeratorsMainComponent, canActivate: [CanActivateRoute] },
-          { path: 'add', component: AddModeratorComponent, canActivate: [CanActivateRoute] }
+          { path: 'add', component: AddModeratorComponent, canActivate: [CanActivateRoute] },
+          { path: 'edit/:id', component: AddModeratorComponent, canActivate: [CanActivateRoute] }
         ]
       },
 

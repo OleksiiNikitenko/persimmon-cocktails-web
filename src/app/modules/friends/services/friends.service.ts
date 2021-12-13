@@ -13,6 +13,7 @@ export class FriendsService {
   private apiServerUrl = environment.apiBaseUrl;
   private friendsSearchUrl = `${this.apiServerUrl}/person/friends/`
   private friendsPagesAmountUrl = `${this.apiServerUrl}/person/friends-pages-number`
+  private deleteFriendUrl = `${this.apiServerUrl}/person/friends/delete`
 
   constructor(private http: HttpClient) {
   }
@@ -29,5 +30,10 @@ export class FriendsService {
     if (name == "") {
       return this.http.get<number>(this.friendsPagesAmountUrl);
     } else return this.http.get<number>(this.friendsPagesAmountUrl + "/" + name);
+  }
+
+  deleteFriend(personId: number) {
+    const options = {body: {personId: personId}}
+    return this.http.delete<number>(this.deleteFriendUrl, options);
   }
 }
