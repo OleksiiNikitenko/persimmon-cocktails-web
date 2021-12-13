@@ -1,10 +1,4 @@
 <div class="main" >
-
-  <mat-form-field appearance="standard">
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-  </mat-form-field>
-
   <button class="secondary-button ingredient-add" type="button" routerLink="/ingredients/add">Add ingredient </button>
   <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
          class="mat-elevation-z8">
@@ -34,7 +28,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by category">
         Category
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.ingredientCategoryID}} </td>
     </ng-container>
 
     <ng-container matColumnDef="editButton">
@@ -42,7 +36,7 @@
 
       </th>
       <td class="container-button-edit" mat-cell *matCellDef="let element">
-        <button class="primary-button button-edit" type="button" routerLink="/ingredients/edit">EDIT</button>
+        <button class="primary-button button-edit" [routerLink]="'edit/' + element.ingredientId">EDIT</button>
       </td>
     </ng-container>
 
@@ -50,14 +44,12 @@
       <th mat-header-cell *matHeaderCellDef>
 
       </th>
-      <td class="container-button-status" mat-cell *matCellDef="let element"><button class="primary-button">DELETE</button></td>
+      <td class="container-button-status" mat-cell *matCellDef="let element">
+        <button class="primary-button">DELETE</button>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                 showFirstLastButtons
-                 aria-label="Select page of ingredients">
-  </mat-paginator>
 </div>

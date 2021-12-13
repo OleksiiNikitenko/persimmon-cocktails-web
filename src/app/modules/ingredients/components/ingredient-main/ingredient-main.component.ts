@@ -1,10 +1,15 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
-import {INGREDIENTS} from "../mock-ingredients";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {MatSort, Sort} from "@angular/material/sort";
-import {MatPaginator} from '@angular/material/paginator';
+import {Ingredient} from "../../models/ingredient.model";
+import {IngredientsQuery} from "../../services/ingredients.query";
+import {IngredientsStore} from "../../services/ingredients.store";
+import {IngredientsService} from "../../services/ingredients.service";
+import {untilDestroyed, UntilDestroy} from '@ngneat/until-destroy';
 
+
+@UntilDestroy()
 @Component({
   selector: 'app-ingredient-main',
   templateUrl: './ingredient-main.component.html',
@@ -13,17 +18,20 @@ import {MatPaginator} from '@angular/material/paginator';
 export class IngredientMainComponent implements AfterViewInit, OnInit {
 
   displayedColumns: string[] = ['photoId', 'ingredientId', 'name', 'category', 'editButton', 'statusButton'];
-  dataSource = new MatTableDataSource(INGREDIENTS);
+  ingredients: Ingredient[] = [];
+  dataSource: any;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
+  constructor(private _liveAnnouncer: LiveAnnouncer,
+              private ingredientsService: IngredientsService,
+              private ingredientsQuery: IngredientsQuery,
+              private ingredientsStore: IngredientsStore,
+              private cdr: ChangeDetectorRef) {}
+
+  getIngredients(): Ingredient[]{
+    return this.ingredients;
+  }
 
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator = null!;
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-  }
 
 
   announceSortChange(sortState: Sort) {
@@ -33,12 +41,19 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
 
   ngOnInit(): void {
+    this.ingredientsService.fetchIngredients()
+
+    this.ingredientsQuery.selectAll().pipe(
+      untilDestroyed(this)
+    ).subscribe(ingredients => {
+      this.dataSource = new MatTableDataSource(ingredients)
+      this.dataSource.sort = this.sort;
+      this.cdr.markForCheck()
+    })
   }
 
+  ngAfterViewInit(): void {
+  }
 }

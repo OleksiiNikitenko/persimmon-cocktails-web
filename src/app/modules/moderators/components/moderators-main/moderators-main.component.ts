@@ -2,7 +2,6 @@ import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@a
 import {MatTableDataSource} from "@angular/material/table";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {MatSort, Sort} from "@angular/material/sort";
-import {ModeratorsMainService} from "../../services/moderators-main.service";
 import {Moderator} from "../../models/moderator.model";
 import {ModeratorsQuery} from "../../services/moderators.query";
 import {ModeratorsStore} from "../../services/moderators.store";
@@ -57,5 +56,4 @@ export class ModeratorsMainComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit(): void {
   }
-
 }
