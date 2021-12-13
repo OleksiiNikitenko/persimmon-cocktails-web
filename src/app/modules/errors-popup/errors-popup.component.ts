@@ -43,8 +43,8 @@ export class ErrorDialog implements OnInit {
 
   ngOnInit() {
     this.dialogRef.updatePosition({
-      left: `20px`,
-      bottom: `50px`
+      left: `21%`,
+      bottom: `40px`
     });
 
     const timeout = 3000;
