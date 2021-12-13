@@ -4,6 +4,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {Person} from "../../login/model/person";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ChangePasswordService} from "../services/change-password.service";
+import {ErrorDialog} from "../../errors-popup/errors-popup.component";
 
 @Component({
   selector: 'app-change-password',
@@ -44,7 +45,8 @@ export class ChangePasswordComponent implements OnInit {
         this.changePasswordForm.reset();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        this.dialog.closeAll()
+        this.dialog.open(ErrorDialog, {data: {message: error.error.message} })
       }
     );
   }

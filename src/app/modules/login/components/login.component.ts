@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {HttpErrorResponse} from "@angular/common/http";
 import {Person} from "../model/person";
 import {LoginService} from "../services/login.service";
@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {RecoverPasswordComponent} from "../../recover-password/components/recover-password.component";
 import {ToolbarComponent} from "../../toolbar/components/toolbar.component";
-import {ErrorsPopupComponent} from "../../errors-popup/errors-popup.component";
+import {ErrorDialog, ErrorsPopupComponent} from "../../errors-popup/errors-popup.component";
 
 @Component({
   selector: 'app-login',
@@ -25,7 +25,8 @@ export class LoginComponent implements OnInit {
   constructor(private personService: LoginService,  private router: Router, public dialog: MatDialog,
               public dialogConfPass: RecoverPasswordComponent,
               private toolbarComponent : ToolbarComponent,
-              private errorPopup: ErrorsPopupComponent) {
+  // public errorPopup: ErrorsPopupComponent
+  ) {
 
   };
 
@@ -44,8 +45,8 @@ export class LoginComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         // alert(error.message);
-        // this.dialog.closeAll()
-        this.errorPopup.openDialog(error.error.message)
+        this.dialog.closeAll()
+        this.dialog.open(ErrorDialog, {data: {message: error.error.message} })
       }
     );
   }
@@ -63,9 +64,11 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/cocktails'])
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        // alert(error.message);
         console.log(error.message)
 
+        this.dialog.closeAll()
+        this.dialog.open(ErrorDialog, {data: {message: error.error.message} })
       }
     );
   }

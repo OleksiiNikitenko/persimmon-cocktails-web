@@ -4,6 +4,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Person} from "../../login/model/person";
 import {HttpErrorResponse} from "@angular/common/http";
 import {RecoverPasswordReceiveService} from "../services/recover-password-receive.service";
+import {ErrorDialog} from "../../errors-popup/errors-popup.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-recover-password-receive',
@@ -18,7 +20,8 @@ export class RecoverPasswordReceiveComponent implements OnInit {
   recoverPasswordReceive: FormGroup | any
   public personId: Person | undefined;
 
-  constructor(private route: ActivatedRoute, private recoverPasswordReceiveService: RecoverPasswordReceiveService) {
+  constructor(private route: ActivatedRoute, private recoverPasswordReceiveService: RecoverPasswordReceiveService,
+              public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -44,7 +47,8 @@ export class RecoverPasswordReceiveComponent implements OnInit {
         this.recoverPasswordReceive.reset();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        this.dialog.closeAll()
+        this.dialog.open(ErrorDialog, {data: {message: error.error.message} })
       }
     );
   }

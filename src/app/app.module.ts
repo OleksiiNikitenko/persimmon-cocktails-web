@@ -48,7 +48,7 @@ import {MatRadioModule} from "@angular/material/radio";
 import {LogoutComponent} from './modules/logout/logout.component';
 import {ChangePasswordComponent} from './modules/change-password/componets/change-password.component';
 import {RecoverPasswordReceiveComponent} from './modules/recover-password-receive/components/recover-password-receive.component';
-import {Dialog, ErrorsPopupComponent} from './modules/errors-popup/errors-popup.component';
+import {ErrorDialog, ErrorsPopupComponent} from './modules/errors-popup/errors-popup.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 
 
@@ -82,7 +82,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
     ChangePasswordComponent,
     RecoverPasswordReceiveComponent,
     ErrorsPopupComponent,
-    Dialog
+    ErrorDialog
   ],
   imports: [
     HttpClientModule,
@@ -107,7 +107,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
   providers: [FormBuilder,
     RecoverPasswordComponent,
     ErrorsPopupComponent,
-    Dialog,
+    ErrorDialog,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: Interceptor,

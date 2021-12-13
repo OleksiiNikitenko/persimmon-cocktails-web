@@ -5,56 +5,53 @@ export interface DialogData {
   message: string;
 }
 
-
 @Component({
   selector: 'app-errors-popup',
   templateUrl: './errors-popup.component.html',
   styleUrls: ['./errors-popup.component.css']
 })
-export class ErrorsPopupComponent implements OnInit {
-  public errorMessage: string = 'testError';
+export class ErrorsPopupComponent {
 
   constructor(public dialog: MatDialog) {
   }
 
-  ngOnInit(): void {
-  }
-
   openDialog(errorMessage: string) {
-    // this.errorMessage = errorMessage
-    // console.log(this.errorMessage)
-    const timeout = 3000;
-    const dialogRef = this.dialog.open(Dialog, {
-      width: '300px',
+    this.dialog.open(ErrorDialog, {
       data: {
         message: errorMessage
       }
     });
-    dialogRef.afterOpened().subscribe(_ => {
-      setTimeout(() => {
-        dialogRef.close();
-      }, timeout)
-    })
   }
 }
 
 @Component({
-  selector: 'Dialog',
+  selector: 'error-dialog',
   template: `
-    <div style="visibility: visible">
-      <p>test</p>
-      <p>{{data.message}}</p>
+    <div class="error-dialog">
+      <div mat-dialog-content>
+        <p>Something is wrong...</p>
+        <p>{{data.message}}</p>
+      </div>
     </div>
-  `
+  `,
+  styleUrls: ['./error-dialog.css']
 })
-export class Dialog {
-  constructor(
-    public dialogRef: MatDialogRef<Dialog>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
-
+export class ErrorDialog implements OnInit {
+  constructor(public dialogRef: MatDialogRef<ErrorDialog>,
+              @Inject(MAT_DIALOG_DATA) public data: DialogData) {
   }
 
-  closeDialog(): void {
-    this.dialogRef.close();
+  ngOnInit() {
+    this.dialogRef.updatePosition({
+      left: `20px`,
+      bottom: `50px`
+    });
+
+    const timeout = 3000;
+    this.dialogRef.afterOpened().subscribe(_ => {
+      setTimeout(() => {
+        this.dialogRef.close();
+      }, timeout)
+    })
   }
 }
