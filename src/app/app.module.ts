@@ -85,7 +85,7 @@ import { UsersComponent } from './modules/users/components/users.component';
     EditKitchenwareComponent,
     LogoutComponent,
     ChangePasswordComponent,
-    CocktailComponent
+    CocktailComponent,
     RecoverPasswordReceiveComponent,
     ErrorsPopupComponent,
     ErrorDialog,
@@ -110,7 +110,7 @@ import { UsersComponent } from './modules/users/components/users.component';
     MatPaginatorModule,
     MatRadioModule,
     MatSelectModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
     MatExpansionModule
   ],
   providers: [FormBuilder,
