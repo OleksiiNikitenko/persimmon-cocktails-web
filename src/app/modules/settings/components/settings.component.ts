@@ -1,9 +1,15 @@
+
+
+import {ADMIN} from "../../../core/models/admin";
+import {ChangePasswordComponent} from "../../change-password/componets/change-password.component";
+
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {ChangePasswordComponent} from "../../change-password/change-password.component";
+
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserQuery} from "../../account/services/user-query";
 import {User} from "../../account/models/user-model";
 import {UserService} from "../../account/services/user-service";
+
 
 @Component({
   selector: 'app-settings',
