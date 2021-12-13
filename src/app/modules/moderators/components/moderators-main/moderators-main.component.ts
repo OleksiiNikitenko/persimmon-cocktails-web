@@ -7,7 +7,7 @@ import {ModeratorsQuery} from "../../services/moderators.query";
 import {ModeratorsStore} from "../../services/moderators.store";
 import {ModeratorsService} from "../../services/moderators.service";
 import {untilDestroyed, UntilDestroy} from '@ngneat/until-destroy';
-
+import {AddModeratorComponent} from "../add-moderator/add-moderator.component";
 
 @UntilDestroy()
 @Component({
@@ -20,12 +20,12 @@ export class ModeratorsMainComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['photoId', 'personId', 'name', 'email', 'editButton', 'statusButton'];
   moderators: Moderator[] = [];
   dataSource: any;
-
-  constructor(private _liveAnnouncer: LiveAnnouncer,
+    constructor(private _liveAnnouncer: LiveAnnouncer,
               private moderatorsService: ModeratorsService,
               private moderatorsQuery: ModeratorsQuery,
               private moderatorsStore: ModeratorsStore,
-              private cdr: ChangeDetectorRef) {}
+              private cdr: ChangeDetectorRef
+    ) {}
 
   getModerators(): Moderator[]{
     return this.moderators;
@@ -52,8 +52,21 @@ export class ModeratorsMainComponent implements AfterViewInit, OnInit {
       this.dataSource.sort = this.sort;
       this.cdr.markForCheck()
     })
+
+
+
   }
 
   ngAfterViewInit(): void {
+
+  }
+  toggle = true;
+  statusBtn = 'Enable';
+
+
+  public changeStatus(){
+    // this.moderatorsService.changeStatus(11)
+    this.toggle = !this.toggle;
+    this.statusBtn = this.toggle ? 'Enable' : 'Disable';
   }
 }

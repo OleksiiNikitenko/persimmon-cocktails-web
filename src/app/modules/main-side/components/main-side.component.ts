@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from "../../account/services/user-service";
 
 @Component({
   selector: 'app-main-side',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainSideComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private userService: UserService
+  ) { }
 
   ngOnInit(): void {
+    this.userService.getPersonById()
   }
 
 }
