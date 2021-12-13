@@ -17,13 +17,13 @@ export const routes = [
     text: 'My blog',
     url: '/blog',
     isActive: true,
-    canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
+    canActivate: [Roles.User]
   },
   {
     text: 'Friends',
     url: '/friends',
     isActive: false,
-    canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
+    canActivate: [Roles.User]
   },
   {
     text: 'My ingredients',
