@@ -36,6 +36,7 @@ export class FriendsComponent implements OnInit {
     invites: InviteFriendModel[] = [];
 
     personsDisplayedColumns: string[] = ['photoId', 'name', 'buttonsBlock'];
+
     friendsDisplayedColumns: string[] = ['photoId', 'name', 'profileButton', 'addToButton'];
     invitationDisplayedColumns: string[] = ['photoId', 'name', 'date', 'acceptButton', 'declineButton', 'profileButton'];
 
