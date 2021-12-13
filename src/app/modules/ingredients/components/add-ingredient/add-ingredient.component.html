@@ -1,6 +1,9 @@
 <div>
   <div class="add-ingredient">
-    <h1>Create ingredient</h1>
+    <h1 *ngIf="!currentIngredientId else edit">Create ingredient</h1>
+    <ng-template #edit>
+      <h1>Edit ingredient</h1>
+    </ng-template>
   </div>
   <div class="add-ingredient__content">
     <img class="add-ingredient__avatar" src="../../../../../assets/images/Orange.jpg" alt="orange">
@@ -14,7 +17,14 @@
         <input placeholder="Category" formControlName="category"/>
       </div>
       <div>
-        <button  class="primary-button createButton" type="button" >Create</button>
+        <label>Status: </label>
+        <input type="checkbox" formControlName="status">
+      </div>
+      <div>
+        <button *ngIf="!currentIngredientId else editButton" class="primary-button createButton" type="button" (click)="createIngredient()">Create</button>
+        <ng-template #editButton>
+          <button class="primary-button createButton" type="button" (click)="editIngredient()">Update</button>
+        </ng-template>
         <button class="secondary-button clearButton" type="button" (click)="resetFormHandler()">Clear</button>
       </div>
     </div>

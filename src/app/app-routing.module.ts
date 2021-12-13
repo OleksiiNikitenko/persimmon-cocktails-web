@@ -18,10 +18,10 @@ import {AddModeratorComponent} from "./modules/moderators/components/add-moderat
 import {ModeratorsMainComponent} from "./modules/moderators/components/moderators-main/moderators-main.component";
 import {IngredientMainComponent} from './modules/ingredients/components/ingredient-main/ingredient-main.component';
 import {AddIngredientComponent} from './modules/ingredients/components/add-ingredient/add-ingredient.component';
-import {EditIngredientComponent} from './modules/ingredients/components/edit-ingredient/edit-ingredient.component';
+//import {EditIngredientComponent} from './modules/ingredients/components/edit-ingredient/edit-ingredient.component';
 import {KitchenwareMainComponent} from './modules/kitchenware/components/kitchenware-main/kitchenware-main.component';
 import {AddKitchenwareComponent} from './modules/kitchenware/components/add-kitchenware/add-kitchenware.component';
-import {EditKitchenwareComponent} from './modules/kitchenware/components/edit-kitchenware/edit-kitchenware.component';
+//import {EditKitchenwareComponent} from './modules/kitchenware/components/edit-kitchenware/edit-kitchenware.component';
 import {CocktailComponent} from "./modules/cocktail/components/cocktail.component";
 import {RecoverPasswordReceiveComponent} from "./modules/recover-password-receive/components/recover-password-receive.component";
 
@@ -57,14 +57,14 @@ const routes: Routes = [
       { path: 'ingredients', component: IngredientComponent, children: [
           { path: '', component: IngredientMainComponent, canActivate: [CanActivateRoute] },
           { path: 'add', component: AddIngredientComponent, canActivate: [CanActivateRoute] },
-          { path: 'edit', component: EditIngredientComponent, canActivate: [CanActivateRoute] }
+          { path: 'edit/:id', component: AddIngredientComponent, canActivate: [CanActivateRoute] }
         ]
       },
 
       { path: 'kitchenware', component: KitchenwareComponent, children: [
           { path: '', component: KitchenwareMainComponent, canActivate: [CanActivateRoute] },
           { path: 'add', component: AddKitchenwareComponent, canActivate: [CanActivateRoute] },
-          { path: 'edit', component: EditKitchenwareComponent, canActivate: [CanActivateRoute] }
+          { path: 'edit/:id', component: AddKitchenwareComponent, canActivate: [CanActivateRoute] }
         ]
       },
     ]

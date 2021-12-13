@@ -39,14 +39,14 @@ import {AddModeratorComponent} from './modules/moderators/components/add-moderat
 import {IngredientMainComponent} from './modules/ingredients/components/ingredient-main/ingredient-main.component';
 import {AddIngredientComponent} from './modules/ingredients/components/add-ingredient/add-ingredient.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import {EditIngredientComponent} from "./modules/ingredients/components/edit-ingredient/edit-ingredient.component";
+//import {EditIngredientComponent} from "./modules/ingredients/components/edit-ingredient/edit-ingredient.component";
 import {KitchenwareMainComponent} from './modules/kitchenware/components/kitchenware-main/kitchenware-main.component';
 import {AddKitchenwareComponent} from './modules/kitchenware/components/add-kitchenware/add-kitchenware.component';
-import {EditKitchenwareComponent} from './modules/kitchenware/components/edit-kitchenware/edit-kitchenware.component';
+//import {EditKitchenwareComponent} from './modules/kitchenware/components/edit-kitchenware/edit-kitchenware.component';
 import {Interceptor} from "./utils/interceptor";
 import {MatRadioModule} from "@angular/material/radio";
 import {LogoutComponent} from './modules/logout/logout.component';
-import { CocktailComponent } from './modules/cocktail/components/cocktail.component';
+import {CocktailComponent} from './modules/cocktail/components/cocktail.component';
 import {MatSelectModule} from "@angular/material/select";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {ChangePasswordComponent} from './modules/change-password/componets/change-password.component';
@@ -54,7 +54,7 @@ import {RecoverPasswordReceiveComponent} from './modules/recover-password-receiv
 import {ErrorDialog, ErrorsPopupComponent} from './modules/errors-popup/errors-popup.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 
-import { UsersComponent } from './modules/users/components/users.component';
+import {UsersComponent} from './modules/users/components/users.component';
 
 
 @NgModule({
@@ -79,10 +79,10 @@ import { UsersComponent } from './modules/users/components/users.component';
     ModeratorsMainComponent,
     AddIngredientComponent,
     IngredientMainComponent,
-    EditIngredientComponent,
+    //EditIngredientComponent,
     AddKitchenwareComponent,
     KitchenwareMainComponent,
-    EditKitchenwareComponent,
+    //EditKitchenwareComponent,
     LogoutComponent,
     ChangePasswordComponent,
     CocktailComponent,
