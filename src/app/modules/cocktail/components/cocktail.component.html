@@ -10,7 +10,7 @@
     <div class="text">
       <h3 *ngIf="viewMode">{{cocktailData.name}}</h3>
       <mat-form-field *ngIf="!viewMode">
-        <mat-label>Cocktail name: </mat-label>
+        <mat-label>Cocktail name:</mat-label>
         <input matInput [(ngModel)]="editedCocktailData.name" type="text" placeholder="Cocktail name"
                formControlName="name"
                id="edit_cocktail_name">
@@ -18,17 +18,18 @@
       <p *ngIf="viewMode && cocktailData.description !== null">{{cocktailData.description}}</p>
 
       <mat-form-field *ngIf="!viewMode">
-      <mat-label>Cocktail description: </mat-label>
-      <input matInput [(ngModel)]="editedCocktailData.description" type="text" placeholder="Cocktail description"
-             formControlName="description"
-             id="edit_cocktail_description">
+        <mat-label>Cocktail description:</mat-label>
+        <input matInput [(ngModel)]="editedCocktailData.description" type="text" placeholder="Cocktail description"
+               formControlName="description"
+               id="edit_cocktail_description">
       </mat-form-field>
 
       <div *ngIf="viewMode">
         <span>Likes: {{cocktailData.likes}}</span>
         <button *ngIf="isAuthenticated" [disabled]="cocktailData.hasLike == null || cocktailData.hasLike"
-          (click)="likeCocktail()"
-          class="like-button">Like</button>
+                (click)="likeCocktail()"
+                class="like-button">Like
+        </button>
       </div>
 
       <p *ngIf="viewMode && canEdit">{{cocktailData.isActive ? "ACTIVE" : "INACTIVE"}}</p>
@@ -73,7 +74,8 @@
       <input matInput [(ngModel)]="editedCocktailData.newLabel" type="text" placeholder="Label name"
              id="add_label" formControlName="newLabel">
       <button type="button" (click)="addLabel()"
-        [disabled]="this.editedCocktailData.labels.indexOf(this.editedCocktailData.newLabel) == -1">Add label</button>
+              [disabled]="this.editedCocktailData.labels.indexOf(this.editedCocktailData.newLabel) == -1">Add label
+      </button>
     </div>
   </div>
 
@@ -82,31 +84,56 @@
     <p *ngFor="let line of divideReceiptIntoLines(cocktailData.receipt)">{{line}}</p>
   </div>
   <mat-form-field *ngIf="!viewMode">
-    <mat-label>Receipt: </mat-label>
+    <mat-label>Receipt:</mat-label>
     <textarea matInput [(ngModel)]="editedCocktailData.receipt" type="text" placeholder="Cocktail receipt"
-           formControlName="receipt"
+              formControlName="receipt"
               id="edit_cocktail_receipt"></textarea>
   </mat-form-field>
   <div class="ingredients">
     <h4>Ingredients</h4>
-    <div class="ingredient-list">
+    <div *ngIf="viewMode" class="ingredient-list">
       <li class="ingredient" *ngFor="let ingredient of cocktailData.ingredientList">
-        <img class="ingredient-small-photo" [src]="ingredient.photoId === null ? defaultIngredientUrl : ingredient.photoId">
+        <img class="ingredient-small-photo"
+             [src]="ingredient.photoId === null ? defaultIngredientUrl : ingredient.photoId">
         <div>{{ingredient.name}}</div>
         <div>{{ingredient.category === null ? "No category" : ingredient.category.name}}</div>
-        <button *ngIf="!viewMode" (click)="deleteIngredient(ingredient.ingredientId)">X</button>
       </li>
     </div>
-  </div>
-  <div class="kitchenwares">
-    <h4>Kitchenware</h4>
-    <div class="kitchenware-list">
-      <li class="kitchenware" *ngFor="let kitchenware of cocktailData.kitchenwareList">
-        <img class="kitchenware-small-photo" [src]="kitchenware.photoId === null ? defaultKitchenwareUrl : kitchenware.photoId">
-        <div>{{kitchenware.name}}</div>
-        <div>{{kitchenware.category === null ? "No category" : kitchenware.category.name}}</div>
-        <button *ngIf="canEdit" (click)="deleteKitchenware(kitchenware.kitchenwareId)">X</button>
+
+    <div *ngIf="!viewMode" class="ingredient-list">
+      <li class="ingredient" *ngFor="let ingredient of editedCocktailData.ingredientList">
+        <div>{{ingredient.name}}</div>
+        <button *ngIf="!viewMode" (click)="deleteAddedIngredient(ingredient.ingredientId)">X</button>
       </li>
     </div>
   </div>
 </form>
+
+<div *ngIf="!viewMode">
+  <mat-form-field class="example-full-width">
+    <input type="text" placeholder="Choose ingredient" matInput
+           [formControl]="ingredientFormControl" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayIngredientName">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        {{ option.name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <button (click)="addIngredient()" [disabled]="this.ingredientFormControl.value == null ||
+  !this.ingredientFormControl.value.hasOwnProperty('ingredientId')"
+  >Add to cocktail</button>
+</div>
+
+
+<div class="kitchenwares">
+  <h4>Kitchenware</h4>
+  <div class="kitchenware-list">
+    <li class="kitchenware" *ngFor="let kitchenware of cocktailData.kitchenwareList">
+      <img class="kitchenware-small-photo"
+           [src]="kitchenware.photoId === null ? defaultKitchenwareUrl : kitchenware.photoId">
+      <div>{{kitchenware.name}}</div>
+      <div>{{kitchenware.category === null ? "No category" : kitchenware.category.name}}</div>
+    </li>
+  </div>
+</div>
+

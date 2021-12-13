@@ -51,6 +51,7 @@ import {LogoutComponent} from './modules/logout/logout.component';
 import { ChangePasswordComponent } from './modules/change-password/change-password.component';
 import { CocktailComponent } from './modules/cocktail/components/cocktail.component';
 import {MatSelectModule} from "@angular/material/select";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 
 @NgModule({
@@ -83,26 +84,27 @@ import {MatSelectModule} from "@angular/material/select";
     ChangePasswordComponent,
     CocktailComponent
   ],
-    imports: [
-        HttpClientModule,
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatCardModule,
-        MatTabsModule,
-        MatInputModule,
-        MatButtonModule,
-        FormsModule,
-        MatIconModule,
-        MatTableModule,
-        MatSortModule,
-        ReactiveFormsModule,
-        MatPaginatorModule,
-        MatDialogModule,
-        MatPaginatorModule,
-        MatRadioModule,
-        MatSelectModule
-    ],
+  imports: [
+    HttpClientModule,
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatCardModule,
+    MatTabsModule,
+    MatInputModule,
+    MatButtonModule,
+    FormsModule,
+    MatIconModule,
+    MatTableModule,
+    MatSortModule,
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    MatDialogModule,
+    MatPaginatorModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatAutocompleteModule
+  ],
   providers: [FormBuilder,
     RecoverPasswordComponent,
     {

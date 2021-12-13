@@ -7,6 +7,9 @@ import {getUser} from "../../../core/models/user";
 import {Roles} from "../../../core/models/roles";
 import {FormControl, FormGroup} from "@angular/forms";
 import {columnsToSortBy} from "../../cocktails/models/query";
+import {Observable} from "rxjs";
+import {debounceTime, distinctUntilChanged, startWith, switchMap} from "rxjs/operators";
+import {IngredientName} from "../../cocktails/models/IngredientName";
 
 @Component({
   selector: 'app-cocktail',
@@ -27,6 +30,8 @@ export class CocktailComponent implements OnInit {
   editCocktailForm: FormGroup;
   isAuthenticated: boolean = getUser().role !== Roles.Anonymous;
   allCategories: CocktailCategory[] = [];
+  ingredientFormControl: FormControl = new FormControl()
+  filteredOptions: Observable<IngredientName[]>;
 
   constructor(private activateRoute: ActivatedRoute,
               private cocktailService: CocktailService,
@@ -63,6 +68,15 @@ export class CocktailComponent implements OnInit {
     }
     this.editedCocktailData = this.initEditCocktailData()
     this.editCocktailForm = this.initEditForm()
+
+    this.filteredOptions = this.ingredientFormControl.valueChanges
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        switchMap(val => {
+          return this.cocktailService.fetchIngredients(val || '', this.canEdit)
+        })
+      );
   }
 
   ngOnInit(): void {
@@ -86,22 +100,6 @@ export class CocktailComponent implements OnInit {
 
   divideReceiptIntoLines(receipt: string) : string[] {
     return receipt.split('\n\n')
-  }
-
-  deleteIngredient(ingredientId: any) {
-    this.cocktailService.removeIngredient(ingredientId, this.cocktailData.dishId)
-      .subscribe(()=>{
-        this.cocktailData.ingredientList = this.cocktailData.ingredientList.filter(i => i.ingredientId !== ingredientId)
-      },
-          err => console.error(err))
-  }
-
-  deleteKitchenware(kitchenwareId: any) {
-    this.cocktailService.removeKitchenware(kitchenwareId, this.cocktailData.dishId)
-      .subscribe(()=>{
-          this.cocktailData.kitchenwareList = this.cocktailData.kitchenwareList.filter(i => i.kitchenwareId !== kitchenwareId)
-        },
-        err => console.error(err))
   }
 
   deleteCocktail(dishId: number) {
@@ -171,18 +169,27 @@ export class CocktailComponent implements OnInit {
     })
   }
 
-  // private labelsChanged(labels : string[], changedLabels : string[]) : boolean {
-  //   if(labels.length != changedLabels.length) return false;
-  //   for(let i : number = 0; i<labels.length; i += 1){
-  //     if(labels[i] !== changedLabels[i]) return false
-  //   }
-  //   return true
-  // }
   addLabel() {
     if(this.editedCocktailData.newLabel.length != 0 &&
       this.editedCocktailData.labels.indexOf(this.editedCocktailData.newLabel) == -1){
       this.editedCocktailData.labels.push(this.editedCocktailData.newLabel)
     }
     this.editedCocktailData.newLabel = ''
+  }
+
+  addIngredient() {
+      if(this.editedCocktailData.ingredientList.find( i => i.ingredientId == this.ingredientFormControl.value.ingredientId) == null){
+        this.editedCocktailData.ingredientList.push(this.ingredientFormControl.value)
+      }
+      this.ingredientFormControl.setValue('')
+  }
+
+  deleteAddedIngredient(ingredientId: number) {
+    this.editedCocktailData.ingredientList = this.editedCocktailData.ingredientList.filter(i => i.ingredientId != ingredientId)
+  }
+
+  displayIngredientName(ingr: IngredientName | null) : string {
+    if(ingr == null) return ''
+    else return ingr.name
   }
 }
