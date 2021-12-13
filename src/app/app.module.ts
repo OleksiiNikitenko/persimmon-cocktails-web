@@ -50,6 +50,7 @@ import {MatRadioModule} from "@angular/material/radio";
 import {LogoutComponent} from './modules/logout/logout.component';
 import { ChangePasswordComponent } from './modules/change-password/change-password.component';
 import { CocktailComponent } from './modules/cocktail/components/cocktail.component';
+import {MatSelectModule} from "@angular/material/select";
 
 
 @NgModule({
@@ -82,25 +83,26 @@ import { CocktailComponent } from './modules/cocktail/components/cocktail.compon
     ChangePasswordComponent,
     CocktailComponent
   ],
-  imports: [
-    HttpClientModule,
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatCardModule,
-    MatTabsModule,
-    MatInputModule,
-    MatButtonModule,
-    FormsModule,
-    MatIconModule,
-    MatTableModule,
-    MatSortModule,
-    ReactiveFormsModule,
-    MatPaginatorModule,
-    MatDialogModule,
-    MatPaginatorModule,
-    MatRadioModule
-  ],
+    imports: [
+        HttpClientModule,
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatCardModule,
+        MatTabsModule,
+        MatInputModule,
+        MatButtonModule,
+        FormsModule,
+        MatIconModule,
+        MatTableModule,
+        MatSortModule,
+        ReactiveFormsModule,
+        MatPaginatorModule,
+        MatDialogModule,
+        MatPaginatorModule,
+        MatRadioModule,
+        MatSelectModule
+    ],
   providers: [FormBuilder,
     RecoverPasswordComponent,
     {

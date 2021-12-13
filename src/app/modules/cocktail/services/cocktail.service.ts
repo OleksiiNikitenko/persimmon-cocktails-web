@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
-import {FullCocktail} from "../models/fullCocktail";
+import {CocktailCategory, EditCocktail, FullCocktail} from "../models/fullCocktail";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 
@@ -39,5 +39,21 @@ export class CocktailService {
 
   deleteCocktail(dishId: number) :Observable<any> {
     return this.http.post(`${this.apiServerUrl}/cocktail/delete`, dishId)
+  }
+
+  fetchAllCocktailCategories() : Observable<CocktailCategory[]> {
+    return this.http.get<CocktailCategory[]>(`${this.apiServerUrl}/cocktail/categories`)
+  }
+
+  editCocktail(cocktail: EditCocktail) {
+    return this.http.patch(`${this.apiServerUrl}/cocktail/update`, {
+      dishId: cocktail.dishId,
+      name: cocktail.name,
+      description: cocktail.description,
+      dishCategoryId: cocktail.dishCategoryId === -1 ? null : cocktail.dishCategoryId,
+      receipt: cocktail.receipt,
+      isActive: cocktail.isActive,
+      labels: cocktail.labels
+    })
   }
 }

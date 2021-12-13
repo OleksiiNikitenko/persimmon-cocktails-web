@@ -38,7 +38,8 @@ export interface EditCocktail {
   ingredientList: {
     ingredientId: number,
     name: string
-  }[]
+  }[],
+  newLabel: string
 }
 
 export function mockCocktail(): FullCocktail {
@@ -58,4 +59,9 @@ export function mockCocktail(): FullCocktail {
     ingredientList: [],
     hasLike: null
   }
+}
+
+export interface CocktailCategory {
+  categoryId: number | null,
+  categoryName: string
 }

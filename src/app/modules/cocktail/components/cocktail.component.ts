@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {EditCocktail, FullCocktail, mockCocktail} from "../models/fullCocktail";
+import {CocktailCategory, EditCocktail, FullCocktail, mockCocktail} from "../models/fullCocktail";
 import {CocktailService} from "../services/cocktail.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {getUser} from "../../../core/models/user";
@@ -25,6 +25,8 @@ export class CocktailComponent implements OnInit {
   public loaded: boolean = false;
   viewMode: boolean = true;
   editCocktailForm: FormGroup;
+  isAuthenticated: boolean = getUser().role !== Roles.Anonymous;
+  allCategories: CocktailCategory[] = [];
 
   constructor(private activateRoute: ActivatedRoute,
               private cocktailService: CocktailService,
@@ -55,6 +57,9 @@ export class CocktailComponent implements OnInit {
             error => this.handleFetchError(error)
           )
       }
+      cocktailService.fetchAllCocktailCategories()
+        .subscribe(res => this.updateAllCategories(res),
+          err => console.error(err))
     }
     this.editedCocktailData = this.initEditCocktailData()
     this.editCocktailForm = this.initEditForm()
@@ -112,12 +117,9 @@ export class CocktailComponent implements OnInit {
       description: new FormControl(this.cocktailData.description),
       receipt: new FormControl(this.cocktailData.receipt),
       isActive: new FormControl(this.cocktailData.isActive),
-      dishCategoryId: new FormControl(this.cocktailData.dishCategoryId)
+      dishCategoryId: new FormControl(this.cocktailData.dishCategoryId),
+      newLabel: new FormControl(this.editedCocktailData.newLabel)
     });
-  }
-
-  editCocktail() {
-
   }
 
   goToMode(view: boolean) {
@@ -128,13 +130,15 @@ export class CocktailComponent implements OnInit {
   }
 
   private initEditCocktailData() {
+    let labelsCopy : string[] = []
+    this.cocktailData.labels.forEach(label => labelsCopy.push(label))
     return {
       name: this.cocktailData.name,
       description: this.cocktailData.description,
       receipt: this.cocktailData.receipt,
       dishId: this.cocktailData.dishId,
-      dishCategoryId: this.cocktailData.dishCategoryId,
-      labels: this.cocktailData.labels,
+      dishCategoryId: this.cocktailData.dishCategoryId === null ? -1 : this.cocktailData.dishCategoryId,
+      labels: labelsCopy,
       isActive: this.cocktailData.isActive,
       kitchenwareList: this.cocktailData.kitchenwareList.map(c => {
         return {
@@ -148,6 +152,37 @@ export class CocktailComponent implements OnInit {
           name: c.name
         }
       }),
+      newLabel: ''
     }
+  }
+
+  private updateAllCategories(res: CocktailCategory[]) {
+    this.allCategories = res;
+    this.allCategories.push({categoryId: -1, categoryName: "Nothing"})
+  }
+
+  deleteLabel(label:string) {
+    this.editedCocktailData.labels = this.editedCocktailData.labels.filter(l => l!=label)
+  }
+
+  editCocktail() {
+    this.cocktailService.editCocktail(this.editedCocktailData).subscribe(() => {
+      window.location.reload()
+    })
+  }
+
+  // private labelsChanged(labels : string[], changedLabels : string[]) : boolean {
+  //   if(labels.length != changedLabels.length) return false;
+  //   for(let i : number = 0; i<labels.length; i += 1){
+  //     if(labels[i] !== changedLabels[i]) return false
+  //   }
+  //   return true
+  // }
+  addLabel() {
+    if(this.editedCocktailData.newLabel.length != 0 &&
+      this.editedCocktailData.labels.indexOf(this.editedCocktailData.newLabel) == -1){
+      this.editedCocktailData.labels.push(this.editedCocktailData.newLabel)
+    }
+    this.editedCocktailData.newLabel = ''
   }
 }

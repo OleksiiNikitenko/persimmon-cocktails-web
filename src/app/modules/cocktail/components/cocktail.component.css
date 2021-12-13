@@ -23,7 +23,7 @@
 .label{
   font-size: 1.5em;
   padding: 0.5em;
-  padding-right: 1.5em;
+  margin-right: 1.5em;
 }
 
 .ingredient-small-photo, .kitchenware-small-photo{
@@ -58,4 +58,20 @@
 .text{
   display: flex;
   flex-direction: column;
+}
+
+.edit-label-text{
+  /*padding-right: ;*/
+}
+
+button{
+  border-radius: 21px;
+  border: 1px solid #FFF7F0;
+  color: #FFF7F0;
+  padding: 3px 10px;
+  background-color: #4E5953;
+}
+
+.labels-group{
+  margin: 1em 0;
 }
