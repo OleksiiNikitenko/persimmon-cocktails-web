@@ -22,7 +22,9 @@ import {EditIngredientComponent} from './modules/ingredients/components/edit-ing
 import {KitchenwareMainComponent} from './modules/kitchenware/components/kitchenware-main/kitchenware-main.component';
 import {AddKitchenwareComponent} from './modules/kitchenware/components/add-kitchenware/add-kitchenware.component';
 import {EditKitchenwareComponent} from './modules/kitchenware/components/edit-kitchenware/edit-kitchenware.component';
+import {CocktailComponent} from "./modules/cocktail/components/cocktail.component";
 import {RecoverPasswordReceiveComponent} from "./modules/recover-password-receive/components/recover-password-receive.component";
+
 
 const BASE_URL = getBaseUrl()
 
@@ -33,7 +35,11 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: BASE_URL, pathMatch: 'full' },
       { path: 'blog', component: BlogComponent, canActivate: [CanActivateRoute] },
-      { path: 'cocktails', component: CocktailsComponent, canActivate: [CanActivateRoute] },
+      { path: 'cocktails', children: [
+          {path: ':id', component: CocktailComponent},
+          {path: '', component: CocktailsComponent, canActivate: [CanActivateRoute]},
+        ]
+      },
       { path: 'events', component: EventsComponent, canActivate: [CanActivateRoute] },
       { path: 'friends', component: FriendsComponent, canActivate: [CanActivateRoute] },
       { path: 'settings', component: SettingsComponent, canActivate: [CanActivateRoute] },

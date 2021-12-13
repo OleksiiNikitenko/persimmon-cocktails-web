@@ -5,27 +5,41 @@
       <div class="search-query-input-and-button">
         <mat-form-field class="search-query-input">
           <mat-label>Search cocktails</mat-label>
-          <input matInput [(ngModel)]="currentQuery.query" type="text" placeholder="Cocktail name" formControlName="name"
-                 id="cocktails_search_name" (keypress)="checkValue($event)"
-                 (keyup)="fieldCocktailsChanged(currentQuery.query)">
+          <input matInput [(ngModel)]="currentQuery.query" type="text" placeholder="Cocktail name"
+                 formControlName="name"
+                 id="cocktails_search_name" (keypress)="checkValue($event)">
           <mat-hint align="end">More than 2 characters, space and hyphen are available.</mat-hint>
           <!--        <mat-icon matSuffix>supervisor_account</mat-icon>-->
         </mat-form-field>
-        <button class="search-submit-button primary-button" type="submit" value="submit" [disabled]="!searchCocktailsForm.valid" >Search</button>
+        <button class="search-submit-button primary-button" type="submit" value="submit"
+                [disabled]="!searchCocktailsForm.valid">Search
+        </button>
       </div>
       <div class="search-field sort-by-div">
         <label id="sort-by-radio-group-label">Choose the column to sort by</label>
-        <mat-radio-group
-          formControlName="sortColumn"
-          aria-labelledby="sort-by-radio-group-label"
-          class="sort-by-radio-group"
-          [(ngModel)]="currentQuery.sortByColumn">
-          <mat-radio-button class="sort-by-radio-button" *ngFor="let sortColumn of sortColumns" [value]="sortColumn">
-            {{sortColumn}}
-          </mat-radio-button>
-        </mat-radio-group>
+        <div class="sort-by-radio-div">
+          <mat-radio-group
+            formControlName="sortColumn"
+            aria-labelledby="sort-by-radio-group-label"
+            class="sort-by-radio-group"
+            [(ngModel)]="currentQuery.sortByColumn">
+            <mat-radio-button class="sort-by-radio-button" *ngFor="let sortColumn of sortColumns" [value]="sortColumn">
+              {{sortColumn}}
+            </mat-radio-button>
+          </mat-radio-group>
+          <mat-radio-group
+            formControlName="sortDirection"
+            [(ngModel)]="currentQuery.sortDirection">
+            <mat-radio-button [value]="true">
+              <span class="material-icons">expand_less</span>
+            </mat-radio-button>
+            <mat-radio-button [value]="false">
+              <span class="material-icons">expand_more</span>
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
       </div>
-      </mat-card-content>
+    </mat-card-content>
     <mat-card-actions>
     </mat-card-actions>
     <small

@@ -3,7 +3,7 @@ import {ActiveKitchenware} from "./activeKitchenware";
 export class KitchenwareView {
   name!: string
   kitchenwareId!: number
-  photoId!: number
+  photoId!: number | null
   categoryId!: number | undefined
   categoryName!: string | undefined
 
