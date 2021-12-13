@@ -40,7 +40,7 @@ export class InvitationsService {
   }
 
   handleMessage(message: string): string {
-    if (message.length == 0) return ""
+    if (message == null || message.length == 0) return ""
     else return "\"" + message + "\"";
   }
 
