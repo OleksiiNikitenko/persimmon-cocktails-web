@@ -37,7 +37,7 @@ export class AddKitchenwareComponent implements OnInit {
         untilDestroyed(this)
       ).subscribe(kitchenware => {
         this.name?.setValue(kitchenware?.name)
-        this.category?.setValue(kitchenware?.kitchenwareCategoryID)
+        this.category?.setValue(kitchenware?.category)
       })
     }
   }

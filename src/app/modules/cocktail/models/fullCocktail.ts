@@ -1,4 +1,4 @@
-import {Kitchenware} from "../../kitchenware/models/activeKitchenware";
+import {KitchenwareUiModel} from "../../kitchenware/models/kitchenware.ui.model";
 import {Ingredient} from "../../cocktails/models/ingredient";
 
 export interface FullCocktail {
@@ -19,7 +19,7 @@ export interface FullCocktail {
   receipt: string,
   likes: number,
   isActive: boolean,
-  kitchenwareList: Kitchenware[],
+  kitchenwareList: KitchenwareUiModel[],
   ingredientList: Ingredient[]
 }
 

@@ -1,6 +1,9 @@
 export interface KitchenwareUiModel {
   kitchenwareId: number,
   name: string,
-  kitchenwareCategoryID: number,
+  category: {
+    kitchenwareCategoryId: number,
+    name: string
+  } | null,
   photoId: number | null
 }
