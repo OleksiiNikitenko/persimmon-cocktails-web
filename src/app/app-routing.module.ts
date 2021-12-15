@@ -65,8 +65,8 @@ const routes: Routes = [
 
       { path: 'stock', component: StockComponent, children: [
           {path: '', component: StockMainComponent, canActivate: [CanActivateRoute]},
-          {path: 'add-stock', component: AddStockIngredientComponent, canActivate: [CanActivateRoute]},
-          {path: 'edit-stock', component: EditStockIngredientComponent, canActivate: [CanActivateRoute]}
+          {path: 'add', component: AddStockIngredientComponent, canActivate: [CanActivateRoute]},
+          {path: 'edit/:ingredientId', component: EditStockIngredientComponent, canActivate: [CanActivateRoute]}
         ]
       },
 

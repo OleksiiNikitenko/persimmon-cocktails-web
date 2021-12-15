@@ -1,9 +1,12 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
-import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {MatSort, Sort} from "@angular/material/sort";
-//import {ModeratorsMainService} from "../../services/moderators-main.service";
-//import {Moderator} from "../../models/moderator.model";
+import {FormControl, FormGroup} from "@angular/forms";
+import {columnsToSortBy, QueryUpdate} from "../../models/query";
+import {StockService} from "../../services/stock.service";
+import {Query} from "../../models/query";
+import {QueryDelete} from "../../models/query";
+import {StockIngredients} from "../../models/stock-ingredients";
 
 @Component({
   selector: 'app-stock-main',
@@ -12,27 +15,57 @@ import {MatSort, Sort} from "@angular/material/sort";
 })
 export class StockMainComponent implements AfterViewInit, OnInit {
 
-  displayedColumns: string[] = ['photoId', 'name', 'category', 'amount', 'measureType', 'editButton'];
-
+  displayedColumns: string[] = ['photo',  'name', 'categoryName', 'amount', 'measureType', 'ingredientId', 'deleteButton'];
   dataSource: any;
+  searchStockIngredientsForm: FormGroup | any;
+  public findByNameQuery: Query = {query: "", page: 0, sortByColumn: "nothing"}
+  public deleteQuery: QueryDelete = {ingredientId: 1}
+  ingredientsFromStock : StockIngredients[] = [];
+  sortColumns: string[] = columnsToSortBy;
+  defaultPhotoUrl: string = "http://shorturl.at/quyAS"
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {
-  }
+  constructor(private  stockService : StockService) {  }
 
   @ViewChild(MatSort, {static: false}) sort!: MatSort;
 
-  announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
 
   ngAfterViewInit() {
   }
 
   ngOnInit(): void {
+    this.searchStockIngredientsForm = new FormGroup({
+      name: new FormControl(''),
+      sortColumn: new FormControl(columnsToSortBy)
+    });
+     //this.getStockIngredients()
+    this.getStock()
+  }
+
+  deleteStockIngredient() {
+    this.stockService.fetchDeleteIngredientFromStock(this.deleteQuery)
+  }
+
+  getStockIngredients() {
+    this.stockService.fetchStockIngredientsByName(this.findByNameQuery)
+      .subscribe(stockIngredients => {
+        this.ingredientsFromStock = stockIngredients;
+        this.dataSource = new MatTableDataSource(stockIngredients)
+      })
+  }
+
+  getStock() {
+    this.stockService.fetchStock()
+      .subscribe(stockIngredients => {
+        this.ingredientsFromStock = stockIngredients;
+        this.dataSource = new MatTableDataSource(stockIngredients)
+      })
+  }
+
+  checkValue(event: KeyboardEvent) {
+    return event.code.match(/^[a-zA-Z0-9 -]*$/) ?
+      event.code : event.preventDefault();
+  }
+  fieldIngredientsChanged(currentQueryString: string | null) {
 
   }
 }

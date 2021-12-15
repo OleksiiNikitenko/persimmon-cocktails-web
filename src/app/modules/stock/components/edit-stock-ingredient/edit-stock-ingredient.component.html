@@ -5,21 +5,30 @@
 
   <div class="edit-ingredient__content">
     <img class="edit-ingredient__avatar" src="../../../../../assets/images/Orange.jpg" alt="orange">
-    <div [formGroup]="form" class="form">
-      <div>
-        <label>Name: </label>
-        <input placeholder="Ingredient name" formControlName="name"/>
-      </div>
+    <div *ngIf="actualData!=null" [formGroup]="_form" class="form">
 
       <div>
-        <label>Category: </label>
-        <input placeholder="Category" formControlName="category"/>
+        <label>Name: </label>
+        <span>{{actualData?.name}}</span>
       </div>
       <div>
-        <button  class="primary-button createButton" type="button" >Change</button>
+        <label>Category: </label>
+        <span>{{actualData?.categoryName}}</span>
+      </div>
+      <div>
+        <label>Amount: </label>
+        <input placeholder="1" formControlName="amount"/>
+      </div>
+      <div>
+        <label>Measure type: </label>
+        <input placeholder="litres, kg, etc." formControlName="measureType"/>
+      </div>
+      <div>
+        <button class="primary-button createButton" type="button" (click)="editStockIngredient()">Change</button>
         <button class="secondary-button clearButton" type="button" (click)="resetFormHandler()">Clear</button>
       </div>
     </div>
+    <div *ngIf="actualData==null">No such ingredients</div>
 
   </div>
 </div>
