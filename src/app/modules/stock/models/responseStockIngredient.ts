@@ -4,7 +4,7 @@ export interface ResponseStockIngredient {
   personId : number,
   categoryName: string | null,
   ingredientCategoryId: number | null,
-  amount: number,
+  amount: number | null,
   measureType: string | null,
   photoId: number
 }

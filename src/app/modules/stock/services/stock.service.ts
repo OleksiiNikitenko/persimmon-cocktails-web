@@ -5,7 +5,7 @@ import {Observable} from "rxjs";
 import {StockIngredients} from "../models/stock-ingredients";
 import {StockIngredient} from "../models/stockIngredient";
 import {ResponseStockIngredient} from "../models/responseStockIngredient";
-import {Query, QueryDelete, QueryUpdate} from "../models/query";
+import {Query, QueryDelete} from "../models/query";
 import {tap} from "rxjs/operators";
 import {CocktailBasicInfo} from "../../cocktails/models/cocktails-basic-info";
 

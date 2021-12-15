@@ -17,11 +17,11 @@
       </div>
       <div>
         <label>Amount: </label>
-        <input matInput [(ngModel)]="actualData.amount" type="text" placeholder="amount" formControlName="amount"/>
+        <input matInput [(ngModel)]="patchQuery.amount" type="text" placeholder="amount" formControlName="amount"/>
       </div>
       <div>
         <label>Measure type: </label>
-        <input matInput [(ngModel)]="actualData.measureType" type="text" placeholder="litres, kg, etc." formControlName="measureType"/>
+        <input matInput [(ngModel)]="patchQuery.measureType" type="text" placeholder="litres, kg, etc." formControlName="measureType"/>
       </div>
       <div>
         <button class="primary-button createButton" type="submit" >Change</button>

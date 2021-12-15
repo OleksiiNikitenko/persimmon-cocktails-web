@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort, Sort} from "@angular/material/sort";
 import {FormControl, FormGroup} from "@angular/forms";
-import {columnsToSortBy, QueryUpdate} from "../../models/query";
+import {columnsToSortBy} from "../../models/query";
 import {StockService} from "../../services/stock.service";
 import {Query} from "../../models/query";
 import {QueryDelete} from "../../models/query";

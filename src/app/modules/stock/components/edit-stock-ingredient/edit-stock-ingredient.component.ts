@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {StockService} from "../../services/stock.service";
-import {QueryUpdate} from "../../models/query";
 import {query} from "@angular/animations";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ResponseStockIngredient} from "../../models/responseStockIngredient";
@@ -21,7 +20,7 @@ export class EditStockIngredientComponent implements OnInit {
   actualData: ResponseStockIngredient | null = null;
   stockIngredient : StockIngredient | null = null;
 
-  patchQuery: QueryUpdate = {ingredientId: 1, amount: 1, measureType: "l"}
+  patchQuery: StockIngredient = {ingredientId: 1, amount: 1, measureType: "l"}
 
   ingredientId: string | null;
 
@@ -31,6 +30,10 @@ export class EditStockIngredientComponent implements OnInit {
     private  stockService : StockService,
     private route: ActivatedRoute
   ) {
+    this._form = new FormGroup ({
+      amount: new FormControl(this.actualData?.amount),
+      measureType: new FormControl(this.actualData?.measureType)
+    });
     this.ingredientId =  this.route.snapshot.paramMap.get('ingredientId')
     this._form = this.formBuilder.group({
       amount: this.actualData?.amount,
@@ -38,6 +41,9 @@ export class EditStockIngredientComponent implements OnInit {
     })
     this.stockService.getActualData(this.ingredientId).subscribe(responseStockIngredient => {
       this.actualData = responseStockIngredient
+      this.patchQuery.amount = this.actualData.amount
+      this.patchQuery.measureType = this.actualData.measureType
+      this.patchQuery.ingredientId = this.actualData.ingredientId
     })
   }
 
@@ -47,7 +53,6 @@ export class EditStockIngredientComponent implements OnInit {
   //   let params :  HttpParams = new HttpParams()
   //   params = params.set("ingredientId", )
   // }
-
 
 
   editStockIngredient(): void {
@@ -64,8 +69,9 @@ export class EditStockIngredientComponent implements OnInit {
 
   resetFormHandler() {
     if(this.actualData != null){
-      this.actualData.amount = 0
-      this.actualData.measureType = ""
+      this.patchQuery.amount = this.actualData.amount
+      this.patchQuery.measureType = this.actualData.measureType
+      this.patchQuery.ingredientId = this.actualData.ingredientId
     }
   }
 }
