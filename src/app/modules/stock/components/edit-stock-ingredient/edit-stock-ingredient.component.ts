@@ -4,9 +4,10 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {StockService} from "../../services/stock.service";
 import {QueryUpdate} from "../../models/query";
 import {query} from "@angular/animations";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ResponseStockIngredient} from "../../models/responseStockIngredient";
 import {StockIngredient} from "../../models/stockIngredient";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-edit-stock-ingredient',
@@ -18,12 +19,14 @@ export class EditStockIngredientComponent implements OnInit {
   _form: FormGroup
   selectedFile: File = null as any;
   actualData: ResponseStockIngredient | null = null;
+  stockIngredient : StockIngredient | null = null;
 
   patchQuery: QueryUpdate = {ingredientId: 1, amount: 1, measureType: "l"}
 
   ingredientId: string | null;
 
   constructor(
+    private router : Router,
     private formBuilder: FormBuilder, private http: HttpClient,
     private  stockService : StockService,
     private route: ActivatedRoute
@@ -33,7 +36,7 @@ export class EditStockIngredientComponent implements OnInit {
       amount: this.actualData?.amount,
       measureType: this.actualData?.measureType
     })
-    this.stockService.getActualData().subscribe(responseStockIngredient => {
+    this.stockService.getActualData(this.ingredientId).subscribe(responseStockIngredient => {
       this.actualData = responseStockIngredient
     })
   }
@@ -47,34 +50,22 @@ export class EditStockIngredientComponent implements OnInit {
 
 
 
-  // editIngredient(): StockIngredient {
-  //   this.stockService.getIngredient()
-  // }
-
   editStockIngredient(): void {
-    this.stockService.fetchStockUpdateIngredient(this.patchQuery)
-  }
 
-  get id() {
-    return this._form.get('id')
-  }
+    this.stockService.fetchStockUpdateIngredient(this.patchQuery).subscribe(() => {
+      this.router.navigate(["/stock"])
 
-  get name() {
-    return this._form.get('name')
-  }
+    }, error => {
+      this.resetFormHandler()
+      console.log(error)
+    })
 
-  get amount() {
-    return this._form.get('amount')
   }
-
-  get measureType() {
-    return this._form.get('measureType')
-  }
-
 
   resetFormHandler() {
-    this.name?.setValue('')
-    this.amount?.setValue('')
-    this.measureType?.setValue('')
+    if(this.actualData != null){
+      this.actualData.amount = 0
+      this.actualData.measureType = ""
+    }
   }
 }

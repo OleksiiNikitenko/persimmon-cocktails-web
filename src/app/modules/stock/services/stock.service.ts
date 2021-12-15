@@ -3,6 +3,7 @@ import {environment} from "../../../../environments/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {StockIngredients} from "../models/stock-ingredients";
+import {StockIngredient} from "../models/stockIngredient";
 import {ResponseStockIngredient} from "../models/responseStockIngredient";
 import {Query, QueryDelete, QueryUpdate} from "../models/query";
 import {tap} from "rxjs/operators";
@@ -19,22 +20,21 @@ export class StockService {
   private apiDeleteIngredientById = `${this.apiServerUrl}/stock/`   //+Path variable
   private apiUpdateStock = `${this.apiServerUrl}/stock/update-stock`
   private apiAddIngredient = `${this.apiServerUrl}/stock/add-ingredient`
+  private apiReadStockIngredientById = `${this.apiServerUrl}/stock/getPersonalStockIngredient/`
 
   constructor(private http: HttpClient) { }
 
-  fetchStockUpdateIngredient(query : QueryUpdate) {
-    const params = this.updateQuery(query)
-    console.log(params)
-    this.http.patch(this.apiUpdateStock, {params})
+  fetchStockUpdateIngredient(stockIngredient: StockIngredient) : Observable<any> {
+    return this.http.patch(this.apiUpdateStock, stockIngredient)
   }
 
-  updateQuery(query : QueryUpdate) : HttpParams {
-    let params = new HttpParams()
-    params = params.set("ingredientId", query.ingredientId)
-    params = params.set("amount", query.amount)
-    params = params.set("measureType", query.measureType)
-    return params;
-  }
+  // updateQuery(query : QueryUpdate) : HttpParams {
+  //   let params = new HttpParams()
+  //   params = params.set("ingredientId", query.ingredientId)
+  //   params = params.set("amount", query.amount)
+  //   params = params.set("measureType", query.measureType)
+  //   return params;
+  // }
 
   fetchDeleteIngredientFromStock(query : QueryDelete) {
     let params = new HttpParams()
@@ -60,8 +60,8 @@ export class StockService {
   //   return this.http.get<ResponseStockIngredient[]>(this.apiReadStockById, {params})
   // }
 
-  getActualData() : Observable<ResponseStockIngredient> {
-    return this.http.get<ResponseStockIngredient>(this.apiReadStockById)
+  getActualData(ingredientId : string | null) : Observable<ResponseStockIngredient> {
+    return this.http.get<ResponseStockIngredient>(this.apiReadStockIngredientById+ingredientId)
   }
 
   searchQuery(query : Query) : HttpParams {
@@ -70,5 +70,8 @@ export class StockService {
     return params
   }
 
+  // getIngredient(ingredientId : string | null) : Observable<ResponseStockIngredient> {
+  //   return this.http.get<ResponseStockIngredient>(this.apiReadStockIngredientById+ingredientId)
+  // }
 
 }
