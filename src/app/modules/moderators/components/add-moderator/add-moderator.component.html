@@ -16,10 +16,10 @@
         <label>Email: </label>
         <input placeholder="Email" formControlName="email"/>
       </div>
-      <div>
-        <label>Status: </label>
-        <input type="checkbox" formControlName="status">
-      </div>
+<!--      <div>-->
+<!--        <label>Status: </label>-->
+<!--        <input type="checkbox" formControlName="status">-->
+<!--      </div>-->
       <div>
         <button *ngIf="!currentUserId else editButton" class="primary-button createButton" type="button" (click)="createModerator()">Create</button>
         <ng-template #editButton>

@@ -11,6 +11,10 @@
 
 .account__info{
   display: block;
+  margin-left:  20px;
+}
+.account__info__name{
+  margin-left:  40px;
 }
 
 .account__content{
@@ -18,12 +22,12 @@
 }
 
 h1{
-  padding: 50px 50px 0px;
+  padding: 20px 20px 0px;
   font-size: xx-large;
 }
 
 .account__stats label{
   display: block;
-  padding: 10px 50px 0px;
+  padding: 10px 20px 0px;
   font-size: large;
 }
