@@ -35,10 +35,22 @@
             </mat-radio-button>
             <mat-radio-button [value]="false">
               <span class="material-icons">expand_more</span>
-            </mat-radio-button>
+            </mat-radio-button >
+
           </mat-radio-group>
         </div>
       </div>
+
+      <section>
+        <mat-checkbox formControlName="matchToStock"
+        [(ngModel)]="currentQuery.matchToStock" [checked]="currentQuery.matchToStock" >
+          <p>Search cocktails match to stock</p>
+        </mat-checkbox>
+      </section>
+      <small
+        *ngIf="!currentQuery.matchToStock"
+        class="text-danger">unchecked</small>
+
     </mat-card-content>
     <mat-card-actions>
     </mat-card-actions>

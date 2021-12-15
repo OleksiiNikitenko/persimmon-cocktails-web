@@ -55,6 +55,7 @@ import {ErrorDialog, ErrorsPopupComponent} from './modules/errors-popup/errors-p
 import {MatExpansionModule} from "@angular/material/expansion";
 
 import {UsersComponent} from './modules/users/components/users.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 @NgModule({
@@ -111,7 +112,8 @@ import {UsersComponent} from './modules/users/components/users.component';
     MatRadioModule,
     MatSelectModule,
     MatAutocompleteModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatCheckboxModule
   ],
   providers: [FormBuilder,
     RecoverPasswordComponent,

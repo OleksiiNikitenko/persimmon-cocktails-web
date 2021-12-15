@@ -29,6 +29,9 @@ export class CocktailsService {
       params = params.set("sort-by", query.sortByColumn)
       params = params.set("sort-direction", query.sortDirection)
     }
+    if(query.matchToStock){
+      params = params.set("show-match-stock", query.matchToStock)
+    }
     params = params.set("page", query.page)
     return params
   }

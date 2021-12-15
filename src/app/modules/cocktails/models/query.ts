@@ -1,8 +1,9 @@
 export interface Query {
   page: number,
-  query : string | null,
+  query: string | null,
   sortByColumn: string,
-  sortDirection: boolean
+  sortDirection: boolean,
+  matchToStock: boolean
 }
 
 export const columnsToSortBy : string[] = [
