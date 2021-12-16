@@ -28,19 +28,8 @@ export class StockService {
     return this.http.patch(this.apiUpdateStock, stockIngredient)
   }
 
-  // updateQuery(query : QueryUpdate) : HttpParams {
-  //   let params = new HttpParams()
-  //   params = params.set("ingredientId", query.ingredientId)
-  //   params = params.set("amount", query.amount)
-  //   params = params.set("measureType", query.measureType)
-  //   return params;
-  // }
-
-  fetchDeleteIngredientFromStock(query : QueryDelete) {
-    let params = new HttpParams()
-    params = params.set("ingredientId", query.ingredientId)
-    console.log(params)
-    this.http.delete(this.apiDeleteIngredientById+query.ingredientId, {params})
+  fetchDeleteIngredientFromStock(ingredientId : number) {
+    return this.http.delete(this.apiDeleteIngredientById+ingredientId)
   }
 
   fetchStockIngredientsByName(query : Query) : Observable<StockIngredients[]> {
@@ -54,11 +43,6 @@ export class StockService {
     params = params.set("page", 0)
     return this.http.get<StockIngredients[]>(this.apiReadStockById, {params})
   }
-  // fetchStock() : Observable<ResponseStockIngredient[]> {
-  //   let params : HttpParams = new HttpParams()
-  //   params = params.set("page", 0)
-  //   return this.http.get<ResponseStockIngredient[]>(this.apiReadStockById, {params})
-  // }
 
   getActualData(ingredientId : string | null) : Observable<ResponseStockIngredient> {
     return this.http.get<ResponseStockIngredient>(this.apiReadStockIngredientById+ingredientId)
@@ -69,9 +53,5 @@ export class StockService {
     params = params.set("page", query.page)
     return params
   }
-
-  // getIngredient(ingredientId : string | null) : Observable<ResponseStockIngredient> {
-  //   return this.http.get<ResponseStockIngredient>(this.apiReadStockIngredientById+ingredientId)
-  // }
 
 }

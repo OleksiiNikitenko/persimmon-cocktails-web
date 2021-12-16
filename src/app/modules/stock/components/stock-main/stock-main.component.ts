@@ -7,6 +7,7 @@ import {StockService} from "../../services/stock.service";
 import {Query} from "../../models/query";
 import {QueryDelete} from "../../models/query";
 import {StockIngredients} from "../../models/stock-ingredients";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-stock-main',
@@ -19,12 +20,16 @@ export class StockMainComponent implements AfterViewInit, OnInit {
   dataSource: any;
   searchStockIngredientsForm: FormGroup | any;
   public findByNameQuery: Query = {query: "", page: 0, sortByColumn: "nothing"}
-  public deleteQuery: QueryDelete = {ingredientId: 1}
+  //public deleteQuery: QueryDelete = {ingredientId: 1}
   ingredientsFromStock : StockIngredients[] = [];
   sortColumns: string[] = columnsToSortBy;
   defaultPhotoUrl: string = "http://shorturl.at/quyAS"
 
-  constructor(private  stockService : StockService) {  }
+  currentIngredientId: number | undefined;
+
+  constructor(private  stockService : StockService,
+              private router: Router) {
+  }
 
   @ViewChild(MatSort, {static: false}) sort!: MatSort;
 
@@ -33,16 +38,20 @@ export class StockMainComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
+    const route = this.router.routerState.snapshot.url.split('/')
+    this.currentIngredientId = parseInt(route[route.length - 1])
     this.searchStockIngredientsForm = new FormGroup({
       name: new FormControl(''),
       sortColumn: new FormControl(columnsToSortBy)
     });
-     //this.getStockIngredients()
+
     this.getStock()
   }
 
-  deleteStockIngredient() {
-    this.stockService.fetchDeleteIngredientFromStock(this.deleteQuery)
+  deleteStockIngredient(ingredientId : number) {
+    this.stockService.fetchDeleteIngredientFromStock(ingredientId).subscribe((stockIngredientId) => {
+
+    })
   }
 
   getStockIngredients() {

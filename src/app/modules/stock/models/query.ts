@@ -4,7 +4,7 @@ export interface Query {
   sortByColumn: string
 }
 export interface QueryDelete {
-ingredientId: number
+ingredientId: number | undefined
 }
 // export interface QueryUpdate {
 //   ingredientId: number
