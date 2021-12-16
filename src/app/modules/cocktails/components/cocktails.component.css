@@ -55,3 +55,11 @@
   flex-direction: row;
   align-items: center;
 }
+
+.new-cocktail-block{
+  padding: 1em;
+  border-top: 1px solid gray;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
