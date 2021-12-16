@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
-  selector: 'app-add-moderator',
+  selector: 'app-add-stock-ingredient',
   templateUrl: './add-stock-ingredient.component.html',
   styleUrls: ['./add-stock-ingredient.component.css', '../../../../app.component.css']
 })
