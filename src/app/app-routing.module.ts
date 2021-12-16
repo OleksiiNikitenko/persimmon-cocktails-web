@@ -24,7 +24,7 @@ import {AddKitchenwareComponent} from './modules/kitchenware/components/add-kitc
 //import {EditKitchenwareComponent} from './modules/kitchenware/components/edit-kitchenware/edit-kitchenware.component';
 import {CocktailComponent} from "./modules/cocktail/components/cocktail.component";
 import {RecoverPasswordReceiveComponent} from "./modules/recover-password-receive/components/recover-password-receive.component";
-import {EditKitchenwareComponent} from './modules/kitchenware/components/edit-kitchenware/edit-kitchenware.component';
+//import {EditKitchenwareComponent} from './modules/kitchenware/components/edit-kitchenware/edit-kitchenware.component';
 import {StockComponent} from "./modules/stock/components/stock.component";
 import {StockMainComponent} from "./modules/stock/components/stock-main/stock-main.component";
 import {AddStockIngredientComponent} from "./modules/stock/components/add-stock-ingredient/add-stock-ingredient.component";

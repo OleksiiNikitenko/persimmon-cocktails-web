@@ -32,11 +32,11 @@ export class AccountComponent implements AfterViewInit, OnInit {
     private userStore: UserStore,
     private cdr: ChangeDetectorRef,
     private imageService: ImageUploadService,
-  ) {
-export class AccountComponent implements OnInit {
+  ) {}
+/*export class AccountComponent implements OnInit {
   person = ADMIN; //удалить и нормально подгружать текущую роль
   // moderators = StockMainComponent().getModerators();
-  }
+  }*/
 
   ngOnInit() {
     this.userQuery.select().subscribe(person => {
@@ -62,11 +62,7 @@ export class AccountComponent implements OnInit {
       );
     }
   }
-
-
-  ngAfterViewInit(): void {  }
-
+  ngAfterViewInit(): void {}
 }
-
 
 
