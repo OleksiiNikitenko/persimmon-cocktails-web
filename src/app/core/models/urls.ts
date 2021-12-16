@@ -9,6 +9,7 @@ export const URLS = {
   getIngredients: `${environment.apiBaseUrl}/ingredient`,
   addIngredient: `${environment.apiBaseUrl}/ingredient`,
   updateIngredient: `${environment.apiBaseUrl}/ingredient`,
+  deleteIngredient: `${environment.apiBaseUrl}/ingredient`,
 
   getKitchenware: `${environment.apiBaseUrl}/kitchenware`,
   addKitchenware: `${environment.apiBaseUrl}/kitchenware`,

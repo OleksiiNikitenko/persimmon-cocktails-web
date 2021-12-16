@@ -17,7 +17,7 @@ import {untilDestroyed, UntilDestroy} from '@ngneat/until-destroy';
 })
 export class KitchenwareMainComponent implements AfterViewInit, OnInit {
 
-  displayedColumns: string[] = ['photoId', 'kitchenwareId', 'name', 'category', 'editButton', 'statusButton'];
+  displayedColumns: string[] = ['photoId', 'name', 'category', 'editButton', 'statusButton'];
   kitchenware: Kitchenware[] = [];
   dataSource: any;
 

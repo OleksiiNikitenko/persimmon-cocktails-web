@@ -17,10 +17,6 @@
         <input placeholder="Category" formControlName="category"/>
       </div>
       <div>
-        <label>Status: </label>
-        <input type="checkbox" formControlName="status">
-      </div>
-      <div>
         <button *ngIf="!currentIngredientId else editButton" class="primary-button createButton" type="button" (click)="createIngredient()">Create</button>
         <ng-template #editButton>
           <button class="primary-button createButton" type="button" (click)="editIngredient()">Update</button>

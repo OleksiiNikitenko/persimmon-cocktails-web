@@ -1,6 +1,10 @@
 export interface IngredientUiModel {
   ingredientId: number,
   name: string,
-  ingredientCategoryID: number,
-  photoId: number | null
+  photoId: number | null,
+  category: {
+    ingredientCategoryId: number,
+    name: string
+  } | null,
+  active: boolean
 }

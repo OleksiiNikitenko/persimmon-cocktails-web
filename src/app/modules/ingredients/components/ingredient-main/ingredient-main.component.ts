@@ -7,6 +7,8 @@ import {IngredientsQuery} from "../../services/ingredients.query";
 import {IngredientsStore} from "../../services/ingredients.store";
 import {IngredientsService} from "../../services/ingredients.service";
 import {untilDestroyed, UntilDestroy} from '@ngneat/until-destroy';
+import {FormControl, FormGroup} from "@angular/forms";
+import {columnsToSortBy, Query} from "../../../stock/models/query";
 
 
 @UntilDestroy()
@@ -17,9 +19,11 @@ import {untilDestroyed, UntilDestroy} from '@ngneat/until-destroy';
 })
 export class IngredientMainComponent implements AfterViewInit, OnInit {
 
-  displayedColumns: string[] = ['photoId', 'ingredientId', 'name', 'category', 'editButton', 'statusButton'];
+  displayedColumns: string[] = ['photoId', 'name', 'category', 'editButton', 'statusButton'];
   ingredients: Ingredient[] = [];
   dataSource: any;
+  searchIngredientsForm: FormGroup | any;
+  public findByNameIngredient: Query = {query: "", page: 0, sortByColumn: "nothing"}
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
               private ingredientsService: IngredientsService,
@@ -44,7 +48,10 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.ingredientsService.fetchIngredients()
-
+    this.searchIngredientsForm = new FormGroup({
+      name: new FormControl(''),
+      sortColumn: new FormControl(columnsToSortBy)
+    });
     this.ingredientsQuery.selectAll().pipe(
       untilDestroyed(this)
     ).subscribe(ingredients => {
@@ -53,6 +60,18 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
       this.cdr.markForCheck()
     })
   }
+
+  checkValue(event: KeyboardEvent) {
+    return event.code.match(/^[a-zA-Z0-9 -]*$/) ?
+      event.code : event.preventDefault();
+  }
+
+  /*deleteIngredient() {
+    if (this.form.valid) {
+      this.ingredientsService.deleteIngredient(this.form.value)
+      this.router.navigate(['ingredients'])
+    }
+  }*/
 
   ngAfterViewInit(): void {
   }

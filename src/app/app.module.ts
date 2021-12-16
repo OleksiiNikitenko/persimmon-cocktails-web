@@ -55,7 +55,11 @@ import {ErrorDialog, ErrorsPopupComponent} from './modules/errors-popup/errors-p
 import {MatExpansionModule} from "@angular/material/expansion";
 
 import {UsersComponent} from './modules/users/components/users.component';
-
+//import { ChangePasswordComponent } from './modules/change-password/change-password.component';
+import {StockComponent} from './modules/stock/components/stock.component';
+import {StockMainComponent} from './modules/stock/components/stock-main/stock-main.component';
+import {AddStockIngredientComponent} from './modules/stock/components/add-stock-ingredient/add-stock-ingredient.component';
+import {EditStockIngredientComponent} from "./modules/stock/components/edit-stock-ingredient/edit-stock-ingredient.component";
 
 @NgModule({
   declarations: [
@@ -89,7 +93,11 @@ import {UsersComponent} from './modules/users/components/users.component';
     RecoverPasswordReceiveComponent,
     ErrorsPopupComponent,
     ErrorDialog,
-    UsersComponent
+    UsersComponent,
+    StockComponent,
+    StockMainComponent,
+    AddStockIngredientComponent,
+    EditStockIngredientComponent
   ],
   imports: [
     HttpClientModule,

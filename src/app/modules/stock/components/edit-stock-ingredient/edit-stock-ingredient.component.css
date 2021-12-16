@@ -1,0 +1,22 @@
+.edit-ingredient {
+  padding: 10px 20px;
+}
+.edit-ingredient__avatar {
+  margin-left: 20px;
+  width: 105px;
+  height: 105px;
+}
+ .edit-ingredient__content{
+   display: flex;
+   align-items: flex-start;
+ }
+
+ .form {
+   margin-left: 20px;
+ }
+
+ .form div {
+   margin-bottom: 10px;
+ }
+
+

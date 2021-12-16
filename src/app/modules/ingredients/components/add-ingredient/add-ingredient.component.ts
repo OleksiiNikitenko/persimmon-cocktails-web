@@ -23,8 +23,7 @@ export class AddIngredientComponent implements OnInit {
   ) {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
-      category: [''],
-      status: false,
+      category: ['', Validators.required],
     })
   }
 
@@ -37,7 +36,7 @@ export class AddIngredientComponent implements OnInit {
         untilDestroyed(this)
       ).subscribe(ingredient => {
         this.name?.setValue(ingredient?.name)
-        this.category?.setValue(ingredient?.ingredientCategoryID)
+        this.category?.setValue(ingredient?.category?.name)
       })
     }
   }
@@ -77,5 +76,4 @@ export class AddIngredientComponent implements OnInit {
       this.router.navigate(['ingredients'])
     }
   }
-
 }

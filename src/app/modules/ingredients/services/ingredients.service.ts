@@ -33,4 +33,8 @@ export class IngredientsService {
   updateIngredient(data: any) {
     this.http.patch(this.BASE_URLS.updateIngredient, data).pipe(first()).subscribe()
   }
+
+  deleteIngredient(data: Ingredient) {
+    this.http.patch(this.BASE_URLS.deleteIngredient, data).pipe(first()).subscribe()
+  }
 }
