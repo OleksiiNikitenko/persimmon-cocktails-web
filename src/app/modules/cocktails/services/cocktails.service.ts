@@ -17,7 +17,6 @@ export class CocktailsService {
 
   fetchCocktails(query : Query) : Observable<CocktailBasicInfo[]> {
     const params : HttpParams = this.searchQuery(query)
-    console.log(params)
     return this.http.get<CocktailBasicInfo[]>(this.apiSearchBaseUrl, {params})
   }
 
@@ -28,6 +27,7 @@ export class CocktailsService {
     }
     if(query.sortByColumn != "nothing"){
       params = params.set("sort-by", query.sortByColumn)
+      params = params.set("sort-direction", query.sortDirection)
     }
     params = params.set("page", query.page)
     return params

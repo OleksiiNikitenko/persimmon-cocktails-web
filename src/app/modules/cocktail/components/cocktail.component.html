@@ -1,0 +1,167 @@
+<h3 *ngIf="!loaded && !isNew">There's no such cocktail!</h3>
+<form [formGroup]="editCocktailForm" (submit)="submitSaveForm()" *ngIf="loaded || isNew" class="root">
+  <div class="header-buttons">
+    <button class="primary-button" *ngIf="viewMode && canEdit && !isNew" (click)="goToMode(false)">Go to edit mode
+    </button>
+    <button class="primary-button" *ngIf="!viewMode && canEdit && !isNew" (click)="goToMode(true)">Go to view mode
+    </button>
+    <button class="primary-button" *ngIf="canEdit && !isNew" (click)="deleteCocktail(cocktailData.dishId)">Delete
+    </button>
+  </div>
+  <div class="photo-and-headlines">
+    <img [src]="cocktailData.image === null ? defaultCocktailUrl : cocktailData.image.urlMiddle" class="photo-image">
+    <div class="text">
+      <h3 *ngIf="viewMode">{{cocktailData.name}}</h3>
+      <mat-form-field *ngIf="!viewMode">
+        <mat-label>Cocktail name:</mat-label>
+        <input matInput [(ngModel)]="editedCocktailData.name" type="text" placeholder="Cocktail name"
+               formControlName="name"
+               id="edit_cocktail_name">
+      </mat-form-field>
+      <p *ngIf="viewMode && cocktailData.description !== null">{{cocktailData.description}}</p>
+
+      <mat-form-field *ngIf="!viewMode">
+        <mat-label>Cocktail description:</mat-label>
+        <input matInput [(ngModel)]="editedCocktailData.description" type="text" placeholder="Cocktail description"
+               formControlName="description"
+               id="edit_cocktail_description">
+      </mat-form-field>
+
+      <div *ngIf="viewMode">
+        <span>Likes: {{cocktailData.likes}}</span>
+        <button *ngIf="isAuthenticated" [disabled]="cocktailData.hasLike == null || cocktailData.hasLike"
+                (click)="likeCocktail()"
+                class="like-button">Like
+        </button>
+      </div>
+
+      <p *ngIf="viewMode && canEdit">{{cocktailData.isActive ? "ACTIVE" : "INACTIVE"}}</p>
+      <mat-radio-group
+        *ngIf="!viewMode"
+        formControlName="isActive"
+        [(ngModel)]="editedCocktailData.isActive">
+        <mat-radio-button [value]="true">Active</mat-radio-button>
+        <mat-radio-button [value]="false">Inactive</mat-radio-button>
+      </mat-radio-group>
+
+      <p *ngIf="viewMode">{{cocktailData.dishCategoryName === null ? "No category" : cocktailData.dishCategoryName}}</p>
+      <mat-form-field *ngIf="!viewMode">
+        <mat-select placeholder="Cocktail category" [(value)]="editedCocktailData.dishCategoryId">
+          <mat-option *ngFor="let category of allCategories" [value]="category.categoryId">
+            {{ category.categoryName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+      <p>{{cocktailData.dishType === null ? "No dish type" : cocktailData.dishType}}</p>
+
+      <button *ngIf="!viewMode" class="primary-button">Save</button>
+    </div>
+  </div>
+
+  <div *ngIf="viewMode" class="labels">
+    <div class="label" *ngFor="let label of cocktailData.labels">
+      {{label}}
+    </div>
+  </div>
+  <div *ngIf="!viewMode" class="labels-group">
+    <div class="labels">
+      <div class="label edit-label" *ngFor="let label of editedCocktailData.labels">
+        <span class="edit-label-text">{{label}}</span>
+        <button (click)="deleteLabel(label)">X</button>
+      </div>
+    </div>
+    <div class="new-label">
+      <label for="add_label">New label: </label>
+      <input matInput [(ngModel)]="editedCocktailData.newLabel" type="text" placeholder="Label name"
+             id="add_label" formControlName="newLabel" (keyup)="updateCanAddLabel($event)">
+      <button type="button" (click)="addLabel()"
+              [disabled]="canAddLabel">Add label
+      </button>
+    </div>
+  </div>
+
+
+  <div *ngIf="viewMode" class="receipt">
+    <p *ngFor="let line of divideReceiptIntoLines(cocktailData.receipt)">{{line}}</p>
+  </div>
+  <mat-form-field *ngIf="!viewMode">
+    <mat-label>Receipt:</mat-label>
+    <textarea matInput [(ngModel)]="editedCocktailData.receipt" type="text" placeholder="Cocktail receipt"
+              formControlName="receipt"
+              id="edit_cocktail_receipt"></textarea>
+  </mat-form-field>
+  <div class="ingredients">
+    <h4 *ngIf="viewMode">Ingredients</h4>
+    <div *ngIf="viewMode" class="ingredient-list">
+      <li class="ingredient" *ngFor="let ingredient of cocktailData.ingredientList">
+        <img class="ingredient-small-photo"
+             [src]="ingredient.photoId === null ? defaultIngredientUrl : ingredient.photoId">
+        <div>{{ingredient.name}}</div>
+        <div>{{ingredient.category === null ? "No category" : ingredient.category.name}}</div>
+      </li>
+    </div>
+
+    <div *ngIf="!viewMode" class="ingredient-list">
+      <li class="ingredient" *ngFor="let ingredient of editedCocktailData.ingredientList">
+        <div>{{ingredient.name}}</div>
+        <button *ngIf="!viewMode" (click)="deleteAddedIngredient(ingredient.ingredientId)">X</button>
+      </li>
+    </div>
+  </div>
+
+  <div *ngIf="!viewMode">
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="Choose ingredient" matInput
+             [formControl]="ingredientFormControl" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayIngredientName">
+        <mat-option *ngFor="let option of filteredOptionsForIngredients | async" [value]="option">
+          {{ option.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <button (click)="addIngredient($event)" [disabled]="this.ingredientFormControl.value == null ||
+  !this.ingredientFormControl.value.hasOwnProperty('ingredientId')"
+    >Add ingredient to cocktail
+    </button>
+  </div>
+
+
+  <div class="kitchenwares">
+    <h4 *ngIf="viewMode">Kitchenware</h4>
+    <div *ngIf="viewMode">
+      <li class="kitchenware" *ngFor="let kitchenware of cocktailData.kitchenwareList">
+        <img class="kitchenware-small-photo"
+             [src]="kitchenware.photoId === null ? defaultKitchenwareUrl : kitchenware.photoId">
+        <div>{{kitchenware.name}}</div>
+        <div>{{kitchenware.category === null ? "No category" : kitchenware.category.name}}</div>
+      </li>
+    </div>
+
+    <div *ngIf="!viewMode" class="kitchenware-list">
+      <li class="kitchenware" *ngFor="let kitchenware of editedCocktailData.kitchenwareList">
+        <div>{{kitchenware.name}}</div>
+        <button *ngIf="!viewMode" (click)="deleteAddedKitchenware(kitchenware.kitchenwareId)">X</button>
+      </li>
+    </div>
+  </div>
+
+  <div *ngIf="!viewMode">
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="Choose kitchenware" matInput
+             [formControl]="kitchenwareFormControl" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayIngredientName">
+        <mat-option *ngFor="let option of filteredOptionsForKitchenware | async" [value]="option">
+          {{ option.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <button (click)="addKitchenware($event)" [disabled]="this.kitchenwareFormControl.value == null ||
+  !this.kitchenwareFormControl.value.hasOwnProperty('kitchenwareId')"
+    >Add kitchenware to cocktail
+    </button>
+  </div>
+</form>
+
+

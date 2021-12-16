@@ -13,7 +13,6 @@ export class RecoverPasswordService{
 
   constructor(private http: HttpClient){}
 
-  //need to fix
   public recover(jsonRecover: object): Observable<Person> {
     return this.http.post<Person>(`${this.apiServerUrl}/forgot-password`, jsonRecover);
   }

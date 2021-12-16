@@ -12,7 +12,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {DatePipe} from "@angular/common";
 import {MainService} from "../services/main.service";
 import {FoundUsersModel} from "../models/found-users.model";
-import {ImageModel} from "../models/image.model";
+import {ImageUploadService} from "../../image/services/image-upload-service";
 
 @Component({
     selector: 'app-friends',
@@ -21,12 +21,6 @@ import {ImageModel} from "../models/image.model";
 })
 export class FriendsComponent implements OnInit {
 
-    constructor(private _liveAnnouncer: LiveAnnouncer,
-                private friendsService: FriendsService,
-                private personsService: PersonsService,
-                private invitationsService: InvitationsService,
-                private mainService: MainService) {
-    }
 
     defaultAvatar = '../../../../assets/images/user.png'
     imageNotAvailable = '../../../../assets/images/image-not-found.jpg'
@@ -36,12 +30,14 @@ export class FriendsComponent implements OnInit {
     invites: InviteFriendModel[] = [];
 
     personsDisplayedColumns: string[] = ['photoId', 'name', 'buttonsBlock'];
-    friendsDisplayedColumns: string[] = ['photoId', 'name', 'writeButton', 'profileButton', 'addToButton'];
+
+    friendsDisplayedColumns: string[] = ['photoId', 'name', 'deleteButton', 'addToButton'];
     invitationDisplayedColumns: string[] = ['photoId', 'name', 'date', 'acceptButton', 'declineButton', 'profileButton'];
 
     buttonInvitePersonEnabled: boolean[] = []
     buttonAcceptInvitationEnabled: boolean[] = []
     buttonDeclineInvitationEnabled: boolean[] = []
+    buttonDeleteFriendEnabled: boolean[] = []
     fieldInvitationMessageEnabled: boolean[] = []
     fieldInvitationMessageText: string[] = []
 
@@ -73,9 +69,17 @@ export class FriendsComponent implements OnInit {
     validationNamePattern: RegExp = /^(|[a-zA-Z0-9 ]{3,255})$/
     validationMessagePattern: RegExp = /^.{,100}$/
 
-    ngOnInit(): void {
-        this.getFriends(0);
-        this.getInvitations();
+  constructor(private _liveAnnouncer: LiveAnnouncer,
+              private friendsService: FriendsService,
+              private personsService: PersonsService,
+              private invitationsService: InvitationsService,
+              private mainService: MainService,
+              private imageService: ImageUploadService) {
+  }
+
+  ngOnInit(): void {
+    this.getFriends(0);
+    this.getInvitations();
 
         this.searchFriendsForm = new FormGroup({
             name: new FormControl('', [Validators.required, Validators.pattern(this.validationNamePattern)])
@@ -95,9 +99,9 @@ export class FriendsComponent implements OnInit {
                 this.friends = friends;
                 this.friendsDataSource = new MatTableDataSource(this.friends);
                 this.imagesUrlFriends = Array(friends.length).fill(this.defaultAvatar);
-                // this.friendsDataSource.sort = this.sort;
                 this.initFriendsPagesAmount();
                 this.setImagesFriends(friends);
+                this.buttonDeleteFriendEnabled = Array(friends.length).fill(true);
             });
     }
 
@@ -110,6 +114,7 @@ export class FriendsComponent implements OnInit {
                     this.friends = friends;
                     this.friendsDataSource = new MatTableDataSource(this.friends);
                     this.imagesUrlFriends = Array(friends.length).fill(this.defaultAvatar);
+                    this.buttonDeleteFriendEnabled = Array(friends.length).fill(true);
                     this.setImagesFriends(friends);
                 });
         } else if (name == "") {
@@ -180,57 +185,57 @@ export class FriendsComponent implements OnInit {
         );
     }
 
-    getImageByIdInvitations(imageId: number, i: number) {
-        if (imageId != null) {
-            this.mainService.getImageById(imageId).subscribe(
-                (response) => {
-                    if (response != null)
-                        this.imagesUrlInvitation[i] = response.urlMiddle
-                    else this.imagesUrlInvitation[i] = this.imageNotAvailable
-                },
-                (error: HttpErrorResponse) => {
-                    // alert(error.error.message);
-                    throw error;
-                }
-            );
+  getImageByIdInvitations(imageId: number, i: number) {
+    if (imageId != null) {
+      this.imageService.getImageById(imageId).subscribe(
+        (response) => {
+          if (response != null)
+            this.imagesUrlInvitation[i] = response.urlMiddle
+          else this.imagesUrlInvitation[i] = this.imageNotAvailable
+        },
+        (error: HttpErrorResponse) => {
+          // alert(error.error.message);
+          throw error;
         }
+      );
     }
+  }
 
-    getImageByIdFriends(imageId: number, i: number) {
-        if (imageId != null) {
-            this.mainService.getImageById(imageId).subscribe(
-                (response) => {
-                    if (response != null)
-                        // this.imagesUrlFriends[i] = response.urlThumb
-                        this.imagesUrlFriends[i] = response.urlMiddle
-                    else
-                        this.imagesUrlFriends[i] = this.imageNotAvailable
+  getImageByIdFriends(imageId: number, i: number) {
+    if (imageId != null) {
+      this.imageService.getImageById(imageId).subscribe(
+        (response) => {
+          if (response != null)
+            // this.imagesUrlFriends[i] = response.urlThumb
+            this.imagesUrlFriends[i] = response.urlMiddle
+          else
+            this.imagesUrlFriends[i] = this.imageNotAvailable
 
-                },
-                (error: HttpErrorResponse) => {
-                    // alert(error.error.message);
-                    throw error;
-                }
-            );
+        },
+        (error: HttpErrorResponse) => {
+          // alert(error.error.message);
+          throw error;
         }
+      );
     }
+  }
 
-    getImageByIdPersons(imageId: number, i: number) {
-        if (imageId != null) {
-            this.mainService.getImageById(imageId).subscribe(
-                (response) => {
-                    if (response != null)
-                        this.imagesUrlPersons[i] = response.urlMiddle
-                    else
-                        this.imagesUrlPersons[i] = this.imageNotAvailable
-                },
-                (error: HttpErrorResponse) => {
-                    // alert(error.error.message);
-                    throw error;
-                }
-            );
+  getImageByIdPersons(imageId: number, i: number) {
+    if (imageId != null) {
+      this.imageService.getImageById(imageId).subscribe(
+        (response) => {
+          if (response != null)
+            this.imagesUrlPersons[i] = response.urlMiddle
+          else
+            this.imagesUrlPersons[i] = this.imageNotAvailable
+        },
+        (error: HttpErrorResponse) => {
+          // alert(error.error.message);
+          throw error;
         }
+      );
     }
+  }
 
     setImagesInvitations(persons: InviteFriendModel[]) {
         for (let i = 0; i < persons.length; i++) {
@@ -305,7 +310,14 @@ export class FriendsComponent implements OnInit {
             this.amountPagesInvitation = numberOfPages;
         });
     }
-
+  deleteFriend(personId: number): void {
+    this.friendsService.deleteFriend(personId).subscribe((response) => {
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.error.message);
+        throw error;
+      });
+  }
     setPageDiffUsers(pageDiff: number): void {
         this.currentPageNumberPersons += pageDiff
         this.getPersonsByName(this.searchPersonsRequest)

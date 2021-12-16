@@ -1,13 +1,14 @@
 export interface Query {
   page: number,
   query : string | null,
-  sortByColumn: string
+  sortByColumn: string,
+  sortDirection: boolean
 }
 
 export const columnsToSortBy : string[] = [
   "nothing",
   "name",
-  "description",
+  // "description",
   "receipt",
   "likes"
 ]

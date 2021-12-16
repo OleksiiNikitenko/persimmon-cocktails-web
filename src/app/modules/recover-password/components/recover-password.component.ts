@@ -5,6 +5,7 @@ import {RecoverPasswordService} from "../services/recover-password.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {Router} from "@angular/router";
+import {ErrorDialog} from "../../errors-popup/errors-popup.component";
 
 @Component({
   selector: 'app-recover-password',
@@ -23,7 +24,7 @@ export class RecoverPasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.recoverForm = new FormGroup(
-      {'recover_email': new FormControl(null, [Validators.required,
+      {'email': new FormControl(null, [Validators.required,
           Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$')])});
   }
 
@@ -35,7 +36,8 @@ export class RecoverPasswordComponent implements OnInit {
         this.recoverForm.reset();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        this.dialog.closeAll()
+        this.dialog.open(ErrorDialog, {data: {message: error.error.message} })
       }
     );
   }

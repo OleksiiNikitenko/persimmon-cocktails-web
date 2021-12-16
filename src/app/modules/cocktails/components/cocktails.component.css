@@ -11,14 +11,6 @@
   width: 100%;
 }
 
-/*.found-list-name{*/
-/*  width: 20%;*/
-/*}*/
-
-/*.found-list-description{*/
-/*  width: 30%;*/
-/*}*/
-
 .cocktail-small-photo{
   width: 100%;
 
@@ -57,4 +49,18 @@
 
 .search-query-input{
   padding-bottom: 1em;
+}
+
+.sort-by-radio-div{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.new-cocktail-block{
+  padding: 1em;
+  border-top: 1px solid gray;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }

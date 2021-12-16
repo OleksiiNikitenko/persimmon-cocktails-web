@@ -1,37 +1,36 @@
 import {Injectable} from "@angular/core";
-import {environment} from "../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
-
-import {ActiveKitchenware} from "../models/activeKitchenware";
-import {Observable} from "rxjs";
-import {KitchenwareView} from "../models/kitchewareview";
-
-
-
+import {URLS} from "../../../core/models/urls";
+import {KitchenwareUiModel} from "../models/kitchenware.ui.model";
+import {Kitchenware} from "../models/kitchenware.model";
+import {first} from "rxjs/operators";
+import {MatTableDataSource} from "@angular/material/table";
+import {KitchenwareStore} from "./kitchenware.store";
 
 @Injectable({
   providedIn: 'root'
 })
 export class KitchenwareService {
-  private apiServerUrl = environment.apiBaseUrl;
-  kitchenwareList : Array<KitchenwareView> = []
+  BASE_URLS = URLS
 
+  constructor(
+    private http: HttpClient,
+    private store: KitchenwareStore
+  ) { }
 
-  constructor(private http: HttpClient) {
+  fetchKitchenware() {
+    this.http.get<KitchenwareUiModel[]>(this.BASE_URLS.getKitchenware).pipe(
+      first()
+    ).subscribe((kitchenware) => {
+      this.store.upsertMany(kitchenware)
+    })
   }
 
-  public getAllActiveKitchenware(): Observable<Array<ActiveKitchenware>> {
-    return this.http.get<Array<ActiveKitchenware>>(`${this.apiServerUrl}/kitchenware/active`)
+  createKitchenware(data: Kitchenware) {
+    this.http.post(this.BASE_URLS.addKitchenware, data).pipe(first()).subscribe()
   }
 
-  updateAllKitchenware() {
-    try {
-      this.getAllActiveKitchenware().subscribe(list => {
-        this.kitchenwareList = list.map(k => KitchenwareView.fromActiveKitchenwareDto(k));
-      })
-    }
-    catch (err){
-      console.error(err)
-    }
+  updateKitchenware(data: any) {
+    this.http.patch(this.BASE_URLS.updateKitchenware, data).pipe(first()).subscribe()
   }
 }
