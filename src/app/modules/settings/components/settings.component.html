@@ -2,7 +2,6 @@
   <div class="settings__content">
     <img class="settings__img" src="../../../../assets/images/settings.png" alt="settings">
     <div class="settings__buttons" [formGroup]="form">
-
       <div>
         <input placeholder="Change name" formControlName="name"/>
       </div>
@@ -17,12 +16,19 @@
 
     </div>
     <div class="settings__account__info">
-      <img class="settings__avatar" src="../../../../assets/images/admin-avatar.png" alt="settings-avatar">
+      <img class="settings__avatar" src="{{imageUrl}}" alt="settings-avatar">
+
       <div>
-        <button class="secondary-button changeAvatarButton" type="button">Change profile photo</button>
+        <div class=" text-center">
+          <label class="secondary-button changeAvatarButton" for="image_uploads">Choose images to upload </label>
+          <input type="file" id="image_uploads" hidden
+                 class="form-control"
+                 (change)="onChange($event)">
+        </div>
+        <button class="thirdly-button uploadButton" (click)="onUpload()">Upload</button>
+        <h4 title="name">{{person?.name}}</h4>
+        <h4 title="email">{{person?.email}}</h4>
       </div>
-      <!--      <label title="name">{{user.name}}</label>-->
-      <!--      <label title="email">{{user.email}}</label>-->
     </div>
   </div>
 </div>

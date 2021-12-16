@@ -1,5 +1,4 @@
-.error-dialog{
+.error-message{
+  text-align: center;
   color: #FFF7F0;
-  /*position: relative;*/
-  /*top: 40px; left: 40px;*/
 }

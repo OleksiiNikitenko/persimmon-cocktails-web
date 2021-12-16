@@ -1,18 +1,18 @@
 <div class="account__content">
   <div class="account__info">
-    <img class="account__avatar" src="../../../../assets/images/admin-avatar.png" alt="settings-avatar">
+    <img class="account__avatar" src="{{imageUrl}}" alt="settings-avatar">
     <div class="account__info__name">
-      <label title="name">{{person?.name}}</label>
-      <label title="email">{{person?.email}}</label>
+      <h4 title="name">{{person?.name}}</h4>
+      <h4 title="email">{{person?.email}}</h4>
     </div>
   </div>
   <div class="account__stats">
     <div *ngIf="person?.roleId==1">
     <h1>Stats: </h1>
-    <label>Users: 1152</label>
-    <label>Moderators: N</label>
-    <label>Cocktails: 125</label>
-    <label>Events: 35</label>
+    <label>Users: 22</label>
+    <label>Moderators: 8</label>
+    <label>Cocktails: 18</label>
+    <label>Events: 0</label>
     </div>
     <div *ngIf="person?.roleId==3">
       <h1>My blog </h1>

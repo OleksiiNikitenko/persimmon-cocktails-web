@@ -1,8 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
-import {ImageModel} from "../models/image.model";
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../../../../environments/environment";
 
 
 @Injectable({
@@ -10,8 +7,6 @@ import {environment} from "../../../../environments/environment";
 })
 
 export class MainService {
-  private apiServerUrl = environment.apiBaseUrl;
-  private getImageByIdUrl = `${this.apiServerUrl}/image/get/`
 
   constructor(private http: HttpClient) {
   }
@@ -27,7 +22,5 @@ export class MainService {
     return diffInMs / (1000 * 60 * 60 * 24);
   }
 
-  getImageById(imageId: number): Observable<ImageModel> {
-    return this.http.get<ImageModel>(this.getImageByIdUrl + imageId);
-  }
+
 }
