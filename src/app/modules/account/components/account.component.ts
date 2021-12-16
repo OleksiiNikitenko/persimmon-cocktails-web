@@ -33,7 +33,9 @@ export class AccountComponent implements AfterViewInit, OnInit {
     private cdr: ChangeDetectorRef,
     private imageService: ImageUploadService,
   ) {
-
+export class AccountComponent implements OnInit {
+  person = ADMIN; //удалить и нормально подгружать текущую роль
+  // moderators = StockMainComponent().getModerators();
   }
 
   ngOnInit() {
