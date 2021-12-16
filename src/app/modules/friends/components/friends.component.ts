@@ -21,12 +21,6 @@ import {ImageUploadService} from "../../image/services/image-upload-service";
 })
 export class FriendsComponent implements OnInit {
 
-    // constructor(private _liveAnnouncer: LiveAnnouncer,
-    //             private friendsService: FriendsService,
-    //             private personsService: PersonsService,
-    //             private invitationsService: InvitationsService,
-    //             private mainService: MainService) {
-    // }
 
     defaultAvatar = '../../../../assets/images/user.png'
     imageNotAvailable = '../../../../assets/images/image-not-found.jpg'
