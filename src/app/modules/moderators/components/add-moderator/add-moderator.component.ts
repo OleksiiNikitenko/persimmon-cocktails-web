@@ -66,6 +66,7 @@ export class AddModeratorComponent implements OnInit {
     if (this.form.valid) {
       this.moderatorsService.createModerator(this.form.value)
       this.router.navigate(['moderators'])
+
     }
   }
 
@@ -78,6 +79,7 @@ export class AddModeratorComponent implements OnInit {
       })
       this.moderatorsService.fetchModerators()
       this.router.navigate(['moderators'])
+
     }
   }
 

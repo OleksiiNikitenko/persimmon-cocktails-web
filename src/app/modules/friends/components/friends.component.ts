@@ -212,6 +212,7 @@ export class FriendsComponent implements OnInit {
             this.imagesUrlFriends[i] = this.imageNotAvailable
 
         },
+
         (error: HttpErrorResponse) => {
           // alert(error.error.message);
           throw error;

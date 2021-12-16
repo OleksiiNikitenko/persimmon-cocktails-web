@@ -7,8 +7,8 @@
       <th mat-header-cell *matHeaderCellDef sortActionDescription="">
         Avatar
       </th>
-      <td class="avatar-container" mat-cell *matCellDef="let element"><img class="avatar"
-                                                                           src="./assets/images/moder-avatar.png"
+      <td class="avatar-container" mat-cell *matCellDef="let element let i= index"><img class="avatar"
+                                                                           src="{{imagesUrl[i]}}"
                                                                            alt="avatar"></td>
     </ng-container>
 
