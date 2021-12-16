@@ -8,7 +8,6 @@ table {
   margin-right: auto;
   box-shadow: 0 0 0 white;
   background-color: #FFF7F0;
-  /*overflow: scroll;*/
   max-height: 500px;
 }
 
@@ -33,6 +32,10 @@ th.mat-sort-header-sorted {
 
 .button-edit{
   margin-right: 10px;
+}
+
+.search-form{
+  box-shadow: 0 0 0 white;
 }
 
 .search-field {

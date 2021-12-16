@@ -9,6 +9,7 @@
  .edit-ingredient__content{
    display: flex;
    align-items: flex-start;
+
  }
 
  .form {
@@ -39,3 +40,6 @@
   margin-bottom: 10px;
 }
 
+.clearButton {
+  margin-left: 0.5em;
+}

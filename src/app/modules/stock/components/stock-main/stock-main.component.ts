@@ -5,7 +5,6 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {columnsToSortBy} from "../../models/query";
 import {StockService} from "../../services/stock.service";
 import {Query} from "../../models/query";
-import {QueryDelete} from "../../models/query";
 import {StockIngredients} from "../../models/stock-ingredients";
 import {Router} from "@angular/router";
 
