@@ -116,25 +116,30 @@ export class CocktailComponent implements OnInit {
     else console.error("Unknown: " + error.message)
   }
 
-  likeCocktail() {
+  likeCocktail($event: MouseEvent) {
     this.subscription.add(this.cocktailService.likeCocktail(this.cocktailData.dishId)
       .subscribe(() => {
           this.cocktailData.likes += 1
           this.cocktailData.hasLike = true
         },
-        err => console.error(err)))
+        err => {
+        console.error(err)
+
+        }))
+    $event.preventDefault()
   }
 
   divideReceiptIntoLines(receipt: string): string[] {
     return receipt.split('\n\n')
   }
 
-  deleteCocktail(dishId: number) {
+  deleteCocktail(dishId: number, $event: MouseEvent) {
     this.subscription.add(
       this.cocktailService.deleteCocktail(dishId).subscribe(() => {
           this.router.navigate(['/cocktails'])
         },
         err => console.error(err)))
+    $event.preventDefault()
   }
 
   private initEditForm(): FormGroup {

@@ -5,7 +5,7 @@
     </button>
     <button class="primary-button" *ngIf="!viewMode && canEdit && !isNew" (click)="goToMode(true)">Go to view mode
     </button>
-    <button class="primary-button" *ngIf="canEdit && !isNew" (click)="deleteCocktail(cocktailData.dishId)">Delete
+    <button class="primary-button" *ngIf="canEdit && !isNew" (click)="deleteCocktail(cocktailData.dishId, $event)">Delete
     </button>
   </div>
   <div class="photo-and-headlines">
@@ -30,7 +30,7 @@
       <div *ngIf="viewMode">
         <span>Likes: {{cocktailData.likes}}</span>
         <button *ngIf="isAuthenticated" [disabled]="cocktailData.hasLike == null || cocktailData.hasLike"
-                (click)="likeCocktail()"
+                (click)="likeCocktail($event)"
                 class="like-button">Like
         </button>
       </div>
