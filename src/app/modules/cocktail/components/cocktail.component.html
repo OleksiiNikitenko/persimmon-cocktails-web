@@ -72,9 +72,9 @@
     <div class="new-label">
       <label for="add_label">New label: </label>
       <input matInput [(ngModel)]="editedCocktailData.newLabel" type="text" placeholder="Label name"
-             id="add_label" formControlName="newLabel">
+             id="add_label" formControlName="newLabel" (keyup)="updateCanAddLabel($event)">
       <button type="button" (click)="addLabel()"
-              [disabled]="editedCocktailData.labels.indexOf(this.editedCocktailData.newLabel) == -1">Add label
+              [disabled]="canAddLabel">Add label
       </button>
     </div>
   </div>

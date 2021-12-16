@@ -33,6 +33,7 @@ export class CocktailComponent implements OnInit {
   ingredientFormControl: FormControl = new FormControl()
   filteredOptions: Observable<IngredientName[]>;
   private subscription: Subscription = new Subscription()
+  canAddLabel: boolean = false;
 
   constructor(private activateRoute: ActivatedRoute,
               private cocktailService: CocktailService,
@@ -202,6 +203,7 @@ export class CocktailComponent implements OnInit {
   }
 
   addLabel() {
+    console.log("clikde")
     if (this.editedCocktailData.newLabel.length != 0 &&
       this.editedCocktailData.labels.indexOf(this.editedCocktailData.newLabel) == -1) {
       this.editedCocktailData.labels.push(this.editedCocktailData.newLabel)
@@ -223,5 +225,9 @@ export class CocktailComponent implements OnInit {
   displayIngredientName(ingr: IngredientName | null): string {
     if (ingr == null) return ''
     else return ingr.name
+  }
+
+  updateCanAddLabel(event : any) {
+    this.canAddLabel = this.editedCocktailData.labels.indexOf(this.editedCocktailData.newLabel) !== -1
   }
 }

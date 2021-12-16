@@ -73,8 +73,8 @@ export class CocktailService {
     // )
   }
 
-  createCocktail(cocktail: EditCocktail) : Observable<CocktailBasicInfo> {
-    return this.http.post<CocktailBasicInfo>(`${this.apiServerUrl}/cocktail/create`, {
+  createCocktail(cocktail: EditCocktail) : Observable<FullCocktail> {
+    return this.http.post<FullCocktail>(`${this.apiServerUrl}/cocktail/create`, {
       name: cocktail.name,
       description: cocktail.description,
       dishCategoryId: cocktail.dishCategoryId === -1 ? null : cocktail.dishCategoryId,
