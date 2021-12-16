@@ -8,7 +8,6 @@ table {
   margin-right: auto;
   box-shadow: 0 0 0 white;
   background-color: #FFF7F0;
-  /*overflow: scroll;*/
   max-height: 500px;
 }
 
@@ -34,8 +33,42 @@ th.mat-sort-header-sorted {
 .button-edit{
   margin-right: 10px;
 }
-.moderator-add {
-  display: block;
-  padding: 8px 20px !important;
-  margin: 20px 20px 0 auto;
+
+.search-form{
+  box-shadow: 0 0 0 white;
 }
+
+.search-field {
+  margin: 10px;
+}
+
+.mat-card-content{
+  display: flex;
+  flex-direction: row;
+}
+
+.sort-by-div{
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-radio-group{
+  display: flex;
+  flex-direction: column;
+}
+
+.search-submit-button{
+  height: 2em;
+}
+
+.search-query-input-and-button{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.5em;
+}
+
+.search-query-input{
+  padding-bottom: 1em;
+}
+

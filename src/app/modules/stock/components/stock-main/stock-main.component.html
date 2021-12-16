@@ -39,7 +39,7 @@
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" class="found-list-table" matSort aria-label="Elements">
       <ng-container matColumnDef="photo">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Photo</th>
+        <th mat-header-cell *matHeaderCellDef >Photo</th>
         <td mat-cell *matCellDef="let stock" class="cocktail-small-photo-container">
           <img src="{{ defaultPhotoUrl }}" class="stock-ingredient-small-photo">
         </td>
@@ -49,7 +49,7 @@
         <td mat-cell *matCellDef="let stock">{{stock.name}}</td>
       </ng-container>
       <ng-container matColumnDef="categoryName">
-        <th mat-header-cell *matHeaderCellDef>Category</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
         <td mat-cell *matCellDef="let stock">{{stock.categoryName}}</td>
       </ng-container>
       <ng-container matColumnDef="amount">
