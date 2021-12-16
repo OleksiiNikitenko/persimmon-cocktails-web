@@ -8,6 +8,8 @@ import {columnsToSortBy, Query} from "../models/query";
 import {Observable, Subscription} from "rxjs";
 import {IngredientName} from "../models/IngredientName";
 import {map, startWith} from "rxjs/operators";
+import {getUser} from "../../../core/models/user";
+import {Roles} from "../../../core/models/roles";
 
 
 @Component({
@@ -26,7 +28,7 @@ export class CocktailsComponent implements OnInit {
   public currentQuery: Query = {query: null, page: 0, sortByColumn: columnsToSortBy[0], sortDirection: true}
   cocktails: CocktailBasicInfo[] = []
   cocktailsDataSource: any;
-  cocktailsDisplayedColumns: string[] = ["name", "photoUrl", "receipt",
+  cocktailsDisplayedColumns: string[] = ["name", "photoUrl", "receipt", "dishId"
     // "description", "dishType", "dishCategoryName", "labels", "likes", "isActive"
   ];
   searchCocktailsForm: FormGroup | any;
@@ -34,6 +36,7 @@ export class CocktailsComponent implements OnInit {
   sortColumns: string[] = columnsToSortBy;
   // ingredientIds: number[] = []
   // ingredientsByPrefix?: Observable<IngredientName[]>;
+  canCreate: boolean = getUser().role === Roles.Moderator || getUser().role === Roles.Admin
 
 
   ngOnInit(): void {

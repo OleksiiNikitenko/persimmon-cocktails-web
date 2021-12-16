@@ -8,7 +8,7 @@ export interface Query {
 export const columnsToSortBy : string[] = [
   "nothing",
   "name",
-  "description",
+  // "description",
   "receipt",
   "likes"
 ]

@@ -7,9 +7,9 @@ import {getUser} from "../../../core/models/user";
 import {Roles} from "../../../core/models/roles";
 import {FormControl, FormGroup} from "@angular/forms";
 import {columnsToSortBy} from "../../cocktails/models/query";
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {debounceTime, distinctUntilChanged, startWith, switchMap} from "rxjs/operators";
-import {IngredientName} from "../../cocktails/models/IngredientName";
+import {IngredientName, KitchenwareName} from "../../cocktails/models/IngredientName";
 
 @Component({
   selector: 'app-cocktail',
@@ -31,85 +31,113 @@ export class CocktailComponent implements OnInit {
   isAuthenticated: boolean = getUser().role !== Roles.Anonymous;
   allCategories: CocktailCategory[] = [];
   ingredientFormControl: FormControl = new FormControl()
-  filteredOptions: Observable<IngredientName[]>;
+  kitchenwareFormControl: FormControl = new FormControl();
+  filteredOptionsForIngredients: Observable<IngredientName[]>;
+  filteredOptionsForKitchenware: Observable<KitchenwareName[]>;
+  private subscription: Subscription = new Subscription()
+  canAddLabel: boolean = false;
 
   constructor(private activateRoute: ActivatedRoute,
               private cocktailService: CocktailService,
               private router: Router) {
-    this.id = (Number)(activateRoute.snapshot.paramMap.get('id'))
-    this.isNew = this.id === Number.NaN
+    const idParam: string | null = activateRoute.snapshot.paramMap.get('id')
+    this.id = (Number)(idParam)
+    this.isNew = idParam === "create" && this.canEdit
+    if (this.isNew) this.viewMode = false
     this.cocktailData = mockCocktail()
-    if(!this.isNew){
-      if(this.canEdit){
-        cocktailService.fetchCocktail(this.id)
-          .subscribe(
-            res => {
-              this.cocktailData = res
-              this.loaded = true
-              this.initEditForm()
-            },
-            error => this.handleFetchError(error)
-          )
+    if (!Number.isNaN(this.id) || this.isNew) {
+      if (!Number.isNaN(this.id)) {
+        if (this.canEdit) {
+          this.subscription.add(
+            cocktailService.fetchCocktail(this.id)
+              .subscribe(
+                res => {
+                  this.cocktailData = res
+                  this.loaded = true
+                  this.initEditForm()
+                },
+                error => this.handleFetchError(error)
+              ))
+        } else {
+          this.subscription.add(
+            cocktailService.fetchActiveCocktail(this.id)
+              .subscribe(
+                res => {
+                  this.cocktailData = res
+                  this.loaded = true
+                  this.initEditForm()
+                },
+                error => this.handleFetchError(error)
+              ))
+        }
+      } else {
+// new
       }
-      else{
-        cocktailService.fetchActiveCocktail(this.id)
-          .subscribe(
-            res => {
-              this.cocktailData = res
-              this.loaded = true
-              this.initEditForm()
-            },
-            error => this.handleFetchError(error)
-          )
-      }
-      cocktailService.fetchAllCocktailCategories()
-        .subscribe(res => this.updateAllCategories(res),
-          err => console.error(err))
+      this.subscription.add(
+        cocktailService.fetchAllCocktailCategories()
+          .subscribe(res => this.updateAllCategories(res),
+            err => console.error(err)))
+
+
     }
     this.editedCocktailData = this.initEditCocktailData()
     this.editCocktailForm = this.initEditForm()
 
-    this.filteredOptions = this.ingredientFormControl.valueChanges
+    this.filteredOptionsForIngredients = this.ingredientFormControl.valueChanges
       .pipe(
         debounceTime(200),
         distinctUntilChanged(),
         switchMap(val => {
-          return this.cocktailService.fetchIngredients(val || '', this.canEdit)
+          return this.cocktailService.fetchIngredientsByPrefix(val || '', this.canEdit)
+        })
+      );
+
+    this.filteredOptionsForKitchenware = this.kitchenwareFormControl.valueChanges
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        switchMap(val => {
+          return this.cocktailService.fetchKitchenwareByPrefix(val || '', this.canEdit)
         })
       );
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe()
   }
 
   private handleFetchError(error: HttpErrorResponse) {
     this.loaded = false;
-    if(error.status===404) console.error("Not found: "+error.message)
-    else if(error.status === 403) console.error("Forbidden: "+error.message)
-    else console.error("Unknown: "+error.message)
+    if (error.status === 404) console.error("Not found: " + error.message)
+    else if (error.status === 403) console.error("Forbidden: " + error.message)
+    else console.error("Unknown: " + error.message)
   }
 
   likeCocktail() {
-    this.cocktailService.likeCocktail(this.cocktailData.dishId)
+    this.subscription.add(this.cocktailService.likeCocktail(this.cocktailData.dishId)
       .subscribe(() => {
-        this.cocktailData.likes += 1
-        this.cocktailData.hasLike = true
-      },
-      err => console.error(err))
+          this.cocktailData.likes += 1
+          this.cocktailData.hasLike = true
+        },
+        err => console.error(err)))
   }
 
-  divideReceiptIntoLines(receipt: string) : string[] {
+  divideReceiptIntoLines(receipt: string): string[] {
     return receipt.split('\n\n')
   }
 
   deleteCocktail(dishId: number) {
-    this.cocktailService.deleteCocktail(dishId).subscribe(()=>{
-        this.router.navigate(['/cocktails'])
-      },
-      err => console.error(err))
+    this.subscription.add(
+      this.cocktailService.deleteCocktail(dishId).subscribe(() => {
+          this.router.navigate(['/cocktails'])
+        },
+        err => console.error(err)))
   }
 
-  private initEditForm() : FormGroup {
+  private initEditForm(): FormGroup {
     return new FormGroup({
       name: new FormControl(this.cocktailData.name),
       description: new FormControl(this.cocktailData.description),
@@ -121,14 +149,14 @@ export class CocktailComponent implements OnInit {
   }
 
   goToMode(view: boolean) {
-    if(!view) {
+    if (!view) {
       this.editedCocktailData = this.initEditCocktailData()
     }
     this.viewMode = view
   }
 
   private initEditCocktailData() {
-    let labelsCopy : string[] = []
+    let labelsCopy: string[] = []
     this.cocktailData.labels.forEach(label => labelsCopy.push(label))
     return {
       name: this.cocktailData.name,
@@ -159,37 +187,73 @@ export class CocktailComponent implements OnInit {
     this.allCategories.push({categoryId: -1, categoryName: "Nothing"})
   }
 
-  deleteLabel(label:string) {
-    this.editedCocktailData.labels = this.editedCocktailData.labels.filter(l => l!=label)
+  deleteLabel(label: string) {
+    this.editedCocktailData.labels = this.editedCocktailData.labels.filter(l => l != label)
   }
 
-  editCocktail() {
-    this.cocktailService.editCocktail(this.editedCocktailData).subscribe(() => {
-      window.location.reload()
-    })
+  submitSaveForm() {
+    if (this.isNew) {
+      this.subscription.add(
+        this.cocktailService.createCocktail(this.editedCocktailData).subscribe(res => {
+            // this.router.navigate(['/cocktails/', res.dishId])
+          document.location = '/cocktails/'+res.dishId
+          },
+          err => {
+            console.error(err)
+            this.editedCocktailData = this.initEditCocktailData()
+          }))
+    } else {
+      this.subscription.add(
+        this.cocktailService.editCocktail(this.editedCocktailData).subscribe(() => {
+          window.location.reload()
+        }, err => {
+          console.error(err)
+          this.editedCocktailData = this.initEditCocktailData()
+        }))
+    }
   }
 
   addLabel() {
-    if(this.editedCocktailData.newLabel.length != 0 &&
-      this.editedCocktailData.labels.indexOf(this.editedCocktailData.newLabel) == -1){
+    console.log("clikde")
+    if (this.editedCocktailData.newLabel.length != 0 &&
+      this.editedCocktailData.labels.indexOf(this.editedCocktailData.newLabel) == -1) {
       this.editedCocktailData.labels.push(this.editedCocktailData.newLabel)
     }
     this.editedCocktailData.newLabel = ''
   }
 
-  addIngredient() {
-      if(this.editedCocktailData.ingredientList.find( i => i.ingredientId == this.ingredientFormControl.value.ingredientId) == null){
-        this.editedCocktailData.ingredientList.push(this.ingredientFormControl.value)
-      }
-      this.ingredientFormControl.setValue('')
+  addIngredient($event: MouseEvent) {
+    if (this.editedCocktailData.ingredientList.find(i => i.ingredientId == this.ingredientFormControl.value.ingredientId) == null) {
+      this.editedCocktailData.ingredientList.push(this.ingredientFormControl.value)
+    }
+    this.ingredientFormControl.setValue('')
+    $event.preventDefault()
+  }
+
+  addKitchenware($event: MouseEvent) {
+    if (this.editedCocktailData.kitchenwareList.find(i => i.kitchenwareId ==
+      this.kitchenwareFormControl.value.kitchenwareId) == null) {
+      this.editedCocktailData.kitchenwareList.push(this.kitchenwareFormControl.value)
+    }
+    this.kitchenwareFormControl.setValue('')
+    $event.preventDefault()
   }
 
   deleteAddedIngredient(ingredientId: number) {
     this.editedCocktailData.ingredientList = this.editedCocktailData.ingredientList.filter(i => i.ingredientId != ingredientId)
   }
 
-  displayIngredientName(ingr: IngredientName | null) : string {
-    if(ingr == null) return ''
+  displayIngredientName(ingr: IngredientName | null): string {
+    if (ingr == null) return ''
     else return ingr.name
+  }
+
+  updateCanAddLabel(event : any) {
+    this.canAddLabel = this.editedCocktailData.labels.indexOf(this.editedCocktailData.newLabel) !== -1
+  }
+
+  deleteAddedKitchenware(kitchenwareId: number) {
+    this.editedCocktailData.kitchenwareList =
+      this.editedCocktailData.kitchenwareList.filter(i => i.kitchenwareId != kitchenwareId)
   }
 }
