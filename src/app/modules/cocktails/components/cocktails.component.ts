@@ -28,7 +28,7 @@ export class CocktailsComponent implements OnInit {
   public currentQuery: Query = {query: null, page: 0, sortByColumn: columnsToSortBy[0], sortDirection: true}
   cocktails: CocktailBasicInfo[] = []
   cocktailsDataSource: any;
-  cocktailsDisplayedColumns: string[] = ["name", "photoUrl", "receipt",
+  cocktailsDisplayedColumns: string[] = ["name", "photoUrl", "receipt", "dishId"
     // "description", "dishType", "dishCategoryName", "labels", "likes", "isActive"
   ];
   searchCocktailsForm: FormGroup | any;

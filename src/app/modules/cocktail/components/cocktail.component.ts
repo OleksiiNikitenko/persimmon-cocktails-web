@@ -42,7 +42,7 @@ export class CocktailComponent implements OnInit {
               private router: Router) {
     const idParam: string | null = activateRoute.snapshot.paramMap.get('id')
     this.id = (Number)(idParam)
-    this.isNew = idParam === "create"
+    this.isNew = idParam === "create" && this.canEdit
     if (this.isNew) this.viewMode = false
     this.cocktailData = mockCocktail()
     if (!Number.isNaN(this.id) || this.isNew) {
