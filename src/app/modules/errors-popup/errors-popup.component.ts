@@ -27,14 +27,14 @@ export class ErrorsPopupComponent {
 @Component({
   selector: 'error-dialog',
   template: `
-    <div class="error-dialog">
-      <div mat-dialog-content>
-        <p>Something is wrong...</p>
-        <p>{{data.message}}</p>
+    <div>
+      <div mat-dialog-content >
+        <h3 class="error-message">Something is wrong...</h3>
+        <h3 class="error-message">{{data.message}}</h3>
       </div>
     </div>
   `,
-  styleUrls: ['./error-dialog.css']
+  styleUrls: ['./error-dialog.css', "../../app.component.css"]
 })
 export class ErrorDialog implements OnInit {
   constructor(public dialogRef: MatDialogRef<ErrorDialog>,
@@ -42,11 +42,6 @@ export class ErrorDialog implements OnInit {
   }
 
   ngOnInit() {
-    this.dialogRef.updatePosition({
-      left: `21%`,
-      bottom: `40px`
-    });
-
     const timeout = 3000;
     this.dialogRef.afterOpened().subscribe(_ => {
       setTimeout(() => {
