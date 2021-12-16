@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {IngredientName} from "../../cocktails/models/IngredientName";
 import {map, tap} from "rxjs/operators";
+import {CocktailBasicInfo} from "../../cocktails/models/cocktails-basic-info";
 
 @Injectable({
   providedIn: 'root'
@@ -70,5 +71,18 @@ export class CocktailService {
     //   .pipe(
     //   map((ingredients : IngredientName[]) => ingredients.map(i => i.name))
     // )
+  }
+
+  createCocktail(cocktail: EditCocktail) : Observable<CocktailBasicInfo> {
+    return this.http.post<CocktailBasicInfo>(`${this.apiServerUrl}/cocktail/create`, {
+      name: cocktail.name,
+      description: cocktail.description,
+      dishCategoryId: cocktail.dishCategoryId === -1 ? null : cocktail.dishCategoryId,
+      receipt: cocktail.receipt,
+      isActive: cocktail.isActive,
+      // labels: cocktail.labels,
+      ingredientIds: cocktail.ingredientList.map(i => i.ingredientId),
+      kitchenwareIds: []
+    })
   }
 }
