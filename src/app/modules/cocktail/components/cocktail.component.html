@@ -1,9 +1,12 @@
 <h3 *ngIf="!loaded && !isNew">There's no such cocktail!</h3>
 <form [formGroup]="editCocktailForm" (submit)="submitSaveForm()" *ngIf="loaded || isNew" class="root">
   <div class="header-buttons">
-    <button class="primary-button" *ngIf="viewMode && canEdit && !isNew" (click)="goToMode(false)">Go to edit mode</button>
-    <button class="primary-button" *ngIf="!viewMode && canEdit && !isNew" (click)="goToMode(true)">Go to view mode</button>
-    <button class="primary-button" *ngIf="canEdit && !isNew" (click)="deleteCocktail(cocktailData.dishId)">Delete</button>
+    <button class="primary-button" *ngIf="viewMode && canEdit && !isNew" (click)="goToMode(false)">Go to edit mode
+    </button>
+    <button class="primary-button" *ngIf="!viewMode && canEdit && !isNew" (click)="goToMode(true)">Go to view mode
+    </button>
+    <button class="primary-button" *ngIf="canEdit && !isNew" (click)="deleteCocktail(cocktailData.dishId)">Delete
+    </button>
   </div>
   <div class="photo-and-headlines">
     <img [src]="cocktailData.image === null ? defaultCocktailUrl : cocktailData.image.urlMiddle" class="photo-image">
@@ -90,7 +93,7 @@
               id="edit_cocktail_receipt"></textarea>
   </mat-form-field>
   <div class="ingredients">
-    <h4>Ingredients</h4>
+    <h4 *ngIf="viewMode">Ingredients</h4>
     <div *ngIf="viewMode" class="ingredient-list">
       <li class="ingredient" *ngFor="let ingredient of cocktailData.ingredientList">
         <img class="ingredient-small-photo"
@@ -107,33 +110,58 @@
       </li>
     </div>
   </div>
+
+  <div *ngIf="!viewMode">
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="Choose ingredient" matInput
+             [formControl]="ingredientFormControl" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayIngredientName">
+        <mat-option *ngFor="let option of filteredOptionsForIngredients | async" [value]="option">
+          {{ option.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <button (click)="addIngredient($event)" [disabled]="this.ingredientFormControl.value == null ||
+  !this.ingredientFormControl.value.hasOwnProperty('ingredientId')"
+    >Add ingredient to cocktail
+    </button>
+  </div>
+
+
+  <div class="kitchenwares">
+    <h4 *ngIf="viewMode">Kitchenware</h4>
+    <div *ngIf="viewMode">
+      <li class="kitchenware" *ngFor="let kitchenware of cocktailData.kitchenwareList">
+        <img class="kitchenware-small-photo"
+             [src]="kitchenware.photoId === null ? defaultKitchenwareUrl : kitchenware.photoId">
+        <div>{{kitchenware.name}}</div>
+        <div>{{kitchenware.category === null ? "No category" : kitchenware.category.name}}</div>
+      </li>
+    </div>
+
+    <div *ngIf="!viewMode" class="kitchenware-list">
+      <li class="kitchenware" *ngFor="let kitchenware of editedCocktailData.kitchenwareList">
+        <div>{{kitchenware.name}}</div>
+        <button *ngIf="!viewMode" (click)="deleteAddedKitchenware(kitchenware.kitchenwareId)">X</button>
+      </li>
+    </div>
+  </div>
+
+  <div *ngIf="!viewMode">
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="Choose kitchenware" matInput
+             [formControl]="kitchenwareFormControl" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayIngredientName">
+        <mat-option *ngFor="let option of filteredOptionsForKitchenware | async" [value]="option">
+          {{ option.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <button (click)="addKitchenware($event)" [disabled]="this.kitchenwareFormControl.value == null ||
+  !this.kitchenwareFormControl.value.hasOwnProperty('kitchenwareId')"
+    >Add kitchenware to cocktail
+    </button>
+  </div>
 </form>
 
-<div *ngIf="!viewMode">
-  <mat-form-field class="example-full-width">
-    <input type="text" placeholder="Choose ingredient" matInput
-           [formControl]="ingredientFormControl" [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayIngredientName">
-      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-        {{ option.name }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  <button (click)="addIngredient()" [disabled]="this.ingredientFormControl.value == null ||
-  !this.ingredientFormControl.value.hasOwnProperty('ingredientId')"
-  >Add to cocktail</button>
-</div>
-
-
-<div class="kitchenwares" *ngIf="viewMode && loaded">
-  <h4>Kitchenware</h4>
-  <div class="kitchenware-list">
-    <li class="kitchenware" *ngFor="let kitchenware of cocktailData.kitchenwareList">
-      <img class="kitchenware-small-photo"
-           [src]="kitchenware.photoId === null ? defaultKitchenwareUrl : kitchenware.photoId">
-      <div>{{kitchenware.name}}</div>
-      <div>{{kitchenware.category === null ? "No category" : kitchenware.category.name}}</div>
-    </li>
-  </div>
-</div>
 

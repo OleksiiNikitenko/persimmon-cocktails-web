@@ -9,7 +9,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {columnsToSortBy} from "../../cocktails/models/query";
 import {Observable, Subscription} from "rxjs";
 import {debounceTime, distinctUntilChanged, startWith, switchMap} from "rxjs/operators";
-import {IngredientName} from "../../cocktails/models/IngredientName";
+import {IngredientName, KitchenwareName} from "../../cocktails/models/IngredientName";
 
 @Component({
   selector: 'app-cocktail',
@@ -31,7 +31,9 @@ export class CocktailComponent implements OnInit {
   isAuthenticated: boolean = getUser().role !== Roles.Anonymous;
   allCategories: CocktailCategory[] = [];
   ingredientFormControl: FormControl = new FormControl()
-  filteredOptions: Observable<IngredientName[]>;
+  kitchenwareFormControl: FormControl = new FormControl();
+  filteredOptionsForIngredients: Observable<IngredientName[]>;
+  filteredOptionsForKitchenware: Observable<KitchenwareName[]>;
   private subscription: Subscription = new Subscription()
   canAddLabel: boolean = false;
 
@@ -81,12 +83,21 @@ export class CocktailComponent implements OnInit {
     this.editedCocktailData = this.initEditCocktailData()
     this.editCocktailForm = this.initEditForm()
 
-    this.filteredOptions = this.ingredientFormControl.valueChanges
+    this.filteredOptionsForIngredients = this.ingredientFormControl.valueChanges
       .pipe(
         debounceTime(200),
         distinctUntilChanged(),
         switchMap(val => {
-          return this.cocktailService.fetchIngredients(val || '', this.canEdit)
+          return this.cocktailService.fetchIngredientsByPrefix(val || '', this.canEdit)
+        })
+      );
+
+    this.filteredOptionsForKitchenware = this.kitchenwareFormControl.valueChanges
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        switchMap(val => {
+          return this.cocktailService.fetchKitchenwareByPrefix(val || '', this.canEdit)
         })
       );
   }
@@ -211,11 +222,21 @@ export class CocktailComponent implements OnInit {
     this.editedCocktailData.newLabel = ''
   }
 
-  addIngredient() {
+  addIngredient($event: MouseEvent) {
     if (this.editedCocktailData.ingredientList.find(i => i.ingredientId == this.ingredientFormControl.value.ingredientId) == null) {
       this.editedCocktailData.ingredientList.push(this.ingredientFormControl.value)
     }
     this.ingredientFormControl.setValue('')
+    $event.preventDefault()
+  }
+
+  addKitchenware($event: MouseEvent) {
+    if (this.editedCocktailData.kitchenwareList.find(i => i.kitchenwareId ==
+      this.kitchenwareFormControl.value.kitchenwareId) == null) {
+      this.editedCocktailData.kitchenwareList.push(this.kitchenwareFormControl.value)
+    }
+    this.kitchenwareFormControl.setValue('')
+    $event.preventDefault()
   }
 
   deleteAddedIngredient(ingredientId: number) {
@@ -229,5 +250,10 @@ export class CocktailComponent implements OnInit {
 
   updateCanAddLabel(event : any) {
     this.canAddLabel = this.editedCocktailData.labels.indexOf(this.editedCocktailData.newLabel) !== -1
+  }
+
+  deleteAddedKitchenware(kitchenwareId: number) {
+    this.editedCocktailData.kitchenwareList =
+      this.editedCocktailData.kitchenwareList.filter(i => i.kitchenwareId != kitchenwareId)
   }
 }
