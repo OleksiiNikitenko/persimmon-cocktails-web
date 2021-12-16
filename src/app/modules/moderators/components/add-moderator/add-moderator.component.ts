@@ -24,7 +24,7 @@ export class AddModeratorComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      status: false,
+       // status: false,
     })
   }
 
@@ -56,7 +56,7 @@ export class AddModeratorComponent implements OnInit {
   }
   resetFormHandler() {
     this.name?.setValue('')
-    this.status?.setValue(false)
+     // this.status?.setValue(false)
     if (!this.currentUserId) {
       this.email?.setValue('')
     }
@@ -74,7 +74,7 @@ export class AddModeratorComponent implements OnInit {
       this.moderatorsService.updateModerator({
         personId: this.currentUserId,
         name: this.name?.value,
-         status: this.status?.value,
+         // status: this.status?.value,
       })
       this.moderatorsService.fetchModerators()
       this.router.navigate(['moderators'])

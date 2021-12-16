@@ -17,7 +17,7 @@ import {AddModeratorComponent} from "../add-moderator/add-moderator.component";
 })
 export class ModeratorsMainComponent implements AfterViewInit, OnInit {
 
-  displayedColumns: string[] = ['photoId', 'personId', 'name', 'email', 'editButton', 'statusButton'];
+  displayedColumns: string[] = ['photoId',  'name', 'email', 'editButton', 'statusButton'];
   moderators: Moderator[] = [];
   dataSource: any;
     constructor(private _liveAnnouncer: LiveAnnouncer,
