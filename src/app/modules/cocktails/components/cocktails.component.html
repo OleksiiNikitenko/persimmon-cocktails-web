@@ -40,18 +40,61 @@
           </mat-radio-group>
         </div>
       </div>
-
+<!--   match-->
       <section>
         <mat-checkbox formControlName="matchToStock"
         [(ngModel)]="currentQuery.matchToStock" [checked]="currentQuery.matchToStock" >
           <p>Search cocktails match to stock</p>
         </mat-checkbox>
       </section>
-      <small
-        *ngIf="!currentQuery.matchToStock"
-        class="text-danger">unchecked</small>
+<!--      <small-->
+<!--        *ngIf="!currentQuery.matchToStock"-->
+<!--        class="text-danger">unchecked</small>-->
 
-    </mat-card-content>
+<!--      list-->
+
+<button formControlName="searchByListIngredients" class="search-submit-button primary-button"
+        [(ngModel)]="currentQuery.searchByListIngredients">Add ingredient to list</button>
+
+
+
+      <div class="ingredients">
+        <h4>Ingredients</h4>
+        <div  class="ingredient-list">
+          <li class="ingredient" *ngFor="let ingredient of cocktailData.ingredientList">
+            <img class="ingredient-small-photo"
+                 [src]="ingredient.photoId === null ? defaultIngredientUrl : ingredient.photoId">
+            <div>{{ingredient.name}}</div>
+            <div>{{ingredient.category === null ? "No category" : ingredient.category.name}}</div>
+          </li>
+        </div>
+
+        <div  class="ingredient-list">
+          <li class="ingredient" *ngFor="let ingredient of editedCocktailData.ingredientList">
+            <div>{{ingredient.name}}</div>
+            <button (click)="deleteAddedIngredient(ingredient.ingredientId)">X</button>
+          </li>
+        </div>
+      </div>
+  </form>
+
+  <div >
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="Choose ingredient" matInput
+             [formControl]="ingredientFormControl" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayIngredientName">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{ option.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <button (click)="addIngredient()" [disabled]="this.ingredientFormControl.value == null ||
+  !this.ingredientFormControl.value.hasOwnProperty('ingredientId')"
+    >Add to cocktail</button>
+  </div>
+
+
+  </mat-card-content>
     <mat-card-actions>
     </mat-card-actions>
     <small

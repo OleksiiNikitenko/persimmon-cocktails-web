@@ -12,7 +12,7 @@ import {
   ValidatorFn,
   Validators
 } from "@angular/forms";
-import {columnsToSortBy, Query} from "../models/query";
+import {columnsToSortBy, Query, specifiedIngredients} from "../models/query";
 import {Observable, Subscription} from "rxjs";
 import {IngredientName} from "../models/IngredientName";
 import {map, startWith} from "rxjs/operators";
@@ -36,7 +36,8 @@ export class CocktailsComponent implements OnInit {
     page: 0,
     sortByColumn: columnsToSortBy[0],
     sortDirection: true,
-    matchToStock: false
+    matchToStock: false,
+    searchByListIngredients: specifiedIngredients
   }
   cocktails: CocktailBasicInfo[] = []
   cocktailsDataSource: any;
@@ -56,6 +57,7 @@ export class CocktailsComponent implements OnInit {
       sortColumn: new FormControl(columnsToSortBy),
       sortDirection: new FormControl(true),
       matchToStock: new FormControl(false),
+      searchByListIngredients: new FormControl(specifiedIngredients)
     });
     this.searchCocktailsForm.setValidators(this.searchCocktailsValidator())
     this.getCocktails()

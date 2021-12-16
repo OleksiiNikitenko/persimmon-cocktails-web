@@ -32,6 +32,10 @@ export class CocktailsService {
     if(query.matchToStock){
       params = params.set("show-match-stock", query.matchToStock)
     }
+    if(query.searchByListIngredients != null){
+
+      params = params.set("ingedients", "=1&")
+    }
     params = params.set("page", query.page)
     return params
   }
