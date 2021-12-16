@@ -35,5 +35,15 @@ export class UserService {
       }
     })
   }
+  updatePhoto(photoId: any){
+    this.http.patch(`${this.BASE_URLS.updateUserPhoto}?photoId=${photoId}`, {})
+      .pipe(
+        first()
+      ).subscribe({
+      next: () => {
+        this.userStore.update(photoId)
+      }
+    })
+  }
 
 }
