@@ -23,7 +23,7 @@ export class AddIngredientComponent implements OnInit {
   ) {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
-      category: [''],
+      category: ['', Validators.required],
       status: false,
     })
   }
