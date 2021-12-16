@@ -7,6 +7,8 @@ import {IngredientsQuery} from "../../services/ingredients.query";
 import {IngredientsStore} from "../../services/ingredients.store";
 import {IngredientsService} from "../../services/ingredients.service";
 import {untilDestroyed, UntilDestroy} from '@ngneat/until-destroy';
+import {HttpErrorResponse} from "@angular/common/http";
+import {ImageUploadService} from "../../../image/services/image-upload-service";
 
 
 @UntilDestroy()
@@ -20,12 +22,14 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['photoId', 'ingredientId', 'name', 'category', 'editButton', 'statusButton'];
   ingredients: Ingredient[] = [];
   dataSource: any;
-
+  imagesUrl: string[] = []
+  imageNotAvailable = '../../../../assets/images/image-not-found.jpg'
   constructor(private _liveAnnouncer: LiveAnnouncer,
               private ingredientsService: IngredientsService,
               private ingredientsQuery: IngredientsQuery,
               private ingredientsStore: IngredientsStore,
-              private cdr: ChangeDetectorRef) {}
+              private cdr: ChangeDetectorRef,
+              private imageService: ImageUploadService) {}
 
   getIngredients(): Ingredient[]{
     return this.ingredients;
@@ -51,9 +55,31 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
       this.dataSource = new MatTableDataSource(ingredients)
       this.dataSource.sort = this.sort;
       this.cdr.markForCheck()
+      this.imagesUrl = Array(ingredients.length).fill(this.imageNotAvailable)
+      this.setImages(ingredients)
     })
   }
-
+  getImageByIdIngredients(imageId: number, i: number) {
+    if (imageId != null) {
+      this.imageService.getImageById(imageId).subscribe(
+        (response) => {
+          if (response != null)
+            this.imagesUrl[i] = response.urlMiddle
+          else
+            this.imagesUrl[i] = this.imageNotAvailable
+        },
+        (error: HttpErrorResponse) => {
+          // alert(error.error.message);
+          throw error;
+        }
+      );
+    }
+  }
+  setImages(ingredients: any) {
+    for (let i = 0; i < ingredients.length; i++) {
+      this.getImageByIdIngredients(ingredients[i].photoId, i)
+    }
+  }
   ngAfterViewInit(): void {
   }
 }
