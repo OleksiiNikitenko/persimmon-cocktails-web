@@ -21,7 +21,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by category">
         Category
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.kitchenwareCategoryID}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.category.name}} </td>
     </ng-container>
 
     <ng-container matColumnDef="editButton">
