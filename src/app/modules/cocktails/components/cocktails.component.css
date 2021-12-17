@@ -91,12 +91,16 @@
 
 .inactive{
   border-color: gray;
+  background-color: #7777775e;
 }
 
 .cocktail-tile>img {
   object-fit: contain;
   width: 100%;
-  height: 60%;
+  height: 15em;
+  border-radius: 0.5em;
+  flex-shrink: 0;
+  flex-grow: 0;
 }
 
 .tile-text{
@@ -104,7 +108,7 @@
 }
 
 .tile-description{
-  height: 3em;
+  max-height: 3em;
   display: inline-block;
   overflow: hidden;
 }

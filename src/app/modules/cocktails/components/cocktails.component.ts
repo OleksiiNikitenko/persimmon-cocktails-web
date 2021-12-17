@@ -39,6 +39,7 @@ export class CocktailsComponent implements OnInit {
   defaultPhotoUrl: string = "https://www.yahire.com/blogs/wp-content/uploads/2017/04/summer-cocktails.jpg"
   sortColumns: string[] = columnsToSortBy;
   canCreate: boolean = getUser().role === Roles.Moderator || getUser().role === Roles.Admin
+  currentPage: number = 0
 
 
 

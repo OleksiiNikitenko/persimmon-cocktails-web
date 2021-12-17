@@ -79,10 +79,10 @@
       <img [src]="cocktail.image === null ? defaultPhotoUrl : cocktail.image.urlMiddle">
       <b>{{cocktail.name}}</b>
       <div class="tile-text">
-        <span *ngIf="cocktail.description != null" class="tile-description">{{cocktail.description}}</span>
+        <div *ngIf="cocktail.description != null" class="tile-description">{{cocktail.description}}</div>
         <div class="cocktail-tile-likes">
-          <span>Likes:</span>
-          <span>{{cocktail.likes}}</span>
+          <div>Likes:</div>
+          <div>{{cocktail.likes}}</div>
         </div>
         <div *ngIf="cocktail.dishCategoryId !== null" class="cocktail-tile-category">
           {{cocktail.dishCategoryName}}
