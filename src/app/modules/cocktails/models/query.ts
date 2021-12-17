@@ -1,8 +1,12 @@
+import {CocktailCategory} from "../../cocktail/models/fullCocktail";
+
 export interface Query {
   page: number,
   query : string | null,
   sortByColumn: string,
-  sortDirection: boolean
+  sortDirection: boolean,
+  showActiveMode: ShowActiveMode,
+  currentCategory: CocktailCategory
 }
 
 export const columnsToSortBy : string[] = [
@@ -12,3 +16,9 @@ export const columnsToSortBy : string[] = [
   "receipt",
   "likes"
 ]
+
+export enum ShowActiveMode{
+  OnlyActive,
+  OnlyInactive,
+  Both
+}

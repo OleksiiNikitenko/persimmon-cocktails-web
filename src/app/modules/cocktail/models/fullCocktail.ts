@@ -62,6 +62,6 @@ export function mockCocktail(): FullCocktail {
 }
 
 export interface CocktailCategory {
-  categoryId: number | null,
+  categoryId: number,
   categoryName: string
 }

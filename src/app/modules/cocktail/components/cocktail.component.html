@@ -56,7 +56,8 @@
 
       <p>{{cocktailData.dishType === null ? "No dish type" : cocktailData.dishType}}</p>
 
-      <button *ngIf="!viewMode" class="primary-button">Save</button>
+      <button *ngIf="!viewMode" class="primary-button"
+      [disabled]="editCocktailForm.invalid">Save</button>
     </div>
   </div>
 

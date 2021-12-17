@@ -5,11 +5,13 @@ import {CocktailService} from "../services/cocktail.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {getUser} from "../../../core/models/user";
 import {Roles} from "../../../core/models/roles";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {columnsToSortBy} from "../../cocktails/models/query";
 import {Observable, Subscription} from "rxjs";
 import {debounceTime, distinctUntilChanged, startWith, switchMap} from "rxjs/operators";
 import {IngredientName, KitchenwareName} from "../../cocktails/models/IngredientName";
+import {MatDialog} from "@angular/material/dialog";
+import {ErrorDialog} from "../../errors-popup/errors-popup.component";
 
 @Component({
   selector: 'app-cocktail',
@@ -39,7 +41,8 @@ export class CocktailComponent implements OnInit {
 
   constructor(private activateRoute: ActivatedRoute,
               private cocktailService: CocktailService,
-              private router: Router) {
+              private router: Router,
+              private dialog: MatDialog) {
     const idParam: string | null = activateRoute.snapshot.paramMap.get('id')
     this.id = (Number)(idParam)
     this.isNew = idParam === "create" && this.canEdit
@@ -56,7 +59,9 @@ export class CocktailComponent implements OnInit {
                   this.loaded = true
                   this.initEditForm()
                 },
-                error => this.handleFetchError(error)
+                error => {
+                  this.handleFetchError(error)
+                }
               ))
         } else {
           this.subscription.add(
@@ -76,7 +81,9 @@ export class CocktailComponent implements OnInit {
       this.subscription.add(
         cocktailService.fetchAllCocktailCategories()
           .subscribe(res => this.updateAllCategories(res),
-            err => console.error(err)))
+            error => {
+              this.handleFetchError(error)
+            }))
 
 
     }
@@ -114,6 +121,7 @@ export class CocktailComponent implements OnInit {
     if (error.status === 404) console.error("Not found: " + error.message)
     else if (error.status === 403) console.error("Forbidden: " + error.message)
     else console.error("Unknown: " + error.message)
+    this.dialog.open(ErrorDialog, {data: {message: error.error.message} })
   }
 
   likeCocktail($event: MouseEvent) {
@@ -122,9 +130,8 @@ export class CocktailComponent implements OnInit {
           this.cocktailData.likes += 1
           this.cocktailData.hasLike = true
         },
-        err => {
-        console.error(err)
-
+        error => {
+          this.handleFetchError(error)
         }))
     $event.preventDefault()
   }
@@ -138,15 +145,18 @@ export class CocktailComponent implements OnInit {
       this.cocktailService.deleteCocktail(dishId).subscribe(() => {
           this.router.navigate(['/cocktails'])
         },
-        err => console.error(err)))
+        error => {
+          this.handleFetchError(error)
+        }))
     $event.preventDefault()
   }
 
   private initEditForm(): FormGroup {
     return new FormGroup({
-      name: new FormControl(this.cocktailData.name),
+      name: new FormControl(this.cocktailData.name, [Validators.required,
+        Validators.pattern('^[a-zA-Z0-9 -]{2,255}$')]),
       description: new FormControl(this.cocktailData.description),
-      receipt: new FormControl(this.cocktailData.receipt),
+      receipt: new FormControl(this.cocktailData.receipt, [Validators.required]),
       isActive: new FormControl(this.cocktailData.isActive),
       dishCategoryId: new FormControl(this.cocktailData.dishCategoryId),
       newLabel: new FormControl(this.editedCocktailData.newLabel)
@@ -204,22 +214,21 @@ export class CocktailComponent implements OnInit {
           document.location = '/cocktails/'+res.dishId
           },
           err => {
-            console.error(err)
             this.editedCocktailData = this.initEditCocktailData()
+            this.handleFetchError(err)
           }))
     } else {
       this.subscription.add(
         this.cocktailService.editCocktail(this.editedCocktailData).subscribe(() => {
           window.location.reload()
         }, err => {
-          console.error(err)
           this.editedCocktailData = this.initEditCocktailData()
+          this.handleFetchError(err)
         }))
     }
   }
 
   addLabel() {
-    console.log("clikde")
     if (this.editedCocktailData.newLabel.length != 0 &&
       this.editedCocktailData.labels.indexOf(this.editedCocktailData.newLabel) == -1) {
       this.editedCocktailData.labels.push(this.editedCocktailData.newLabel)
