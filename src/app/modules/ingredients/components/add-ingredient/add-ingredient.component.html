@@ -6,7 +6,10 @@
     </ng-template>
   </div>
   <div class="add-ingredient__content">
-    <img class="add-ingredient__avatar" src="../../../../../assets/images/Orange.jpg" alt="orange">
+    <img class="add-ingredient__avatar" src="{{imageUrl}}" alt="orange">
+    <div>
+
+
     <div [formGroup]="form" class="form">
       <div>
         <label>Name: </label>
@@ -25,4 +28,13 @@
       </div>
     </div>
   </div>
+
 </div>
+  <div class=" text-center">
+    <label class="secondary-button changeAvatarButton" for="image_uploads">Choose images to upload </label>
+    <input type="file" id="image_uploads" hidden
+           class="form-control"
+           (change)="onChange($event)">
+  </div>
+  <button class="thirdly-button uploadButton" (click)="onUpload()">Upload</button>
+  </div>
