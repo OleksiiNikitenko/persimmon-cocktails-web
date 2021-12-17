@@ -8,7 +8,7 @@
           <input matInput [(ngModel)]="currentQuery.query" type="text" placeholder="Cocktail name"
                  formControlName="name"
                  id="cocktails_search_name" (keypress)="checkValue($event)">
-          <mat-hint align="end">More than 2 characters, space and hyphen are available.</mat-hint>
+          <mat-hint [hidden]="currentQuery.query == null || currentQuery.query.length != 1" align="end">More than 2 characters, space and hyphen are available. Or empty.</mat-hint>
           <!--        <mat-icon matSuffix>supervisor_account</mat-icon>-->
         </mat-form-field>
         <button class="search-submit-button primary-button" type="submit" value="submit"
@@ -37,14 +37,35 @@
               <span class="material-icons">expand_more</span>
             </mat-radio-button>
           </mat-radio-group>
+
+          <mat-radio-group *ngIf="canCreate"
+            formControlName="activeMode"
+            [(ngModel)]="currentQuery.showActiveMode">
+            <mat-radio-button [value]="2">
+              <span>Show all</span>
+            </mat-radio-button>
+            <mat-radio-button [value]="0">
+              <span>Only active</span>
+            </mat-radio-button>
+            <mat-radio-button [value]="1">
+              <span>Only inactive</span>
+            </mat-radio-button>
+          </mat-radio-group>
+
+          <mat-form-field>
+            <mat-select placeholder="Category" [(value)]="currentQuery.currentCategory">
+              <mat-option *ngFor="let category of categories" [value]="category">
+                {{ category.categoryName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
     </mat-card-content>
     <mat-card-actions>
     </mat-card-actions>
-    <small
-      *ngIf="searchCocktailsForm.get('name').invalid && searchCocktailsForm.get('name').touched  && searchCocktailsForm != ''"
-      class="text-danger">Incorrect format</small>
+<!--    <small *ngIf="searchCocktailsForm.get('name').invalid" class="text-danger">Incorrect format</small>-->
+<!--    // && searchCocktailsForm.get('name').touched  && searchCocktailsForm != ''-->
   </form>
   <div *ngIf="canCreate" class="new-cocktail-block">
     <button class="primary-button" [routerLink]="['/cocktails/create']">New cocktail</button>
@@ -52,10 +73,10 @@
 
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="cocktailsDataSource" class="found-list-table" matSort aria-label="Elements">
-      <ng-container matColumnDef="photoUrl">
+      <ng-container matColumnDef="image">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Photo</th>
         <td mat-cell *matCellDef="let cocktail" class="cocktail-small-photo-container">
-          <img src="{{cocktail.photoUrl == null ? defaultPhotoUrl : cocktail.photoUrl}}" class="cocktail-small-photo">
+          <img src="{{cocktail.image == null ? defaultPhotoUrl : cocktail.image.urlMiddle}}" class="cocktail-small-photo">
         </td>
       </ng-container>
       <ng-container matColumnDef="name">

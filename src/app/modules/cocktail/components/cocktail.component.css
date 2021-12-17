@@ -3,7 +3,7 @@
 }
 
 .photo-image{
-  max-width: 50%;
+  max-width: 40vw;
 }
 
 .photo-and-headlines{
@@ -24,24 +24,6 @@
   font-size: 1.5em;
   padding: 0.5em;
   margin-right: 1.5em;
-}
-
-.ingredient-small-photo, .kitchenware-small-photo{
-  max-width: 10vw;
-}
-
-.ingredient, .kitchenware{
-  display: flex;
-  flex-direction: row;
-  padding: 1em 0;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.ingredient-list, .ingredient-list{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .like-button{
@@ -74,4 +56,37 @@ button{
 
 .labels-group{
   margin: 1em 0;
+}
+
+
+
+.ingredient-with-image{
+  list-style-type:none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25vw;
+  padding: 0.5em;
+  margin: 0.5em;
+  border: 3px solid lightgray;
+  border-radius: 0.5em;
+  flex-grow: 0;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.ingredient-small-photo, .kitchenware-small-photo{
+  height: 20vh;
+  object-fit: contain;
+  max-width: 80%;
+}
+
+.ingredient-with-image-list{
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.ingredient-name, .ingredient-category{
+  margin: 0.5em 1em;
+  width: auto;
 }

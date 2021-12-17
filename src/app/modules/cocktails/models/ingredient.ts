@@ -1,7 +1,9 @@
+import {ImageModel} from "../../image/model/image.model";
+
 export interface Ingredient{
   ingredientId: number,
   name: string,
-  photoId: number | null,
+  image: ImageModel | null,
   category: {
     ingredientCategoryId: number,
     name: string

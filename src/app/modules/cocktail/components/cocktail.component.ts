@@ -5,11 +5,15 @@ import {CocktailService} from "../services/cocktail.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {getUser} from "../../../core/models/user";
 import {Roles} from "../../../core/models/roles";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {columnsToSortBy} from "../../cocktails/models/query";
 import {Observable, Subscription} from "rxjs";
-import {debounceTime, distinctUntilChanged, startWith, switchMap} from "rxjs/operators";
+import {debounceTime, distinctUntilChanged, first, startWith, switchMap} from "rxjs/operators";
 import {IngredientName, KitchenwareName} from "../../cocktails/models/IngredientName";
+import {MatDialog} from "@angular/material/dialog";
+import {ErrorDialog} from "../../errors-popup/errors-popup.component";
+import {ImageModel} from "../../image/model/image.model";
+import {ImageUploadService} from "../../image/services/image-upload-service";
 
 @Component({
   selector: 'app-cocktail',
@@ -23,7 +27,7 @@ export class CocktailComponent implements OnInit {
   isNew: boolean
   defaultCocktailUrl: string = "https://www.yahire.com/blogs/wp-content/uploads/2017/04/summer-cocktails.jpg"
   defaultIngredientUrl: string = "https://zestfulkitchen.com/wp-content/uploads/2018/02/Blood-Orange-Cocktail_-11.jpg"
-  defaultKitchenwareUrl: string = "https://crystalglasscentre.co.uk/uploads/images/full/IMG_7030_1302191412.jpg"
+  defaultKitchenwareUrl: string = "https://3.imimg.com/data3/FD/AF/MY-3872364/arecanut-round-palm-leaf-plate-500x500.jpg"
   canEdit: boolean = getUser().role === Roles.Moderator || getUser().role === Roles.Admin
   public loaded: boolean = false;
   viewMode: boolean = true;
@@ -36,10 +40,13 @@ export class CocktailComponent implements OnInit {
   filteredOptionsForKitchenware: Observable<KitchenwareName[]>;
   private subscription: Subscription = new Subscription()
   canAddLabel: boolean = false;
+  private file: File | undefined;
 
   constructor(private activateRoute: ActivatedRoute,
               private cocktailService: CocktailService,
-              private router: Router) {
+              private router: Router,
+              private dialog: MatDialog,
+              private imageService: ImageUploadService) {
     const idParam: string | null = activateRoute.snapshot.paramMap.get('id')
     this.id = (Number)(idParam)
     this.isNew = idParam === "create" && this.canEdit
@@ -56,7 +63,9 @@ export class CocktailComponent implements OnInit {
                   this.loaded = true
                   this.initEditForm()
                 },
-                error => this.handleFetchError(error)
+                error => {
+                  this.handleFetchError(error)
+                }
               ))
         } else {
           this.subscription.add(
@@ -76,7 +85,9 @@ export class CocktailComponent implements OnInit {
       this.subscription.add(
         cocktailService.fetchAllCocktailCategories()
           .subscribe(res => this.updateAllCategories(res),
-            err => console.error(err)))
+            error => {
+              this.handleFetchError(error)
+            }))
 
 
     }
@@ -114,43 +125,53 @@ export class CocktailComponent implements OnInit {
     if (error.status === 404) console.error("Not found: " + error.message)
     else if (error.status === 403) console.error("Forbidden: " + error.message)
     else console.error("Unknown: " + error.message)
+    this.dialog.open(ErrorDialog, {data: {message: error.error.message}})
   }
 
-  likeCocktail() {
+  likeCocktail($event: MouseEvent) {
     this.subscription.add(this.cocktailService.likeCocktail(this.cocktailData.dishId)
       .subscribe(() => {
           this.cocktailData.likes += 1
           this.cocktailData.hasLike = true
         },
-        err => console.error(err)))
+        error => {
+          this.handleFetchError(error)
+        }))
+    $event.preventDefault()
   }
 
   divideReceiptIntoLines(receipt: string): string[] {
     return receipt.split('\n\n')
   }
 
-  deleteCocktail(dishId: number) {
+  deleteCocktail(dishId: number, $event: MouseEvent) {
     this.subscription.add(
       this.cocktailService.deleteCocktail(dishId).subscribe(() => {
           this.router.navigate(['/cocktails'])
         },
-        err => console.error(err)))
+        error => {
+          this.handleFetchError(error)
+        }))
+    $event.preventDefault()
   }
 
   private initEditForm(): FormGroup {
     return new FormGroup({
-      name: new FormControl(this.cocktailData.name),
-      description: new FormControl(this.cocktailData.description),
-      receipt: new FormControl(this.cocktailData.receipt),
-      isActive: new FormControl(this.cocktailData.isActive),
-      dishCategoryId: new FormControl(this.cocktailData.dishCategoryId),
+      name: new FormControl(this.editedCocktailData.name, [Validators.required,
+        Validators.pattern('^[a-zA-Z0-9 -]{2,255}$')]),
+      description: new FormControl(this.editedCocktailData.description),
+      receipt: new FormControl(this.editedCocktailData.receipt, [Validators.required]),
+      isActive: new FormControl(this.editedCocktailData.isActive),
+      dishCategoryId: new FormControl(this.editedCocktailData.dishCategoryId),
       newLabel: new FormControl(this.editedCocktailData.newLabel)
     });
   }
 
-  goToMode(view: boolean) {
+  goToMode(view: boolean, $event: MouseEvent) {
+    $event.preventDefault()
     if (!view) {
       this.editedCocktailData = this.initEditCocktailData()
+      this.editCocktailForm = this.initEditForm()
     }
     this.viewMode = view
   }
@@ -175,10 +196,12 @@ export class CocktailComponent implements OnInit {
       ingredientList: this.cocktailData.ingredientList.map(c => {
         return {
           ingredientId: c.ingredientId,
-          name: c.name
+          name: c.name,
+          image: c.image
         }
       }),
-      newLabel: ''
+      newLabel: '',
+      image: this.cocktailData.image
     }
   }
 
@@ -196,25 +219,24 @@ export class CocktailComponent implements OnInit {
       this.subscription.add(
         this.cocktailService.createCocktail(this.editedCocktailData).subscribe(res => {
             // this.router.navigate(['/cocktails/', res.dishId])
-          document.location = '/cocktails/'+res.dishId
+            document.location = '/cocktails/' + res.dishId
           },
           err => {
-            console.error(err)
             this.editedCocktailData = this.initEditCocktailData()
+            this.handleFetchError(err)
           }))
     } else {
       this.subscription.add(
         this.cocktailService.editCocktail(this.editedCocktailData).subscribe(() => {
           window.location.reload()
         }, err => {
-          console.error(err)
           this.editedCocktailData = this.initEditCocktailData()
+          this.handleFetchError(err)
         }))
     }
   }
 
   addLabel() {
-    console.log("clikde")
     if (this.editedCocktailData.newLabel.length != 0 &&
       this.editedCocktailData.labels.indexOf(this.editedCocktailData.newLabel) == -1) {
       this.editedCocktailData.labels.push(this.editedCocktailData.newLabel)
@@ -248,7 +270,7 @@ export class CocktailComponent implements OnInit {
     else return ingr.name
   }
 
-  updateCanAddLabel(event : any) {
+  updateCanAddLabel(event: any) {
     this.canAddLabel = this.editedCocktailData.labels.indexOf(this.editedCocktailData.newLabel) !== -1
   }
 
@@ -256,4 +278,25 @@ export class CocktailComponent implements OnInit {
     this.editedCocktailData.kitchenwareList =
       this.editedCocktailData.kitchenwareList.filter(i => i.kitchenwareId != kitchenwareId)
   }
+
+  onChangePhoto($event: any) {
+    this.file = $event.target.files[0];
+  }
+
+  onPhotoUpload($event: MouseEvent) {
+    $event.preventDefault()
+    if (this.file != undefined) {
+      // this.loading = !this.loading;
+      console.log(this.file);
+      this.imageService.upload(this.file).subscribe(
+        (event: ImageModel) => {
+          if (typeof (event) === 'object') {
+            // this.loading = false;
+            this.editedCocktailData.image = event
+          }
+        }
+      );
+    }
+  }
 }
+
