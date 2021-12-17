@@ -8,10 +8,12 @@ import {Roles} from "../../../core/models/roles";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {columnsToSortBy} from "../../cocktails/models/query";
 import {Observable, Subscription} from "rxjs";
-import {debounceTime, distinctUntilChanged, startWith, switchMap} from "rxjs/operators";
+import {debounceTime, distinctUntilChanged, first, startWith, switchMap} from "rxjs/operators";
 import {IngredientName, KitchenwareName} from "../../cocktails/models/IngredientName";
 import {MatDialog} from "@angular/material/dialog";
 import {ErrorDialog} from "../../errors-popup/errors-popup.component";
+import {ImageModel} from "../../image/model/image.model";
+import {ImageUploadService} from "../../image/services/image-upload-service";
 
 @Component({
   selector: 'app-cocktail',
@@ -38,11 +40,13 @@ export class CocktailComponent implements OnInit {
   filteredOptionsForKitchenware: Observable<KitchenwareName[]>;
   private subscription: Subscription = new Subscription()
   canAddLabel: boolean = false;
+  private file: File | undefined;
 
   constructor(private activateRoute: ActivatedRoute,
               private cocktailService: CocktailService,
               private router: Router,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private imageService: ImageUploadService) {
     const idParam: string | null = activateRoute.snapshot.paramMap.get('id')
     this.id = (Number)(idParam)
     this.isNew = idParam === "create" && this.canEdit
@@ -121,7 +125,7 @@ export class CocktailComponent implements OnInit {
     if (error.status === 404) console.error("Not found: " + error.message)
     else if (error.status === 403) console.error("Forbidden: " + error.message)
     else console.error("Unknown: " + error.message)
-    this.dialog.open(ErrorDialog, {data: {message: error.error.message} })
+    this.dialog.open(ErrorDialog, {data: {message: error.error.message}})
   }
 
   likeCocktail($event: MouseEvent) {
@@ -153,19 +157,21 @@ export class CocktailComponent implements OnInit {
 
   private initEditForm(): FormGroup {
     return new FormGroup({
-      name: new FormControl(this.cocktailData.name, [Validators.required,
+      name: new FormControl(this.editedCocktailData.name, [Validators.required,
         Validators.pattern('^[a-zA-Z0-9 -]{2,255}$')]),
-      description: new FormControl(this.cocktailData.description),
-      receipt: new FormControl(this.cocktailData.receipt, [Validators.required]),
-      isActive: new FormControl(this.cocktailData.isActive),
-      dishCategoryId: new FormControl(this.cocktailData.dishCategoryId),
+      description: new FormControl(this.editedCocktailData.description),
+      receipt: new FormControl(this.editedCocktailData.receipt, [Validators.required]),
+      isActive: new FormControl(this.editedCocktailData.isActive),
+      dishCategoryId: new FormControl(this.editedCocktailData.dishCategoryId),
       newLabel: new FormControl(this.editedCocktailData.newLabel)
     });
   }
 
-  goToMode(view: boolean) {
+  goToMode(view: boolean, $event: MouseEvent) {
+    $event.preventDefault()
     if (!view) {
       this.editedCocktailData = this.initEditCocktailData()
+      this.editCocktailForm = this.initEditForm()
     }
     this.viewMode = view
   }
@@ -193,7 +199,8 @@ export class CocktailComponent implements OnInit {
           name: c.name
         }
       }),
-      newLabel: ''
+      newLabel: '',
+      image: this.cocktailData.image
     }
   }
 
@@ -211,7 +218,7 @@ export class CocktailComponent implements OnInit {
       this.subscription.add(
         this.cocktailService.createCocktail(this.editedCocktailData).subscribe(res => {
             // this.router.navigate(['/cocktails/', res.dishId])
-          document.location = '/cocktails/'+res.dishId
+            document.location = '/cocktails/' + res.dishId
           },
           err => {
             this.editedCocktailData = this.initEditCocktailData()
@@ -262,7 +269,7 @@ export class CocktailComponent implements OnInit {
     else return ingr.name
   }
 
-  updateCanAddLabel(event : any) {
+  updateCanAddLabel(event: any) {
     this.canAddLabel = this.editedCocktailData.labels.indexOf(this.editedCocktailData.newLabel) !== -1
   }
 
@@ -270,4 +277,25 @@ export class CocktailComponent implements OnInit {
     this.editedCocktailData.kitchenwareList =
       this.editedCocktailData.kitchenwareList.filter(i => i.kitchenwareId != kitchenwareId)
   }
+
+  onChangePhoto($event: any) {
+    this.file = $event.target.files[0];
+  }
+
+  onPhotoUpload($event: MouseEvent) {
+    $event.preventDefault()
+    if (this.file != undefined) {
+      // this.loading = !this.loading;
+      console.log(this.file);
+      this.imageService.upload(this.file).subscribe(
+        (event: ImageModel) => {
+          if (typeof (event) === 'object') {
+            // this.loading = false;
+            this.editedCocktailData.image = event
+          }
+        }
+      );
+    }
+  }
 }
+

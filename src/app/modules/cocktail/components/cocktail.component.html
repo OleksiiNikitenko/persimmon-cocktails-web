@@ -1,15 +1,28 @@
 <h3 *ngIf="!loaded && !isNew">There's no such cocktail!</h3>
 <form [formGroup]="editCocktailForm" (submit)="submitSaveForm()" *ngIf="loaded || isNew" class="root">
   <div class="header-buttons">
-    <button class="primary-button" *ngIf="viewMode && canEdit && !isNew" (click)="goToMode(false)">Go to edit mode
+    <button class="primary-button" *ngIf="viewMode && canEdit && !isNew" (click)="goToMode(false, $event)">Go to edit mode
     </button>
-    <button class="primary-button" *ngIf="!viewMode && canEdit && !isNew" (click)="goToMode(true)">Go to view mode
+    <button class="primary-button" *ngIf="!viewMode && canEdit && !isNew" (click)="goToMode(true,$event)">Go to view mode
     </button>
     <button class="primary-button" *ngIf="canEdit && !isNew" (click)="deleteCocktail(cocktailData.dishId, $event)">Delete
     </button>
   </div>
   <div class="photo-and-headlines">
-    <img [src]="cocktailData.image === null ? defaultCocktailUrl : cocktailData.image.urlMiddle" class="photo-image">
+    <img *ngIf="viewMode"
+      [src]="cocktailData.image === null ? defaultCocktailUrl : cocktailData.image.urlMiddle" class="photo-image">
+
+    <div class="edit-photo" *ngIf="!viewMode">
+      <img [src]="editedCocktailData.image === null ? defaultCocktailUrl : editedCocktailData.image.urlMiddle" class="photo-image">
+      <div class=" text-center">
+        <label class="secondary-button changePhotoButton" for="image_uploads">Choose image to upload </label>
+        <input type="file" id="image_uploads" hidden
+               class="form-control"
+               (change)="onChangePhoto($event)">
+      </div>
+      <button class="thirdly-button uploadButton" (click)="onPhotoUpload($event)">Upload</button>
+    </div>
+
     <div class="text">
       <h3 *ngIf="viewMode">{{cocktailData.name}}</h3>
       <mat-form-field *ngIf="!viewMode">

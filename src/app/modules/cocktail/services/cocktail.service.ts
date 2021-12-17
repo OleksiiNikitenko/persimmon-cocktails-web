@@ -58,7 +58,8 @@ export class CocktailService {
       isActive: cocktail.isActive,
       labels: cocktail.labels,
       ingredientList: cocktail.ingredientList.map(i => i.ingredientId),
-      kitchenwareIds: cocktail.kitchenwareList.map(k => k.kitchenwareId)
+      kitchenwareIds: cocktail.kitchenwareList.map(k => k.kitchenwareId),
+      photoId: cocktail.image == null ? null : cocktail.image.imageId
     })
   }
 
@@ -80,7 +81,8 @@ export class CocktailService {
       isActive: cocktail.isActive,
       labels: cocktail.labels,
       ingredientIds: cocktail.ingredientList.map(i => i.ingredientId),
-      kitchenwareIds: cocktail.kitchenwareList.map(k => k.kitchenwareId)
+      kitchenwareIds: cocktail.kitchenwareList.map(k => k.kitchenwareId),
+      photoId: cocktail.image == null ? null : cocktail.image.imageId
     })
   }
 

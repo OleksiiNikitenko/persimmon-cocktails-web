@@ -36,7 +36,7 @@ export class CocktailsComponent implements OnInit {
   }
   cocktails: CocktailBasicInfo[] = []
   cocktailsDataSource: any;
-  cocktailsDisplayedColumns: string[] = ["name", "photoUrl", "receipt", "dishId"
+  cocktailsDisplayedColumns: string[] = ["name", "image", "receipt", "dishId"
     // "description", "dishType", "dishCategoryName", "labels", "likes", "isActive"
   ];
   searchCocktailsForm: FormGroup | any;

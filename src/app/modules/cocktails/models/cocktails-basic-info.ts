@@ -1,3 +1,5 @@
+import {ImageModel} from "../../image/model/image.model";
+
 export interface CocktailBasicInfo {
   dishId: number,
   name: string,
@@ -9,5 +11,5 @@ export interface CocktailBasicInfo {
   receipt: string,
   likes: number,
   isActive: boolean,
-  photoUrl: string | null
+  image: ImageModel | null
 }
