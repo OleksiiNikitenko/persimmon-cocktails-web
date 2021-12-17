@@ -31,8 +31,8 @@ export class FriendsComponent implements OnInit {
 
     personsDisplayedColumns: string[] = ['photoId', 'name', 'buttonsBlock'];
 
-    friendsDisplayedColumns: string[] = ['photoId', 'name', 'deleteButton', 'addToButton'];
-    invitationDisplayedColumns: string[] = ['photoId', 'name', 'date', 'acceptButton', 'declineButton', 'profileButton'];
+    friendsDisplayedColumns: string[] = ['photoId', 'name', 'deleteButton'];
+    invitationDisplayedColumns: string[] = ['photoId', 'name', 'date', 'acceptButton', 'declineButton'];
 
     buttonInvitePersonEnabled: boolean[] = []
     buttonAcceptInvitationEnabled: boolean[] = []
