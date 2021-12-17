@@ -37,13 +37,14 @@ export class IngredientsService {
   deleteIngredient(data: Ingredient) {
     this.http.patch(this.BASE_URLS.deleteIngredient, data).pipe(first()).subscribe()
   }
-  updatePhoto(photoId: any){
-    this.http.patch(`${this.BASE_URLS.updateIngredientPhoto}?photoId=${photoId}`, {})
+  updatePhoto( ingredientId: any,ingredientPhotoId: any){
+    this.http.patch(this.BASE_URLS.updateIngredientPhoto,{ingredientId, ingredientPhotoId} )
       .pipe(
         first()
-      ).subscribe({
+      ).subscribe(
+    {
       next: () => {
-        this.store.update(photoId)
+        this.store.update(ingredientPhotoId)
       }
     })
   }

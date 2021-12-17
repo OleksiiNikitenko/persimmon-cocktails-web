@@ -29,6 +29,7 @@ export class AddIngredientComponent implements OnInit {
     private router: Router,
     private imageService: ImageUploadService,
 
+
   ) {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
@@ -50,6 +51,7 @@ export class AddIngredientComponent implements OnInit {
         this.name?.setValue(ingredient?.name)
         this.category?.setValue(ingredient?.category?.name)
         this.getImageById(ingredient?.photoId)
+
       })
 
     }
@@ -115,8 +117,10 @@ export class AddIngredientComponent implements OnInit {
             this.loading = false;
             console.log(event)
             this.getImageById(event.imageId)
-            this.ingredientsService.updatePhoto(event.imageId);
-            window.location.reload();
+            console.log(this.currentIngredientId, event.imageId)
+            this.ingredientsService.updatePhoto(this.currentIngredientId,event.imageId);
+            console.log(this.currentIngredientId);
+            // window.location.reload();
           }
         }
       );
