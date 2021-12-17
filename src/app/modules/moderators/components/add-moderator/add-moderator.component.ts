@@ -4,6 +4,9 @@ import {ModeratorsQuery} from "../../services/moderators.query";
 import {Router} from "@angular/router";
 import {ModeratorsService} from "../../services/moderators.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
+import {ErrorDialog} from "../../../errors-popup/errors-popup.component";
+import {MatDialog} from "@angular/material/dialog";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @UntilDestroy()
 @Component({
@@ -20,6 +23,7 @@ export class AddModeratorComponent implements OnInit {
     private moderatorsService: ModeratorsService,
     private moderatorsQuery: ModeratorsQuery,
     private router: Router,
+    public dialog: MatDialog
   ) {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
@@ -64,9 +68,13 @@ export class AddModeratorComponent implements OnInit {
 
   createModerator() {
     if (this.form.valid) {
-      this.moderatorsService.createModerator(this.form.value)
-      this.router.navigate(['moderators'])
-
+      this.moderatorsService.createModerator(this.form.value).subscribe(() => {
+        this.router.navigate(['moderators'])
+      },
+        (error: HttpErrorResponse) => {
+        this.dialog.open(ErrorDialog, {data: {message: error.error.message}})
+      }
+      )
     }
   }
 
@@ -79,7 +87,6 @@ export class AddModeratorComponent implements OnInit {
       })
       this.moderatorsService.fetchModerators()
       this.router.navigate(['moderators'])
-
     }
   }
 
