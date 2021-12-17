@@ -35,10 +35,6 @@ export class CocktailsComponent implements OnInit {
     currentCategory: {categoryId: -1, categoryName: "Doesn't matter"}
   }
   cocktails: CocktailBasicInfo[] = []
-  cocktailsDataSource: any;
-  cocktailsDisplayedColumns: string[] = ["name", "image", "receipt", "dishId"
-    // "description", "dishType", "dishCategoryName", "labels", "likes", "isActive"
-  ];
   searchCocktailsForm: FormGroup | any;
   defaultPhotoUrl: string = "https://www.yahire.com/blogs/wp-content/uploads/2017/04/summer-cocktails.jpg"
   sortColumns: string[] = columnsToSortBy;
@@ -62,8 +58,6 @@ export class CocktailsComponent implements OnInit {
     this.subscription.add(this.cocktailsService.fetchCocktails(this.currentQuery, !this.canCreate)
       .subscribe(cocktails => {
         this.cocktails = cocktails;
-        this.cocktailsDataSource = new MatTableDataSource(cocktails)
-        // this.cocktailsDataSource
       }))
   }
 
