@@ -253,6 +253,7 @@ export class FriendsComponent implements OnInit {
     acceptInvitation(friendId: number) {
         this.invitationsService.acceptInvitation(friendId).subscribe(
             (response) => {
+              this.getFriendsByName('');
             },
             (error: HttpErrorResponse) => {
                 alert(error.error.message);
