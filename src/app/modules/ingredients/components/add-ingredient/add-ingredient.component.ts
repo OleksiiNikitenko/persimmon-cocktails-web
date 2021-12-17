@@ -6,7 +6,6 @@ import {IngredientsService} from "../../services/ingredients.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {ImageModel} from "../../../image/model/image.model";
 import {ImageUploadService} from "../../../image/services/image-upload-service";
-import {IngredientMainComponent} from "../ingredient-main/ingredient-main.component";
 import {HttpErrorResponse} from "@angular/common/http";
 
 @UntilDestroy()

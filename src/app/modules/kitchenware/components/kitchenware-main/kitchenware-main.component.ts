@@ -9,8 +9,6 @@ import {KitchenwareService} from "../../services/kitchenware.service";
 import {untilDestroyed, UntilDestroy} from '@ngneat/until-destroy';
 import {HttpErrorResponse} from "@angular/common/http";
 import {ImageUploadService} from "../../../image/services/image-upload-service";
-import {FoundUsersModel} from "../../../friends/models/found-users.model";
-import {KitchenwareUiModel} from "../../models/kitchenware.ui.model";
 
 
 @UntilDestroy()

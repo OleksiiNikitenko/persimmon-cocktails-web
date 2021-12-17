@@ -4,7 +4,6 @@ import {URLS} from "../../../core/models/urls";
 import {KitchenwareUiModel} from "../models/kitchenware.ui.model";
 import {Kitchenware} from "../models/kitchenware.model";
 import {first} from "rxjs/operators";
-import {MatTableDataSource} from "@angular/material/table";
 import {KitchenwareStore} from "./kitchenware.store";
 
 @Injectable({
@@ -36,7 +35,7 @@ export class KitchenwareService {
   updatePhoto( kitchenwareId: any, kitchenwarePhotoId: any){
     this.http.patch(this.BASE_URLS.updateKitchenwarePhoto, {
       kitchenwareId: kitchenwareId,
-      ingredientPhotoId: kitchenwarePhotoId
+      kitchenwarePhotoId: kitchenwarePhotoId
     } )
       .pipe(
         first()

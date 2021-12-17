@@ -97,7 +97,7 @@ function getBaseUrl() {
     case Roles.Moderator:
       return 'account'
     case Roles.User:
-      return 'blog'
+      return 'account'
     case Roles.Anonymous:
       return 'cocktails'
 
