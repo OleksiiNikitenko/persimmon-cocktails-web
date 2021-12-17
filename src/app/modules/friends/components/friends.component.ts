@@ -129,7 +129,6 @@ export class FriendsComponent implements OnInit {
             .subscribe((invites: InviteFriendModel[]) => {
                 this.invites = invites;
                 this.invitationDataSource = new MatTableDataSource(this.invites);
-                // this.invitationDataSource.sort = this.sort;
                 this.buttonAcceptInvitationEnabled = Array(invites.length).fill(true);
                 this.buttonDeclineInvitationEnabled = Array(invites.length).fill(true);
                 this.imagesUrlInvitation = Array(invites.length).fill(this.defaultAvatar)
@@ -175,10 +174,10 @@ export class FriendsComponent implements OnInit {
 
     sendFriendshipInvitation(personId: number, message: string): void {
         this.invitationsService.sendFriendshipInvitation(personId, message).subscribe(
-            (response) => {                           //Next callback
+            (response) => {
                 console.log('response received')
             },
-            (error: HttpErrorResponse) => {                              //Error callback
+            (error: HttpErrorResponse) => {
                 alert(error.error.message);
                 throw error;
             }
@@ -194,7 +193,6 @@ export class FriendsComponent implements OnInit {
           else this.imagesUrlInvitation[i] = this.imageNotAvailable
         },
         (error: HttpErrorResponse) => {
-          // alert(error.error.message);
           throw error;
         }
       );
@@ -206,14 +204,12 @@ export class FriendsComponent implements OnInit {
       this.imageService.getImageById(imageId).subscribe(
         (response) => {
           if (response != null)
-            // this.imagesUrlFriends[i] = response.urlThumb
             this.imagesUrlFriends[i] = response.urlMiddle
           else
             this.imagesUrlFriends[i] = this.imageNotAvailable
 
         },
         (error: HttpErrorResponse) => {
-          // alert(error.error.message);
           throw error;
         }
       );
@@ -230,7 +226,6 @@ export class FriendsComponent implements OnInit {
             this.imagesUrlPersons[i] = this.imageNotAvailable
         },
         (error: HttpErrorResponse) => {
-          // alert(error.error.message);
           throw error;
         }
       );
