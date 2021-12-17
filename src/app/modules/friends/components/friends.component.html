@@ -45,7 +45,7 @@
       <td class="container-button-edit" mat-cell *matCellDef="let element;let i = index">
         <table class="invite-button-reactions">
           <tr>
-<!--            <td><p>ID:{{persons[i].personId}}</p></td>-->
+            <!--            <td><p>ID:{{persons[i].personId}}</p></td>-->
             <td>
               <button class="primary-button button-action" [hidden]="!buttonInvitePersonEnabled[i]"
                       (click)="sendFriendshipInvitation(persons[i].personId, fieldInvitationMessageText[i]); buttonInvitePersonEnabled[i] = false">
@@ -57,7 +57,7 @@
               <button class="primary-button button-show-field" [hidden]="!buttonInvitePersonEnabled[i]"
                       (click)="changeMessageFieldVisibility(i); fieldInvitationMessageText[i]=''">ᐯ
               </button>
-<!--              <button class="disabled-button" [hidden]="buttonInvitePersonEnabled[i]">ᐯ</button>-->
+              <!--              <button class="disabled-button" [hidden]="buttonInvitePersonEnabled[i]">ᐯ</button>-->
             </td>
             <td>
               <button class="primary-button button-action">Profile</button>
@@ -93,11 +93,13 @@
     <div class="pagination">
       <p *ngIf="currentPageNumberPersons==0">Begin</p>
       <p *ngIf="currentPageNumberPersons!=0" (click)="beginPageUsers()">&laquo;</p>
-      <p *ngIf="currentPageNumberPersons>=2" (click)="setPageDiffUsers(-2)">{{currentPageNumberPersons-1}}</p>
+      <p *ngIf="currentPageNumberPersons>=2" (click)="setPageDiffUsers(-2)">{{currentPageNumberPersons - 1}}</p>
       <p *ngIf="currentPageNumberPersons!=0" (click)="setPageDiffUsers(-1)">{{currentPageNumberPersons}}</p>
-      <p class="active">{{currentPageNumberPersons+1}}</p>
-      <p *ngIf="currentPageNumberPersons+1<amountPagesPersons" (click)="setPageDiffUsers(1)">{{currentPageNumberPersons+2}}</p>
-      <p *ngIf="currentPageNumberPersons+2<amountPagesPersons" (click)="setPageDiffUsers(2)">{{currentPageNumberPersons+3}}</p>
+      <p class="active">{{currentPageNumberPersons + 1}}</p>
+      <p *ngIf="currentPageNumberPersons+1<amountPagesPersons"
+         (click)="setPageDiffUsers(1)">{{currentPageNumberPersons + 2}}</p>
+      <p *ngIf="currentPageNumberPersons+2<amountPagesPersons"
+         (click)="setPageDiffUsers(2)">{{currentPageNumberPersons + 3}}</p>
       <p *ngIf="currentPageNumberPersons+1<amountPagesPersons" (click)="endPageUsers()">&raquo;</p>
       <p *ngIf="currentPageNumberPersons+1==amountPagesPersons">End</p>
     </div>
@@ -155,13 +157,6 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="profileButton">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td class="container-button-edit" mat-cell *matCellDef="let element">
-        <button class="primary-button button-action">Profile</button>
-      </td>
-    </ng-container>
-
     <tr mat-header-row *matHeaderRowDef="invitationDisplayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: invitationDisplayedColumns;"></tr>
   </table>
@@ -169,11 +164,14 @@
     <div class="pagination">
       <p *ngIf="currentPageNumberInvitation==0">Begin</p>
       <p *ngIf="currentPageNumberInvitation!=0" (click)="beginPageInvitations()">&laquo;</p>
-      <p *ngIf="currentPageNumberInvitation>=2" (click)="setPageDiffInvitations(-2)">{{currentPageNumberInvitation-1}}</p>
+      <p *ngIf="currentPageNumberInvitation>=2"
+         (click)="setPageDiffInvitations(-2)">{{currentPageNumberInvitation - 1}}</p>
       <p *ngIf="currentPageNumberInvitation!=0" (click)="setPageDiffInvitations(-1)">{{currentPageNumberInvitation}}</p>
-      <p class="active">{{currentPageNumberInvitation+1}}</p>
-      <p *ngIf="currentPageNumberInvitation+1<amountPagesInvitation" (click)="setPageDiffInvitations(1)">{{currentPageNumberInvitation+2}}</p>
-      <p *ngIf="currentPageNumberInvitation+2<amountPagesInvitation" (click)="setPageDiffInvitations(2)">{{currentPageNumberInvitation+3}}</p>
+      <p class="active">{{currentPageNumberInvitation + 1}}</p>
+      <p *ngIf="currentPageNumberInvitation+1<amountPagesInvitation"
+         (click)="setPageDiffInvitations(1)">{{currentPageNumberInvitation + 2}}</p>
+      <p *ngIf="currentPageNumberInvitation+2<amountPagesInvitation"
+         (click)="setPageDiffInvitations(2)">{{currentPageNumberInvitation + 3}}</p>
       <p *ngIf="currentPageNumberInvitation+1<amountPagesInvitation" (click)="endPageInvitations()">&raquo;</p>
       <p *ngIf="currentPageNumberInvitation+1==amountPagesInvitation">End</p>
     </div>
@@ -213,9 +211,10 @@
 
       <ng-container matColumnDef="photoId">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td class="avatar-primary-container" mat-cell *matCellDef="let element;let i = index"><img class="avatar"
-                                                                                                   src="{{imagesUrlFriends[i]}}"
-                                                                                                   alt="avatar"></td>
+        <td class="avatar-primary-container" mat-cell *matCellDef="let element;let i = index">
+          <img class="avatar"
+               src="{{imagesUrlFriends[i]}}"
+               alt="avatar"></td>
       </ng-container>
 
       <ng-container matColumnDef="name">
@@ -228,15 +227,10 @@
       <ng-container matColumnDef="deleteButton">
         <th mat-header-cell *matHeaderCellDef></th>
         <td class="container-button-edit" mat-cell *matCellDef="let element; let i = index">
-          <button *ngIf="buttonDeleteFriendEnabled[i]" class="primary-button button-action" (click)="deleteFriend(element.personId);buttonDeleteFriendEnabled[i]=false" >Delete</button>
+          <button *ngIf="buttonDeleteFriendEnabled[i]" class="primary-button button-action"
+                  (click)="deleteFriend(element.personId);buttonDeleteFriendEnabled[i]=false">Delete
+          </button>
           <button *ngIf="!buttonDeleteFriendEnabled[i]" class="disabled-button">Deleted</button>
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="addToButton">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td class="container-button-edit" mat-cell *matCellDef="let element">
-          <button class="primary-button button-action">Add to...</button>
         </td>
       </ng-container>
 
@@ -248,11 +242,13 @@
     <div class="pagination">
       <p *ngIf="currentPageNumberFriends==0">Begin</p>
       <p *ngIf="currentPageNumberFriends!=0" (click)="beginPageFriends()">&laquo;</p>
-      <p *ngIf="currentPageNumberFriends>=2" (click)="setPageDiffFriends(-2)">{{currentPageNumberFriends-1}}</p>
+      <p *ngIf="currentPageNumberFriends>=2" (click)="setPageDiffFriends(-2)">{{currentPageNumberFriends - 1}}</p>
       <p *ngIf="currentPageNumberFriends!=0" (click)="setPageDiffFriends(-1)">{{currentPageNumberFriends}}</p>
-      <p class="active">{{currentPageNumberFriends+1}}</p>
-      <p *ngIf="currentPageNumberFriends+1<amountPagesFriends" (click)="setPageDiffFriends(1)">{{currentPageNumberFriends+2}}</p>
-      <p *ngIf="currentPageNumberFriends+2<amountPagesFriends" (click)="setPageDiffFriends(2)">{{currentPageNumberFriends+3}}</p>
+      <p class="active">{{currentPageNumberFriends + 1}}</p>
+      <p *ngIf="currentPageNumberFriends+1<amountPagesFriends"
+         (click)="setPageDiffFriends(1)">{{currentPageNumberFriends + 2}}</p>
+      <p *ngIf="currentPageNumberFriends+2<amountPagesFriends"
+         (click)="setPageDiffFriends(2)">{{currentPageNumberFriends + 3}}</p>
       <p *ngIf="currentPageNumberFriends+1<amountPagesFriends" (click)="endPageFriends()">&raquo;</p>
       <p *ngIf="currentPageNumberFriends+1==amountPagesFriends">End</p>
     </div>

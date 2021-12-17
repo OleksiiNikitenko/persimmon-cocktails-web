@@ -1,6 +1,9 @@
+import {ImageModel} from "../../image/model/image.model";
+
 export interface IngredientName {
   ingredientId: number,
-  name: string
+  name: string,
+  image: ImageModel | null
 }
 
 export interface KitchenwareName {

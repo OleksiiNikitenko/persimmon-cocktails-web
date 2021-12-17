@@ -3,7 +3,8 @@
 }
 
 .photo-image{
-  max-width: 50%;
+  max-width: 80%;
+  max-height: 50vh;
 }
 
 .photo-and-headlines{
@@ -17,31 +18,13 @@
 
 .labels{
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
 }
 
 .label{
   font-size: 1.5em;
   padding: 0.5em;
   margin-right: 1.5em;
-}
-
-.ingredient-small-photo, .kitchenware-small-photo{
-  max-width: 10vw;
-}
-
-.ingredient, .kitchenware{
-  display: flex;
-  flex-direction: row;
-  padding: 1em 0;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.ingredient-list, .ingredient-list{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .like-button{
@@ -58,6 +41,7 @@
 .text{
   display: flex;
   flex-direction: column;
+  /*justify-content: space-evenly;*/
 }
 
 .edit-label-text{
@@ -74,4 +58,53 @@ button{
 
 .labels-group{
   margin: 1em 0;
+}
+
+
+
+.ingredient-with-image{
+  list-style-type:none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25vw;
+  padding: 0.5em;
+  margin: 0.5em;
+  border: 3px solid lightgray;
+  border-radius: 0.5em;
+  flex-grow: 0;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.ingredient-small-photo, .kitchenware-small-photo{
+  height: 20vh;
+  object-fit: contain;
+  max-width: 80%;
+}
+
+.ingredient-with-image-list{
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.ingredient-name, .ingredient-category{
+  margin: 0.5em 1em;
+  width: auto;
+}
+
+.save-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.cocktail-photo-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.receipt{
+  width: 100%;
 }

@@ -13,6 +13,8 @@ import {ImageModel} from "../../image/model/image.model";
 import {ImageUploadService} from "../../image/services/image-upload-service";
 import {AccountComponent} from "../../account/components/account.component";
 import {HttpErrorResponse} from "@angular/common/http";
+import {of} from "rxjs";
+import {first} from "rxjs/operators";
 
 
 
@@ -92,9 +94,17 @@ export class SettingsComponent implements OnInit {
           if (typeof (event) === 'object') {
             this.loading = false;
             console.log(event)
-            this.accountComponent.getImageById(event.imageId);
-            this.userService.updatePhoto(event.imageId);
-            window.location.reload();
+            this.userService.updatePhoto(event.imageId)
+              .pipe(
+                first()
+              ).subscribe({
+              next: () => {
+                this.userService.updatePhotoInStore(event.imageId)
+                this.accountComponent.getImageById(event.imageId);
+
+                window.location.reload();
+              }
+            })
           }
         }
       );

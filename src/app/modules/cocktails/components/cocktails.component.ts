@@ -4,12 +4,13 @@ import {DataSource} from "@angular/cdk/collections";
 import {CocktailsService} from "../services/cocktails.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
-import {columnsToSortBy, Query} from "../models/query";
+import {columnsToSortBy, Query, ShowActiveMode} from "../models/query";
 import {Observable, Subscription} from "rxjs";
 import {IngredientName} from "../models/IngredientName";
 import {map, startWith} from "rxjs/operators";
 import {getUser} from "../../../core/models/user";
 import {Roles} from "../../../core/models/roles";
+import {CocktailCategory} from "../../cocktail/models/fullCocktail";
 
 
 @Component({
@@ -18,39 +19,47 @@ import {Roles} from "../../../core/models/roles";
   styleUrls: ['./cocktails.component.css', '../../../app.component.css']
 })
 export class CocktailsComponent implements OnInit {
-  private validationQueryStringPattern: RegExp = /^(?:[a-zA-Z0-9 -]{2,255})$/;
+  // private validationQueryStringPattern: RegExp = /^(?:[a-zA-Z0-9 -]{2,255})$/;
   private subscription: Subscription = new Subscription();
-  public ingredientsControl: FormControl = new FormControl()
+  categories: CocktailCategory[] = [];
 
   constructor(private cocktailsService: CocktailsService) {
   }
 
-  public currentQuery: Query = {query: null, page: 0, sortByColumn: columnsToSortBy[0], sortDirection: true}
+  public currentQuery: Query = {
+    query: null,
+    page: 0,
+    sortByColumn: columnsToSortBy[0],
+    sortDirection: true,
+    showActiveMode: ShowActiveMode.OnlyActive,
+    currentCategory: {categoryId: -1, categoryName: "Doesn't matter"}
+  }
   cocktails: CocktailBasicInfo[] = []
   cocktailsDataSource: any;
-  cocktailsDisplayedColumns: string[] = ["name", "photoUrl", "receipt", "dishId"
+  cocktailsDisplayedColumns: string[] = ["name", "image", "receipt", "dishId"
     // "description", "dishType", "dishCategoryName", "labels", "likes", "isActive"
   ];
   searchCocktailsForm: FormGroup | any;
   defaultPhotoUrl: string = "https://www.yahire.com/blogs/wp-content/uploads/2017/04/summer-cocktails.jpg"
   sortColumns: string[] = columnsToSortBy;
-  // ingredientIds: number[] = []
-  // ingredientsByPrefix?: Observable<IngredientName[]>;
   canCreate: boolean = getUser().role === Roles.Moderator || getUser().role === Roles.Admin
+
 
 
   ngOnInit(): void {
     this.searchCocktailsForm = new FormGroup({
       name: new FormControl(''),
       sortColumn: new FormControl(columnsToSortBy),
-      sortDirection: new FormControl(true)
+      sortDirection: new FormControl(true),
+      activeMode: new FormControl(this.currentQuery.showActiveMode)
     });
     this.searchCocktailsForm.setValidators(this.searchCocktailsValidator())
     this.getCocktails()
+    this.getCategories()
   }
 
   getCocktails() {
-    this.subscription.add(this.cocktailsService.fetchCocktails(this.currentQuery)
+    this.subscription.add(this.cocktailsService.fetchCocktails(this.currentQuery, !this.canCreate)
       .subscribe(cocktails => {
         this.cocktails = cocktails;
         this.cocktailsDataSource = new MatTableDataSource(cocktails)
@@ -71,7 +80,7 @@ export class CocktailsComponent implements OnInit {
     return (group: AbstractControl): ValidationErrors | null => {
       const formGroup : FormGroup = group as FormGroup
       const name = formGroup.controls['name']
-      if (name.value != null && name.value.length <= 2) {
+      if (name.value != null && name.value.length == 1) {
         name.setErrors({shortLength: true});
       } else {
         name.setErrors(null);
@@ -83,5 +92,17 @@ export class CocktailsComponent implements OnInit {
 
   displayFn(ingredient?: IngredientName): string | undefined {
     return ingredient ? ingredient.name : undefined;
+  }
+
+  private getCategories() {
+    this.subscription.add(this.cocktailsService.fetchCocktailCategories().subscribe(
+      res => {
+        this.categories = res
+        this.categories.push({categoryId: -1, categoryName: "Doesn't matter"})
+        this.currentQuery.currentCategory = this.categories[this.categories.length-1]
+      }, err => {
+        console.error(err.error.message)
+      }
+    ))
   }
 }

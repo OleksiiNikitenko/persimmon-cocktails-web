@@ -6,6 +6,7 @@ import {UserStore} from "./user-store";
 import {User} from "../models/user-model";
 
 import {getUserID} from "../../../core/models/user";
+import {Observable, of} from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -35,15 +36,11 @@ export class UserService {
       }
     })
   }
-  updatePhoto(photoId: any){
-    this.http.patch(`${this.BASE_URLS.updateUserPhoto}?photoId=${photoId}`, {})
-      .pipe(
-        first()
-      ).subscribe({
-      next: () => {
-        this.userStore.update(photoId)
-      }
-    })
+  updatePhoto(photoId: any) : Observable<any>{
+    return this.http.patch(`${this.BASE_URLS.updateUserPhoto}?photoId=${photoId}`, {})
   }
 
+  updatePhotoInStore(imageId: number) {
+    this.userStore.update({photoId: imageId})
+  }
 }
