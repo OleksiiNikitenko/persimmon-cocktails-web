@@ -27,7 +27,7 @@ export class CocktailComponent implements OnInit {
   isNew: boolean
   defaultCocktailUrl: string = "https://www.yahire.com/blogs/wp-content/uploads/2017/04/summer-cocktails.jpg"
   defaultIngredientUrl: string = "https://zestfulkitchen.com/wp-content/uploads/2018/02/Blood-Orange-Cocktail_-11.jpg"
-  defaultKitchenwareUrl: string = "https://crystalglasscentre.co.uk/uploads/images/full/IMG_7030_1302191412.jpg"
+  defaultKitchenwareUrl: string = "https://3.imimg.com/data3/FD/AF/MY-3872364/arecanut-round-palm-leaf-plate-500x500.jpg"
   canEdit: boolean = getUser().role === Roles.Moderator || getUser().role === Roles.Admin
   public loaded: boolean = false;
   viewMode: boolean = true;
@@ -196,7 +196,8 @@ export class CocktailComponent implements OnInit {
       ingredientList: this.cocktailData.ingredientList.map(c => {
         return {
           ingredientId: c.ingredientId,
-          name: c.name
+          name: c.name,
+          image: c.image
         }
       }),
       newLabel: '',

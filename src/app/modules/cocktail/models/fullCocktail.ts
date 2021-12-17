@@ -39,7 +39,8 @@ export interface EditCocktail {
   }[],
   ingredientList: {
     ingredientId: number,
-    name: string
+    name: string,
+    image: ImageModel | null
   }[],
   newLabel: string
 }

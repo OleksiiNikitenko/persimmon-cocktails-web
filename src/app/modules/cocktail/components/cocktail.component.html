@@ -66,9 +66,6 @@
         </mat-select>
       </mat-form-field>
 
-
-      <p>{{cocktailData.dishType === null ? "No dish type" : cocktailData.dishType}}</p>
-
       <button *ngIf="!viewMode" class="primary-button"
       [disabled]="editCocktailForm.invalid">Save</button>
     </div>
@@ -108,19 +105,21 @@
   </mat-form-field>
   <div class="ingredients">
     <h4 *ngIf="viewMode">Ingredients</h4>
-    <div *ngIf="viewMode" class="ingredient-list">
-      <li class="ingredient" *ngFor="let ingredient of cocktailData.ingredientList">
+    <div *ngIf="viewMode" class="ingredient-with-image-list">
+      <li class="ingredient-with-image" *ngFor="let ingredient of cocktailData.ingredientList">
         <img class="ingredient-small-photo"
-             [src]="ingredient.photoId === null ? defaultIngredientUrl : ingredient.photoId">
-        <div>{{ingredient.name}}</div>
-        <div>{{ingredient.category === null ? "No category" : ingredient.category.name}}</div>
+             [src]="ingredient.image === null ? defaultIngredientUrl : ingredient.image.urlMiddle">
+        <div class="ingredient-name">{{ingredient.name}}</div>
+        <div class="ingredient-category">{{ingredient.category === null ? "No category" : ingredient.category.name}}</div>
       </li>
     </div>
 
-    <div *ngIf="!viewMode" class="ingredient-list">
-      <li class="ingredient" *ngFor="let ingredient of editedCocktailData.ingredientList">
-        <div>{{ingredient.name}}</div>
-        <button *ngIf="!viewMode" (click)="deleteAddedIngredient(ingredient.ingredientId)">X</button>
+    <div *ngIf="!viewMode" class="ingredient-with-image-list">
+      <li class="ingredient-with-image" *ngFor="let ingredient of editedCocktailData.ingredientList">
+        <img class="ingredient-small-photo"
+             [src]="ingredient.image === null ? defaultIngredientUrl : ingredient.image.urlMiddle">
+        <div class="ingredient-name">{{ingredient.name}}</div>
+        <button *ngIf="!viewMode" (click)="deleteAddedIngredient(ingredient.ingredientId)">Delete</button>
       </li>
     </div>
   </div>
@@ -144,19 +143,21 @@
 
   <div class="kitchenwares">
     <h4 *ngIf="viewMode">Kitchenware</h4>
-    <div *ngIf="viewMode">
-      <li class="kitchenware" *ngFor="let kitchenware of cocktailData.kitchenwareList">
-        <img class="kitchenware-small-photo"
+    <div *ngIf="viewMode" class="ingredient-with-image-list">
+      <li class="ingredient-with-image" *ngFor="let kitchenware of cocktailData.kitchenwareList">
+        <img class="ingredient-small-photo"
              [src]="kitchenware.photoId === null ? defaultKitchenwareUrl : kitchenware.photoId">
-        <div>{{kitchenware.name}}</div>
-        <div>{{kitchenware.category === null ? "No category" : kitchenware.category.name}}</div>
+        <div class="ingredient-name">{{kitchenware.name}}</div>
+        <div class="ingredient-category">{{kitchenware.category === null ? "No category" : kitchenware.category.name}}</div>
       </li>
     </div>
 
-    <div *ngIf="!viewMode" class="kitchenware-list">
-      <li class="kitchenware" *ngFor="let kitchenware of editedCocktailData.kitchenwareList">
-        <div>{{kitchenware.name}}</div>
-        <button *ngIf="!viewMode" (click)="deleteAddedKitchenware(kitchenware.kitchenwareId)">X</button>
+    <div *ngIf="!viewMode" class="ingredient-with-image-list">
+      <li class="ingredient" *ngFor="let kitchenware of editedCocktailData.kitchenwareList">
+        <img class="ingredient-small-photo"
+             [src]="defaultKitchenwareUrl">
+        <div class="ingredient-name">{{kitchenware.name}}</div>
+        <button *ngIf="!viewMode" (click)="deleteAddedKitchenware(kitchenware.kitchenwareId)">Delete</button>
       </li>
     </div>
   </div>
