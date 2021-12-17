@@ -153,7 +153,7 @@
     </div>
 
     <div *ngIf="!viewMode" class="ingredient-with-image-list">
-      <li class="ingredient" *ngFor="let kitchenware of editedCocktailData.kitchenwareList">
+      <li class="ingredient-with-image" *ngFor="let kitchenware of editedCocktailData.kitchenwareList">
         <img class="ingredient-small-photo"
              [src]="defaultKitchenwareUrl">
         <div class="ingredient-name">{{kitchenware.name}}</div>
