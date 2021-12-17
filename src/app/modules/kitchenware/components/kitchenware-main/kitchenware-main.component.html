@@ -7,14 +7,14 @@
       <th mat-header-cell *matHeaderCellDef sortActionDescription="">
         Photo
       </th>
-      <td class="photo-container"  mat-cell *matCellDef="let element"><img class="photo" src="../../../../../assets/images/Glass.png" alt="photo"></td>
+      <td class="photo-container"  mat-cell *matCellDef="let element let i = index"><img class="photo" src="{{imagesUrl[i]}}" alt="photo"></td>
     </ng-container>
 
     <ng-container matColumnDef="kitchenwareId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by ID">
-        ID
+
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.kitchenwareId}} </td>
+      <td mat-cell *matCellDef="let element">  </td>
     </ng-container>
 
     <ng-container matColumnDef="name">
@@ -28,7 +28,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by category">
         Category
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.kitchenwareCategoryID}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.category.name}} </td>
     </ng-container>
 
     <ng-container matColumnDef="editButton">

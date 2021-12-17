@@ -38,6 +38,12 @@ export const routes = [
     canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
   },
   {
+    text: 'Personal stock',
+    url: '/stock',
+    isActive: true,
+    canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
+  },
+  {
     text: 'Events',
     url: '/events',
     isActive: false,
