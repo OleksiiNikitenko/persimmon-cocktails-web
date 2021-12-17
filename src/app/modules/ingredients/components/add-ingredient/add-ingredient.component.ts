@@ -107,6 +107,8 @@ export class AddIngredientComponent implements OnInit {
       );
     }
   }
+
+
   onUpload() {
     if (this.file != undefined) {
       this.loading = !this.loading;

@@ -33,4 +33,18 @@ export class KitchenwareService {
   updateKitchenware(data: any) {
     this.http.patch(this.BASE_URLS.updateKitchenware, data).pipe(first()).subscribe()
   }
+  updatePhoto( kitchenwareId: any, kitchenwarePhotoId: any){
+    this.http.patch(this.BASE_URLS.updateKitchenwarePhoto, {
+      kitchenwareId: kitchenwareId,
+      ingredientPhotoId: kitchenwarePhotoId
+    } )
+      .pipe(
+        first()
+      ).subscribe(
+      {
+        next: () => {
+          this.store.update(kitchenwarePhotoId)
+        }
+      })
+  }
 }
