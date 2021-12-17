@@ -22,6 +22,10 @@ th.mat-sort-header-sorted {
   border-radius: 50%;
 }
 
+.stock-small-photo{
+  width: 100%;
+}
+
 .avatar-container{
   width: 6%;
 }
@@ -71,4 +75,5 @@ th.mat-sort-header-sorted {
 .search-query-input{
   padding-bottom: 1em;
 }
+
 

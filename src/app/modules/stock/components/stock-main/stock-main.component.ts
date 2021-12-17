@@ -15,14 +15,15 @@ import {Router} from "@angular/router";
 })
 export class StockMainComponent implements AfterViewInit, OnInit {
 
-  displayedColumns: string[] = ['photo',  'name', 'categoryName', 'amount', 'measureType', 'ingredientId', 'deleteButton'];
+  displayedColumns: string[] = ['image',  'name', 'categoryName', 'amount', 'measureType', 'ingredientId', 'deleteButton'];
   dataSource: any;
   searchStockIngredientsForm: FormGroup | any;
   public findByNameQuery: Query = {query: "", page: 0, sortByColumn: "nothing"}
   //public deleteQuery: QueryDelete = {ingredientId: 1}
   ingredientsFromStock : StockIngredients[] = [];
   sortColumns: string[] = columnsToSortBy;
-  defaultPhotoUrl: string = "http://shorturl.at/quyAS"
+  defaultPhotoUrl: string = "https://media.timeout.com/images/105631937/image.jpg"
+  buttonDeleteIngredientEnabled: boolean[] = []
 
   currentIngredientId: number | undefined;
 
@@ -31,6 +32,7 @@ export class StockMainComponent implements AfterViewInit, OnInit {
   }
 
   @ViewChild(MatSort, {static: false}) sort!: MatSort;
+  clicked = false;
 
 
   ngAfterViewInit() {
@@ -66,8 +68,11 @@ export class StockMainComponent implements AfterViewInit, OnInit {
       .subscribe(stockIngredients => {
         this.ingredientsFromStock = stockIngredients;
         this.dataSource = new MatTableDataSource(stockIngredients)
+        this.buttonDeleteIngredientEnabled = Array(stockIngredients.length).fill(true);
       })
   }
+
+
 
   checkValue(event: KeyboardEvent) {
     return event.code.match(/^[a-zA-Z0-9 -]*$/) ?
@@ -76,4 +81,5 @@ export class StockMainComponent implements AfterViewInit, OnInit {
   fieldIngredientsChanged(currentQueryString: string | null) {
 
   }
+
 }
