@@ -14,16 +14,10 @@ export const routes = [
     canActivate: [Roles.Admin]
   },
   {
-    text: 'My blog',
-    url: '/blog',
-    isActive: true,
-    canActivate: [Roles.User]
-  },
-  {
     text: 'Friends',
     url: '/friends',
     isActive: false,
-    canActivate: [Roles.User]
+    canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
   },
   {
     text: 'My ingredients',
@@ -44,12 +38,6 @@ export const routes = [
     canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
   },
   {
-    text: 'Events',
-    url: '/events',
-    isActive: false,
-    canActivate: [ Roles.User, Roles.Moderator, Roles.Admin]
-  },
-  {
     text: 'Cocktails',
     url: '/cocktails',
     isActive: false,
@@ -61,12 +49,4 @@ export const routes = [
     isActive: false,
     canActivate: [Roles.Admin, Roles.User, Roles.Moderator]
   },
-  // {
-  //   text: 'Login',
-  //   url: '/login',
-  //   isActive: false,
-  //   // canActivate: [Roles.Admin, Roles.User, Roles.Moderator]
-  //   canActivate: [Roles.Anonymous]
-  // },
-
 ]
