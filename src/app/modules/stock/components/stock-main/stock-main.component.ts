@@ -19,7 +19,6 @@ export class StockMainComponent implements AfterViewInit, OnInit {
   dataSource: any;
   searchStockIngredientsForm: FormGroup | any;
   public findByNameQuery: Query = {query: "", page: 0, sortByColumn: "nothing"}
-  //public deleteQuery: QueryDelete = {ingredientId: 1}
   ingredientsFromStock : StockIngredients[] = [];
   sortColumns: string[] = columnsToSortBy;
   defaultPhotoUrl: string = "https://media.timeout.com/images/105631937/image.jpg"
@@ -84,9 +83,6 @@ export class StockMainComponent implements AfterViewInit, OnInit {
   checkValue(event: KeyboardEvent) {
     return event.code.match(/^[a-zA-Z0-9 -]*$/) ?
       event.code : event.preventDefault();
-  }
-  fieldIngredientsChanged(currentQueryString: string | null) {
-
   }
 
 }
