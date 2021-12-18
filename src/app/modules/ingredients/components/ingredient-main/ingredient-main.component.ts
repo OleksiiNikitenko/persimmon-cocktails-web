@@ -106,6 +106,6 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
   }
 
   addToStock(ingredientId : number) {
-    this.ingredientsService.addToStock(ingredientId).subscribe()
+    this.ingredientsService.addToStock(ingredientId).subscribe((response) => {})
   }
 }
