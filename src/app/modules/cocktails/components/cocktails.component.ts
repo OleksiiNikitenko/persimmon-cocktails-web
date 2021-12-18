@@ -4,7 +4,7 @@ import {CocktailsService} from "../services/cocktails.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {Observable, Subscription} from "rxjs";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, FormBuilder, Validators} from "@angular/forms";
-import {columnsToSortBy, Query, ShowActiveMode} from "../models/query";
+import {columnsToSortBy, Query, ShowActiveMode, specifiedIngredients} from "../models/query";
 import {IngredientName} from "../models/IngredientName";
 import {debounceTime, distinctUntilChanged, map, startWith, switchMap} from "rxjs/operators";
 import {getUser} from "../../../core/models/user";
