@@ -19,9 +19,10 @@ export class EditStockIngredientComponent implements OnInit {
   selectedFile: File = null as any;
   actualData: ResponseStockIngredient | null = null;
   stockIngredient : StockIngredient | null = null;
+  dataSource: any;
 
-  patchQuery: StockIngredient = {ingredientId: 1, amount: 1, measureType: "l"}
-
+  patchQuery: StockIngredient = {ingredientId: 1, amount: 1, measureType: "l", imageUrl: "https://media.timeout.com/images/105631937/image.jpg"}
+  defaultPhotoUrl: string = "https://media.timeout.com/images/105631937/image.jpg"
   ingredientId: string | null;
 
   constructor(
@@ -32,27 +33,29 @@ export class EditStockIngredientComponent implements OnInit {
   ) {
     this._form = new FormGroup ({
       amount: new FormControl(this.actualData?.amount),
-      measureType: new FormControl(this.actualData?.measureType)
+      measureType: new FormControl(this.actualData?.measureType),
+      // photoId: new FormControl(this.actualData?.imageUrl)
     });
     this.ingredientId =  this.route.snapshot.paramMap.get('ingredientId')
     this._form = this.formBuilder.group({
       amount: this.actualData?.amount,
-      measureType: this.actualData?.measureType
+      measureType: this.actualData?.measureType,
+      //photoId: this.actualData?.imageUrl
     })
     this.stockService.getActualData(this.ingredientId).subscribe(responseStockIngredient => {
       this.actualData = responseStockIngredient
       this.patchQuery.amount = this.actualData.amount
       this.patchQuery.measureType = this.actualData.measureType
       this.patchQuery.ingredientId = this.actualData.ingredientId
+      //this.patchQuery.imageUrl = this.actualData.imageUrl
     })
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
-  // editQuery(query : QueryUpdate) : HttpParams {
-  //   let params :  HttpParams = new HttpParams()
-  //   params = params.set("ingredientId", )
-  // }
+
+
 
 
   editStockIngredient(): void {

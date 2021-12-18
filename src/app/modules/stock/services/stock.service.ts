@@ -35,6 +35,7 @@ export class StockService {
   fetchStockIngredientsByName(query : Query) : Observable<StockIngredients[]> {
     const params : HttpParams = this.searchQuery(query)
     console.log(params)
+    if (query.query == null) query.query = ""
     return this.http.get<StockIngredients[]>(this.apiSearchIngredientsByName+query.query, {params})
   }
 

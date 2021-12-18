@@ -4,8 +4,12 @@
   </div>
 
   <div class="edit-ingredient__content">
-    <img class="edit-ingredient__avatar" src="../../../../../assets/images/Orange.jpg" alt="orange">
+
     <form *ngIf="actualData!=null" [formGroup]="_form" (submit)="editStockIngredient()" class="form">
+
+      <div >
+        <img src="{{actualData.image == null ? defaultPhotoUrl : actualData.image.urlFull }}" alt="photo">
+      </div>
 
       <div>
         <label>Name: </label>
