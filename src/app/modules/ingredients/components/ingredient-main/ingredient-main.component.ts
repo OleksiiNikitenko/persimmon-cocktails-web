@@ -11,6 +11,8 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {columnsToSortBy, Query} from "../../../stock/models/query";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ImageUploadService} from "../../../image/services/image-upload-service";
+import {getUser} from "../../../../core/models/user";
+import {Roles} from "../../../../core/models/roles";
 
 
 @UntilDestroy()
@@ -21,7 +23,8 @@ import {ImageUploadService} from "../../../image/services/image-upload-service";
 })
 export class IngredientMainComponent implements AfterViewInit, OnInit {
 
-  displayedColumns: string[] = ['photoId', 'name', 'category', 'editButton', 'statusButton'];
+  displayedColumns: string[] = ['photoId', 'name', 'category', 'dynamicButton', 'statusButton'];
+  canEdit: boolean = getUser().role === Roles.Moderator || getUser().role === Roles.Admin
   ingredients: Ingredient[] = [];
   dataSource: any;
   searchIngredientsForm: FormGroup | any;
@@ -100,5 +103,9 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
     }
   }
   ngAfterViewInit(): void {
+  }
+
+  addToStock(ingredientId : number) {
+    this.ingredientsService.addToStock(ingredientId).subscribe()
   }
 }

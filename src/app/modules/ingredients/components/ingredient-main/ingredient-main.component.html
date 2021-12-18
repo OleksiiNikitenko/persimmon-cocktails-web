@@ -48,14 +48,16 @@
       <td mat-cell *matCellDef="let element"> {{element.category.name}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="editButton">
+    <ng-container matColumnDef="dynamicButton">
       <th mat-header-cell *matHeaderCellDef>
-
       </th>
       <td class="container-button-edit" mat-cell *matCellDef="let element">
-        <button class="primary-button button-edit" [routerLink]="'edit/' + element.ingredientId">EDIT</button>
+        <button class="primary-button button-edit" [hidden]="!canEdit" [routerLink]="'edit/' + element.ingredientId">EDIT</button>
+        <button class="primary-button button-edit" [hidden]="canEdit" (click)="addToStock(element.ingredientId)">Add to stock</button>
       </td>
     </ng-container>
+
+
 
     <ng-container matColumnDef="statusButton">
       <th mat-header-cell *matHeaderCellDef>
