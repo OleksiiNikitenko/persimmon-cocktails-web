@@ -6,5 +6,5 @@ export interface ResponseStockIngredient {
   ingredientCategoryId: number | null,
   amount: number | null,
   measureType: string | null,
-  photoId: number
+  imageUrl: string
 }

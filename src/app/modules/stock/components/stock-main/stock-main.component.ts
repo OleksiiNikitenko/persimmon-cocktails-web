@@ -72,7 +72,9 @@ export class StockMainComponent implements AfterViewInit, OnInit {
       })
   }
 
+  getImage() {
 
+  }
 
   checkValue(event: KeyboardEvent) {
     return event.code.match(/^[a-zA-Z0-9 -]*$/) ?
