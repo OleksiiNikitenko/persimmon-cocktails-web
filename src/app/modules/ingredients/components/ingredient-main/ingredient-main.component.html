@@ -64,7 +64,7 @@
 
       </th>
       <td class="container-button-status" mat-cell *matCellDef="let element">
-        <button class="primary-button button-delete" [routerLink]="'delete/' + element.ingredientId">DELETE</button>
+        <button class="primary-button button-delete" [hidden]="!canEdit" [routerLink]="'delete/' + element.ingredientId">DELETE</button>
       </td>
     </ng-container>
 
