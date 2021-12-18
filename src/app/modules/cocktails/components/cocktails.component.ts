@@ -15,7 +15,7 @@ import {
 import {columnsToSortBy, Query, specifiedIngredients} from "../models/query";
 import {Observable, Subscription} from "rxjs";
 import {IngredientName} from "../models/IngredientName";
-import {map, startWith} from "rxjs/operators";
+import {debounceTime, distinctUntilChanged, map, startWith, switchMap} from "rxjs/operators";
 
 
 @Component({
@@ -28,7 +28,36 @@ export class CocktailsComponent implements OnInit {
   private subscription: Subscription = new Subscription();
   public ingredientsControl: FormControl = new FormControl()
 
+  filteredOptions: Observable<IngredientName[]>;
+  ingredientFormControl: FormControl = new FormControl()
+  public ingredientList: { ingredientId: number, name: string }[] = []
+
   constructor(private cocktailsService: CocktailsService) {
+    this.filteredOptions = this.ingredientFormControl.valueChanges
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        switchMap(val => {
+          return this.cocktailsService.fetchIngredients(val || '')
+        })
+      );
+  }
+
+  addIngredient() {
+    if (this.ingredientList.find(i => i.ingredientId == this.ingredientFormControl.value.ingredientId) == null) {
+      this.ingredientList.push(this.ingredientFormControl.value)
+      specifiedIngredients.push(this.ingredientFormControl.value.ingredientId)
+    }
+    this.ingredientFormControl.setValue('')
+  }
+
+  displayIngredientName(ingr: IngredientName | null): string {
+    if (ingr == null) return ''
+    else return ingr.name
+  }
+
+  deleteAddedIngredient(ingredientId: number) {
+    this.ingredientList = this.ingredientList.filter(i => i.ingredientId != ingredientId)
   }
 
   public currentQuery: Query = {

@@ -60,7 +60,7 @@ export class CocktailService {
     })
   }
 
-  fetchIngredients(prefix: string | IngredientName, canEdit: boolean) : Observable<IngredientName[]> {
+  fetchIngredients(prefix: string | IngredientName, canEdit?: boolean) : Observable<IngredientName[]> {
     if(typeof prefix === 'string') {
       if (prefix.length < 2) return of([])
       const url: string = `${this.apiServerUrl}/ingredient/active/search-by-prefix?prefix=${prefix}`

@@ -4,7 +4,7 @@ export interface Query {
   sortByColumn: string,
   sortDirection: boolean,
   matchToStock: boolean,
-  searchByListIngredients: string[]
+  searchByListIngredients: number[]
 }
 
 export const columnsToSortBy : string[] = [
@@ -15,4 +15,4 @@ export const columnsToSortBy : string[] = [
   "likes"
 ]
 
-export let specifiedIngredients: string[] = []
+export let specifiedIngredients: number[] = []
