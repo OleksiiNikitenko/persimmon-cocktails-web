@@ -38,7 +38,7 @@ export class ModeratorsService {
   updateModerator(data: any) {
     this.http.patch(this.BASE_URLS.updateModerator, data).pipe(first()).subscribe()
   }
-  changeStatus(data: any){
-    this.http.post(this.BASE_URLS.changeStatus,data).pipe(first()).subscribe()
+  changeStatus(moderatorId:number){
+    this.http.post(this.BASE_URLS.changeStatus,moderatorId).pipe(first()).subscribe()
   }
 }

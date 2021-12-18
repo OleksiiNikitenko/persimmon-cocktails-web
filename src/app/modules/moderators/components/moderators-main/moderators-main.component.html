@@ -40,11 +40,10 @@
       <th mat-header-cell *matHeaderCellDef>
 
       </th>
-      <td class="container-button-status" mat-cell *matCellDef="let element">
+      <td class="container-button-status" mat-cell *matCellDef="let element , let i= index">
         <button class="primary-button"
-                (click)="changeStatus()"
-                [ngClass]="{'enabled': toggle, 'disabled': !toggle}">
-          {{statusBtn}} </button>
+                (click)="changeStatus(element.personId, i)" >
+          {{statusBtn[i]}} </button>
       </td>
     </ng-container>
 

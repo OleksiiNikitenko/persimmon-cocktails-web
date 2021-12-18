@@ -5,4 +5,5 @@ export interface ModeratorUIModel {
   personId: number
   photoId: number | null
   roleId: number
+  isActive: boolean;
 }

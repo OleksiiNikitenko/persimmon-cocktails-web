@@ -6,11 +6,9 @@ import {Moderator} from "../../models/moderator.model";
 import {ModeratorsQuery} from "../../services/moderators.query";
 import {ModeratorsStore} from "../../services/moderators.store";
 import {ModeratorsService} from "../../services/moderators.service";
-import {untilDestroyed, UntilDestroy} from '@ngneat/until-destroy';
-import {AddModeratorComponent} from "../add-moderator/add-moderator.component";
+import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
 import {ImageUploadService} from "../../../image/services/image-upload-service";
 import {HttpErrorResponse} from "@angular/common/http";
-import {FoundUsersModel} from "../../../friends/models/found-users.model";
 
 @UntilDestroy()
 @Component({
@@ -20,25 +18,28 @@ import {FoundUsersModel} from "../../../friends/models/found-users.model";
 })
 export class ModeratorsMainComponent implements AfterViewInit, OnInit {
 
-  displayedColumns: string[] = ['photoId',  'name', 'email', 'editButton', 'statusButton'];
+  displayedColumns: string[] = ['photoId', 'name', 'email', 'editButton', 'statusButton'];
   moderators: Moderator[] = [];
   imagesUrl: string[] = []
   dataSource: any;
   imageNotAvailable = '../../../../assets/images/moder-avatar.png'
-    constructor(private _liveAnnouncer: LiveAnnouncer,
+  @ViewChild(MatSort, {static: false}) sort!: MatSort;
+  toggle = true;
+  statusBtn:string[] = [];
+  status: boolean[] = []
+
+  constructor(private _liveAnnouncer: LiveAnnouncer,
               private moderatorsService: ModeratorsService,
               private moderatorsQuery: ModeratorsQuery,
               private moderatorsStore: ModeratorsStore,
               private cdr: ChangeDetectorRef,
-                private imageService: ImageUploadService
-    ) {}
-
-  getModerators(): Moderator[]{
-    return this.moderators;
+              private imageService: ImageUploadService
+  ) {
   }
 
-  @ViewChild(MatSort, {static: false}) sort!: MatSort;
-
+  getModerators(): Moderator[] {
+    return this.moderators;
+  }
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
@@ -54,31 +55,37 @@ export class ModeratorsMainComponent implements AfterViewInit, OnInit {
     this.moderatorsQuery.selectAll().pipe(
       untilDestroyed(this)
     ).subscribe(moderators => {
-      this.dataSource = new MatTableDataSource(moderators)
-      this.dataSource.sort = this.sort;
-      this.cdr.markForCheck()
+        this.dataSource = new MatTableDataSource(moderators)
+        this.dataSource.sort = this.sort;
+        this.cdr.markForCheck()
+      console.log(moderators)
         this.imagesUrl = Array(moderators.length).fill(this.imageNotAvailable)
         this.setImagesModerators(moderators)
-
-    }
+       this.statusBtn=Array(moderators.length).fill('Enable')
+      this.handleModeratorStatus(moderators)
+      }
     )
-
-
-
+  }
+handleModeratorStatus(moderators :any){
+  for (let i = 0; i < moderators.length; i++) {
+    if (!moderators[i].isActive){
+      this.statusBtn[i]='Disable';
+    }
+    else  this.statusBtn[i]='Enable';
 
   }
-
+}
   ngAfterViewInit(): void {
 
   }
-  toggle = true;
-  statusBtn = 'Enable';
 
-
-  public changeStatus(){
-    // this.moderatorsService.changeStatus(11)
-    this.toggle = !this.toggle;
-    this.statusBtn = this.toggle ? 'Enable' : 'Disable';
+  public changeStatus(moderatorId:number, index: number) {
+    this.moderatorsService.changeStatus(moderatorId)
+    // this.toggle = !this.toggle;
+    if (this.statusBtn[index]=='Enable'){
+      this.statusBtn[index] ='Disable'}
+    else
+    this.statusBtn[index] = 'Enable';
   }
 
   getImageByIdModerators(imageId: number, i: number) {
@@ -97,9 +104,11 @@ export class ModeratorsMainComponent implements AfterViewInit, OnInit {
       );
     }
   }
+
   setImagesModerators(moderators: any) {
     for (let i = 0; i < moderators.length; i++) {
       this.getImageByIdModerators(moderators[i].photoId, i)
     }
   }
+
 }

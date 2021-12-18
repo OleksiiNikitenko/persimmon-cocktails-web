@@ -3,6 +3,7 @@ export class Moderator{
   name!: string;
   email!: string;
   photoId!: number;
+  isActive!: boolean;
   // blogId!: number;
   // roleId!: number;
 }
