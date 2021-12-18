@@ -1,5 +1,4 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
 
 
 @Injectable({
@@ -8,7 +7,7 @@ import {HttpClient} from "@angular/common/http";
 
 export class MainService {
 
-  constructor(private http: HttpClient) {
+  constructor() {
   }
 
   checkValue(event: any) {
@@ -21,6 +20,4 @@ export class MainService {
     const diffInMs = Math.abs(today.getTime() - date.getTime());
     return diffInMs / (1000 * 60 * 60 * 24);
   }
-
-
 }

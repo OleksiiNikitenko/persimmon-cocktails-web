@@ -1,10 +1,9 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {FriendsService} from "../services/friends.service";
 import {PersonsService} from "../services/persons.service";
 import {InvitationsService} from "../services/invitations.service";
 import {FriendModel} from "../models/friend.model";
-import {MatSort, Sort} from "@angular/material/sort";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {InviteFriendModel} from "../models/invite-friend.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
@@ -107,17 +106,6 @@ export class FriendsComponent implements OnInit, OnDestroy {
         this.setImagesFriends(friends);
         this.buttonDeleteFriendEnabled = Array(friends.length).fill(true);
       }))
-
-    // this.friendsService
-    //   .getFriends(page)
-    //   .subscribe((friends: FriendModel[]) => {
-    //     this.friends = friends;
-    //     this.friendsDataSource = new MatTableDataSource(this.friends);
-    //     this.imagesUrlFriends = Array(friends.length).fill(this.defaultAvatar);
-    //     this.initFriendsPagesAmount();
-    //     this.setImagesFriends(friends);
-    //     this.buttonDeleteFriendEnabled = Array(friends.length).fill(true);
-    //   });
   }
 
   getFriendsByName(name: string): void {

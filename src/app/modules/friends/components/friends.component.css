@@ -22,8 +22,6 @@ th.mat-sort-header-sorted {
 .avatar, .avatar-second {
   object-fit: cover;
   padding-top: 5%;
-  /*width: 90%;*/
-  /*height: 90%;*/
   width: 8em;
   height: 8em;
   border-radius: 50%;
