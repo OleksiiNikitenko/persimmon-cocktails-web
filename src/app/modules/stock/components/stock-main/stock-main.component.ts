@@ -56,11 +56,16 @@ export class StockMainComponent implements AfterViewInit, OnInit {
   }
 
   getStockIngredients() {
-    this.stockService.fetchStockIngredientsByName(this.findByNameQuery)
-      .subscribe(stockIngredients => {
-        this.ingredientsFromStock = stockIngredients;
-        this.dataSource = new MatTableDataSource(stockIngredients)
-      })
+    if(this.findByNameQuery.query == "") {
+      this.getStock()
+    }
+    else{
+      this.stockService.fetchStockIngredientsByName(this.findByNameQuery)
+        .subscribe(stockIngredients => {
+          this.ingredientsFromStock = stockIngredients;
+          this.dataSource = new MatTableDataSource(stockIngredients)
+        })
+    }
   }
 
   getStock() {
