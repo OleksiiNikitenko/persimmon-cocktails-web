@@ -90,4 +90,20 @@
       </div>
     </div>
   </div>
+
+  <div *ngIf="amountOfPages !== null && amountOfPages > 1" class="center">
+    <div class="pagination">
+      <p *ngIf="currentQuery.page==0">Begin</p>
+      <p *ngIf="currentQuery.page!=0" (click)="beginPage()">&laquo;</p>
+      <p *ngIf="currentQuery.page>=2" (click)="setPageDiff(-2)">{{currentQuery.page - 1}}</p>
+      <p *ngIf="currentQuery.page!=0" (click)="setPageDiff(-1)">{{currentQuery.page}}</p>
+      <p class="active">{{currentQuery.page + 1}}</p>
+      <p *ngIf="currentQuery.page+1<amountOfPages"
+         (click)="setPageDiff(1)">{{currentQuery.page + 2}}</p>
+      <p *ngIf="currentQuery.page+2<amountOfPages"
+         (click)="setPageDiff(2)">{{currentQuery.page + 3}}</p>
+      <p *ngIf="currentQuery.page+1<amountOfPages" (click)="endPage()">&raquo;</p>
+      <p *ngIf="currentQuery.page+1==amountOfPages">End</p>
+    </div>
+  </div>
 </div>

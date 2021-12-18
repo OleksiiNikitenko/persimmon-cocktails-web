@@ -1,16 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {CocktailBasicInfo} from "../models/cocktails-basic-info";
-import {DataSource} from "@angular/cdk/collections";
 import {CocktailsService} from "../services/cocktails.service";
-import {MatTableDataSource} from "@angular/material/table";
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn} from "@angular/forms";
 import {columnsToSortBy, Query, ShowActiveMode} from "../models/query";
-import {Observable, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {IngredientName} from "../models/IngredientName";
-import {map, startWith} from "rxjs/operators";
 import {getUser} from "../../../core/models/user";
 import {Roles} from "../../../core/models/roles";
-import {CocktailCategory} from "../../cocktail/models/fullCocktail";
+import {CocktailCategory, SearchCocktailsResponse} from "../../cocktail/models/fullCocktail";
 
 
 @Component({
@@ -34,12 +31,13 @@ export class CocktailsComponent implements OnInit {
     showActiveMode: ShowActiveMode.OnlyActive,
     currentCategory: {categoryId: -1, categoryName: "Doesn't matter"}
   }
+  public previousQuery: Query | null = null
   cocktails: CocktailBasicInfo[] = []
   searchCocktailsForm: FormGroup | any;
   defaultPhotoUrl: string = "https://www.yahire.com/blogs/wp-content/uploads/2017/04/summer-cocktails.jpg"
   sortColumns: string[] = columnsToSortBy;
   canCreate: boolean = getUser().role === Roles.Moderator || getUser().role === Roles.Admin
-  currentPage: number = 0
+  amountOfPages: number | null = null;
 
 
 
@@ -56,10 +54,26 @@ export class CocktailsComponent implements OnInit {
   }
 
   getCocktails() {
-    this.subscription.add(this.cocktailsService.fetchCocktails(this.currentQuery, !this.canCreate)
-      .subscribe(cocktails => {
-        this.cocktails = cocktails;
+    if(this.previousQuery !== null && this.queryHaveChanged(this.previousQuery, this.currentQuery)){
+      this.amountOfPages = null
+      console.log("Changed query")
+    }
+    else{
+      console.log("Query not changed")
+    }
+    this.previousQuery = Object.assign({}, this.currentQuery)
+    this.subscription.add(this.cocktailsService.fetchCocktails(this.currentQuery, !this.canCreate, this.amountOfPages === null)
+      .subscribe((response : SearchCocktailsResponse) => {
+        this.cocktails = response.results
+        if(response.amountOfPages !== null) this.amountOfPages = response.amountOfPages
       }))
+  }
+
+  private queryHaveChanged(previousQuery: Query, currentQuery: Query) : boolean{
+    if(previousQuery.query !== currentQuery.query) return true
+    if(previousQuery.showActiveMode !== currentQuery.showActiveMode) return true
+    if(previousQuery.currentCategory !== currentQuery.currentCategory) return true
+    return false
   }
 
   checkValue(event: KeyboardEvent) {
@@ -99,5 +113,22 @@ export class CocktailsComponent implements OnInit {
         console.error(err.error.message)
       }
     ))
+  }
+
+  beginPage() {
+    this.currentQuery.page = 0
+    this.getCocktails()
+  }
+
+  setPageDiff(number: number) {
+    this.currentQuery.page += number
+    this.getCocktails()
+  }
+
+  endPage() {
+    if(this.amountOfPages !== null){
+      this.currentQuery.page = this.amountOfPages-1
+      this.getCocktails()
+    }
   }
 }

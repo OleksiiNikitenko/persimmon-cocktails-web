@@ -1,6 +1,7 @@
 import {KitchenwareUiModel} from "../../kitchenware/models/kitchenware.ui.model";
 import {Ingredient} from "../../cocktails/models/ingredient";
 import {ImageModel} from "../../image/model/image.model";
+import {CocktailBasicInfo} from "../../cocktails/models/cocktails-basic-info";
 
 export interface FullCocktail {
   hasLike: boolean | null;
@@ -67,4 +68,9 @@ export function mockCocktail(): FullCocktail {
 export interface CocktailCategory {
   categoryId: number,
   categoryName: string
+}
+
+export interface SearchCocktailsResponse {
+  results: CocktailBasicInfo[],
+  amountOfPages: number | null
 }
