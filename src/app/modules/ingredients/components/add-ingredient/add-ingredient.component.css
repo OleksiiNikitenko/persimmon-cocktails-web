@@ -9,6 +9,7 @@
  .add-ingredient__content{
    display: flex;
    align-items: flex-start;
+   margin-left: 20px;
  }
 
  .form {
@@ -18,3 +19,11 @@
  .form div {
    margin-bottom: 10px;
  }
+ .upload{
+   margin-left: 6px;
+   width: 20%;
+   }
+ .text-center{
+   margin-left: 5px;
+ }
+

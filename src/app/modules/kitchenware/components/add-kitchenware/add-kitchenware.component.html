@@ -28,14 +28,15 @@
         <button class="secondary-button clearButton" type="button" (click)="resetFormHandler()">Clear</button>
       </div>
     </div>
-  </div>
 
 
+</div>
 <div class=" text-center">
   <label class="secondary-button changeAvatarButton" for="image_uploads">Choose images to upload </label>
   <input type="file" id="image_uploads" hidden
          class="form-control"
          (change)="onChange($event)">
+  <div class="upload">
+    <button class="thirdly-button uploadButton" (click)="onUpload()">Upload</button></div>
 </div>
-<button class="thirdly-button uploadButton" (click)="onUpload()">Upload</button>
 </div>
