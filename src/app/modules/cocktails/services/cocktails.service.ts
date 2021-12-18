@@ -4,7 +4,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {CocktailBasicInfo} from "../models/cocktails-basic-info";
 import {Query, ShowActiveMode} from "../models/query";
-import {CocktailCategory} from "../../cocktail/models/fullCocktail";
+import {CocktailCategory, SearchCocktailsResponse} from "../../cocktail/models/fullCocktail";
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +17,9 @@ export class CocktailsService {
 
   constructor(private http: HttpClient) { }
 
-  fetchCocktails(query : Query, searchActive : boolean) : Observable<CocktailBasicInfo[]> {
-    const params : HttpParams = this.searchQuery(query)
-    return this.http.get<CocktailBasicInfo[]>(
+  fetchCocktails(query : Query, searchActive : boolean, calculateAmountOfPages : boolean) : Observable<SearchCocktailsResponse> {
+    const params : HttpParams = this.searchQuery(query, calculateAmountOfPages)
+    return this.http.get<SearchCocktailsResponse>(
       searchActive ? this.apiSearchActiveBaseUrl : this.apiSearchBaseUrl,
       {params})
   }
@@ -28,7 +28,7 @@ export class CocktailsService {
     return this.http.get<CocktailCategory[]>(this.apiCategoriesUrl)
   }
 
-  searchQuery(query : Query) : HttpParams {
+  searchQuery(query: Query, calculateAmountOfPages: boolean) : HttpParams {
     let params = new HttpParams()
     if(query.query != null && query.query.length>=2){
       params = params.set("search", query.query)
@@ -43,6 +43,7 @@ export class CocktailsService {
     params = params.set("show-inactive", showInactive)
     if(query.currentCategory.categoryId !== -1) params = params.set("dish-category-id", query.currentCategory.categoryId)
     params = params.set("page", query.page)
+    params = params.set("calculate-pages-amount", calculateAmountOfPages)
     return params
   }
 }

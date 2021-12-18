@@ -22,8 +22,8 @@ import {ImageUploadService} from "../../image/services/image-upload-service";
 export class FriendsComponent implements OnInit {
 
 
-    defaultAvatar = '../../../../assets/images/user.png'
-    imageNotAvailable = '../../../../assets/images/image-not-found.jpg'
+    defaultAvatar = 'https://i.ibb.co/rcW8LRm/user.png'
+    imageNotAvailable = 'https://i.ibb.co/BgXbNNc/image-not-found.jpg'
 
     friends: FriendModel[] = [];
     persons: FoundUsersModel[] = [];
