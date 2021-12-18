@@ -38,7 +38,9 @@ export class LoginComponent implements OnInit {
         this.loginForm.reset();
         this.dialog.closeAll()
         this.toolbarComponent.navigateHandler('/cocktails');
-        this.router.navigate(['/cocktails'])
+        this.router.navigate(['/account'])
+        window.location.reload();
+
 
       },
       (error: HttpErrorResponse) => {

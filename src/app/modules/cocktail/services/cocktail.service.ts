@@ -3,8 +3,9 @@ import {Observable, of} from "rxjs";
 import {CocktailCategory, EditCocktail, FullCocktail} from "../models/fullCocktail";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
-import {IngredientName} from "../../cocktails/models/IngredientName";
+import {IngredientName, KitchenwareName} from "../../cocktails/models/IngredientName";
 import {map, tap} from "rxjs/operators";
+import {CocktailBasicInfo} from "../../cocktails/models/cocktails-basic-info";
 
 @Injectable({
   providedIn: 'root'
@@ -56,19 +57,41 @@ export class CocktailService {
       receipt: cocktail.receipt,
       isActive: cocktail.isActive,
       labels: cocktail.labels,
-      ingredientList: cocktail.ingredientList.map(i => i.ingredientId)
+      ingredientList: cocktail.ingredientList.map(i => i.ingredientId),
+      kitchenwareIds: cocktail.kitchenwareList.map(k => k.kitchenwareId),
+      photoId: cocktail.image == null ? null : cocktail.image.imageId
     })
   }
 
-  fetchIngredients(prefix: string | IngredientName, canEdit?: boolean) : Observable<IngredientName[]> {
+  fetchIngredientsByPrefix(prefix: string | IngredientName, canEdit: boolean) : Observable<IngredientName[]> {
     if(typeof prefix === 'string') {
       if (prefix.length < 2) return of([])
       const url: string = `${this.apiServerUrl}/ingredient/active/search-by-prefix?prefix=${prefix}`
       return this.http.get<IngredientName[]>(url)
     }
     return of([])
-    //   .pipe(
-    //   map((ingredients : IngredientName[]) => ingredients.map(i => i.name))
-    // )
+  }
+
+  createCocktail(cocktail: EditCocktail) : Observable<FullCocktail> {
+    return this.http.post<FullCocktail>(`${this.apiServerUrl}/cocktail/create`, {
+      name: cocktail.name,
+      description: cocktail.description,
+      dishCategoryId: cocktail.dishCategoryId === -1 ? null : cocktail.dishCategoryId,
+      receipt: cocktail.receipt,
+      isActive: cocktail.isActive,
+      labels: cocktail.labels,
+      ingredientIds: cocktail.ingredientList.map(i => i.ingredientId),
+      kitchenwareIds: cocktail.kitchenwareList.map(k => k.kitchenwareId),
+      photoId: cocktail.image == null ? null : cocktail.image.imageId
+    })
+  }
+
+  fetchKitchenwareByPrefix(prefix: string | KitchenwareName, canEdit: boolean) : Observable<KitchenwareName[]> {
+    if(typeof prefix === 'string') {
+      if (prefix.length < 2) return of([])
+      const url: string = `${this.apiServerUrl}/kitchenware/active/search-by-prefix?prefix=${prefix}`
+      return this.http.get<KitchenwareName[]>(url)
+    }
+    return of([])
   }
 }

@@ -7,6 +7,10 @@ import {IngredientsQuery} from "../../services/ingredients.query";
 import {IngredientsStore} from "../../services/ingredients.store";
 import {IngredientsService} from "../../services/ingredients.service";
 import {untilDestroyed, UntilDestroy} from '@ngneat/until-destroy';
+import {FormControl, FormGroup} from "@angular/forms";
+import {columnsToSortBy, Query} from "../../../stock/models/query";
+import {HttpErrorResponse} from "@angular/common/http";
+import {ImageUploadService} from "../../../image/services/image-upload-service";
 
 
 @UntilDestroy()
@@ -17,15 +21,19 @@ import {untilDestroyed, UntilDestroy} from '@ngneat/until-destroy';
 })
 export class IngredientMainComponent implements AfterViewInit, OnInit {
 
-  displayedColumns: string[] = ['photoId', 'ingredientId', 'name', 'category', 'editButton', 'statusButton'];
+  displayedColumns: string[] = ['photoId', 'name', 'category', 'editButton', 'statusButton'];
   ingredients: Ingredient[] = [];
   dataSource: any;
-
+  searchIngredientsForm: FormGroup | any;
+  public findByNameIngredient: Query = {query: "", page: 0, sortByColumn: "nothing"}
+  imagesUrl: string[] = []
+  imageNotAvailable = 'https://i.ibb.co/16mJRVD/67eb9e144841.jpg'
   constructor(private _liveAnnouncer: LiveAnnouncer,
               private ingredientsService: IngredientsService,
               private ingredientsQuery: IngredientsQuery,
               private ingredientsStore: IngredientsStore,
-              private cdr: ChangeDetectorRef) {}
+              private cdr: ChangeDetectorRef,
+              private imageService: ImageUploadService) {}
 
   getIngredients(): Ingredient[]{
     return this.ingredients;
@@ -44,16 +52,53 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.ingredientsService.fetchIngredients()
-
+    this.searchIngredientsForm = new FormGroup({
+      name: new FormControl(''),
+      sortColumn: new FormControl(columnsToSortBy)
+    });
     this.ingredientsQuery.selectAll().pipe(
       untilDestroyed(this)
     ).subscribe(ingredients => {
       this.dataSource = new MatTableDataSource(ingredients)
       this.dataSource.sort = this.sort;
       this.cdr.markForCheck()
+      this.imagesUrl = Array(ingredients.length).fill(this.imageNotAvailable)
+      this.setImages(ingredients)
     })
   }
 
+  checkValue(event: KeyboardEvent) {
+    return event.code.match(/^[a-zA-Z0-9 -]*$/) ?
+      event.code : event.preventDefault();
+  }
+
+  /*deleteIngredient() {
+    if (this.form.valid) {
+      this.ingredientsService.deleteIngredient(this.form.value)
+      this.router.navigate(['ingredients'])
+    }
+  }*/
+  getImageByIdIngredients(imageId: number, i: number) {
+    if (imageId != null) {
+      this.imageService.getImageById(imageId).subscribe(
+        (response) => {
+          if (response != null)
+            this.imagesUrl[i] = response.urlMiddle
+          else
+            this.imagesUrl[i] = this.imageNotAvailable
+        },
+        (error: HttpErrorResponse) => {
+          // alert(error.error.message);
+          throw error;
+        }
+      );
+    }
+  }
+  setImages(ingredients: any) {
+    for (let i = 0; i < ingredients.length; i++) {
+      this.getImageByIdIngredients(ingredients[i].photoId, i)
+    }
+  }
   ngAfterViewInit(): void {
   }
 }

@@ -1,5 +1,7 @@
 import {KitchenwareUiModel} from "../../kitchenware/models/kitchenware.ui.model";
 import {Ingredient} from "../../cocktails/models/ingredient";
+import {ImageModel} from "../../image/model/image.model";
+import {CocktailBasicInfo} from "../../cocktails/models/cocktails-basic-info";
 
 export interface FullCocktail {
   hasLike: boolean | null;
@@ -24,6 +26,7 @@ export interface FullCocktail {
 }
 
 export interface EditCocktail {
+  image: ImageModel | null;
   dishId: number,
   name: string,
   description: string | null,
@@ -37,7 +40,8 @@ export interface EditCocktail {
   }[],
   ingredientList: {
     ingredientId: number,
-    name: string
+    name: string,
+    image: ImageModel | null
   }[],
   newLabel: string
 }
@@ -62,6 +66,11 @@ export function mockCocktail(): FullCocktail {
 }
 
 export interface CocktailCategory {
-  categoryId: number | null,
+  categoryId: number,
   categoryName: string
+}
+
+export interface SearchCocktailsResponse {
+  results: CocktailBasicInfo[],
+  amountOfPages: number | null
 }

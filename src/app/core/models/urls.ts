@@ -9,10 +9,13 @@ export const URLS = {
   getIngredients: `${environment.apiBaseUrl}/ingredient`,
   addIngredient: `${environment.apiBaseUrl}/ingredient`,
   updateIngredient: `${environment.apiBaseUrl}/ingredient`,
+  deleteIngredient: `${environment.apiBaseUrl}/ingredient`,
+  updateIngredientPhoto: `${environment.apiBaseUrl}/ingredient/update-photo`,
 
   getKitchenware: `${environment.apiBaseUrl}/kitchenware`,
   addKitchenware: `${environment.apiBaseUrl}/kitchenware`,
   updateKitchenware: `${environment.apiBaseUrl}/kitchenware`,
+  updateKitchenwarePhoto: `${environment.apiBaseUrl}/kitchenware/update-photo`,
 
   getDish: `${environment.apiBaseUrl}/cocktail/search`,
   addDish: `${environment.apiBaseUrl}/cocktail/create`,
@@ -20,5 +23,11 @@ export const URLS = {
 
   getUser: `${environment.apiBaseUrl}/person/:personId`,
   updateUserName: `${environment.apiBaseUrl}/person/update-name`,
-  personGetUrl : `${environment.apiBaseUrl}/person/`
+  updateUserPhoto:`${environment.apiBaseUrl}/person/update-photo`,
+  personGetUrl : `${environment.apiBaseUrl}/person/`,
+  personsSearchUrl: `${environment.apiBaseUrl}/person/search/`,
+  personsPagesAmountUrl : `${environment.apiBaseUrl}/person/search-pages-number/`,
+
+  uploadImg : `${environment.apiBaseUrl}/image/upload`,
+  getImageByIdUrl: `${environment.apiBaseUrl}/image/get/`,
 }

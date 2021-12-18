@@ -7,6 +7,11 @@ import {first} from "rxjs/operators";
 import {MatTableDataSource} from "@angular/material/table";
 import {IngredientsStore} from "./ingredients.store";
 
+class IngredientPhoto {
+  ingredientId!: number
+  ingredientPhotoId!: number | any
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -32,5 +37,23 @@ export class IngredientsService {
 
   updateIngredient(data: any) {
     this.http.patch(this.BASE_URLS.updateIngredient, data).pipe(first()).subscribe()
+  }
+
+  deleteIngredient(data: Ingredient) {
+    this.http.patch(this.BASE_URLS.deleteIngredient, data).pipe(first()).subscribe()
+  }
+  updatePhoto( ingredientId: any, ingredientPhotoId: any){
+    this.http.patch(this.BASE_URLS.updateIngredientPhoto, {
+      ingredientId: ingredientId,
+      ingredientPhotoId: ingredientPhotoId
+    } )
+      .pipe(
+        first()
+      ).subscribe(
+    {
+      next: () => {
+        this.store.update(ingredientPhotoId)
+      }
+    })
   }
 }

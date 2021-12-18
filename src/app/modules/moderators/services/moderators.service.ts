@@ -5,6 +5,9 @@ import {ModeratorUIModel} from "../models/moderator.ui.model";
 import {Moderator} from "../models/moderator.model";
 import {first} from "rxjs/operators";
 import {ModeratorsStore} from "./moderators.store";
+import {Observable} from "rxjs";
+import {MatDialog} from "@angular/material/dialog";
+import {ErrorDialog} from "../../errors-popup/errors-popup.component";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +17,8 @@ export class ModeratorsService {
 
   constructor(
     private http: HttpClient,
-    private store: ModeratorsStore
+    private store: ModeratorsStore,
+    public dialog: MatDialog
   ) { }
 
   fetchModerators() {
@@ -22,11 +26,13 @@ export class ModeratorsService {
       first()
     ).subscribe((moderators) => {
       this.store.upsertMany(moderators)
+    }, error => {
+      this.dialog.open(ErrorDialog, {data: {message: error.error.message}})
     })
   }
 
-  createModerator(data: Moderator) {
-    this.http.post(this.BASE_URLS.addModerator, data).pipe(first()).subscribe()
+  createModerator(data: Moderator): Observable<any> {
+    return this.http.post(this.BASE_URLS.addModerator, data).pipe(first())
   }
 
   updateModerator(data: any) {

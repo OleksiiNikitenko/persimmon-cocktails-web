@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import {CocktailBasicInfo} from "../models/cocktails-basic-info";
-import {Query} from "../models/query";
+import {Query, ShowActiveMode} from "../models/query";
+import {CocktailCategory, SearchCocktailsResponse} from "../../cocktail/models/fullCocktail";
 import {tap} from "rxjs/operators";
 import {IngredientName} from "../models/IngredientName";
 
@@ -12,16 +13,24 @@ import {IngredientName} from "../models/IngredientName";
 })
 export class CocktailsService {
   private apiServerUrl = environment.apiBaseUrl;
-  private apiSearchBaseUrl = `${this.apiServerUrl}/cocktail/active/search`
+  private apiSearchActiveBaseUrl = `${this.apiServerUrl}/cocktail/active/search`
+  private apiSearchBaseUrl = `${this.apiServerUrl}/cocktail/search`
+  private apiCategoriesUrl = `${this.apiServerUrl}/cocktail/categories`
 
   constructor(private http: HttpClient) { }
 
-  fetchCocktails(query : Query) : Observable<CocktailBasicInfo[]> {
-    const params : HttpParams = this.searchQuery(query)
-    return this.http.get<CocktailBasicInfo[]>(this.apiSearchBaseUrl, {params})
+  fetchCocktails(query : Query, searchActive : boolean, calculateAmountOfPages : boolean) : Observable<SearchCocktailsResponse> {
+    const params : HttpParams = this.searchQuery(query, calculateAmountOfPages)
+    return this.http.get<SearchCocktailsResponse>(
+      searchActive ? this.apiSearchActiveBaseUrl : this.apiSearchBaseUrl,
+      {params})
   }
 
-  searchQuery(query : Query) : HttpParams {
+  fetchCocktailCategories() : Observable<CocktailCategory[]>{
+    return this.http.get<CocktailCategory[]>(this.apiCategoriesUrl)
+  }
+
+  searchQuery(query: Query, calculateAmountOfPages: boolean) : HttpParams {
     let params = new HttpParams()
     if(query.query != null && query.query.length>=2){
       params = params.set("search", query.query)
@@ -30,6 +39,11 @@ export class CocktailsService {
       params = params.set("sort-by", query.sortByColumn)
       params = params.set("sort-direction", query.sortDirection)
     }
+    let showActive : boolean = query.showActiveMode === ShowActiveMode.OnlyActive || query.showActiveMode === ShowActiveMode.Both
+    let showInactive : boolean = query.showActiveMode === ShowActiveMode.OnlyInactive || query.showActiveMode === ShowActiveMode.Both
+    params = params.set("show-active", showActive)
+    params = params.set("show-inactive", showInactive)
+    if(query.currentCategory.categoryId !== -1) params = params.set("dish-category-id", query.currentCategory.categoryId)
     if(query.matchToStock){
       params = params.set("show-match-stock", query.matchToStock)
     }
@@ -37,6 +51,7 @@ export class CocktailsService {
       query.searchByListIngredients.forEach(value => {params = params.append("ingredients", value)})
     }
     params = params.set("page", query.page)
+    params = params.set("calculate-pages-amount", calculateAmountOfPages)
     return params
   }
 

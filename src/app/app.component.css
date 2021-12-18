@@ -9,11 +9,11 @@
   background-color: #4E5953;
 }
 
-.primary-button:hover {
+.primary-button, .thirdly-button:hover {
   background-color: #282D27;
 }
 
-.primary-button:active {
+.primary-button, .thirdly-button:active {
   position: relative;
   top: 1px;
 }
@@ -111,4 +111,22 @@ h3 {
   margin: 6px;
   color: #141714;
   font: small-caps bold 22px/2 cursive;
+}
+h4 {
+  margin: 2px;
+  color: #141714;
+  font: small-caps bold 18px/2 cursive;
+}
+
+button{
+  cursor: pointer;
+}
+
+button:disabled{
+  background-color: lightgray;
+  cursor: auto;
+}
+
+body{
+  width: 100vw;
 }

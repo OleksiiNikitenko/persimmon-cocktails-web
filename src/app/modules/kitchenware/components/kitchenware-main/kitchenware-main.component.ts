@@ -7,6 +7,8 @@ import {KitchenwareQuery} from "../../services/kitchenware.query";
 import {KitchenwareStore} from "../../services/kitchenware.store";
 import {KitchenwareService} from "../../services/kitchenware.service";
 import {untilDestroyed, UntilDestroy} from '@ngneat/until-destroy';
+import {HttpErrorResponse} from "@angular/common/http";
+import {ImageUploadService} from "../../../image/services/image-upload-service";
 
 
 @UntilDestroy()
@@ -17,15 +19,20 @@ import {untilDestroyed, UntilDestroy} from '@ngneat/until-destroy';
 })
 export class KitchenwareMainComponent implements AfterViewInit, OnInit {
 
-  displayedColumns: string[] = ['photoId', 'kitchenwareId', 'name', 'category', 'editButton', 'statusButton'];
+  displayedColumns: string[] = ['photoId', 'name', 'category', 'editButton', 'statusButton'];
   kitchenware: Kitchenware[] = [];
   dataSource: any;
+  imagesUrl: string[] = []
+  imageNotAvailable = '../../../../assets/images/image-not-found.jpg'
+
+
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
               private kitchenwareService: KitchenwareService,
               private kitchenwareQuery: KitchenwareQuery,
               private kitchenwareStore: KitchenwareStore,
-              private cdr: ChangeDetectorRef) {}
+              private cdr: ChangeDetectorRef,
+              private imageService: ImageUploadService) {}
 
   getIngredients(): Kitchenware[]{
     return this.kitchenware;
@@ -51,9 +58,36 @@ export class KitchenwareMainComponent implements AfterViewInit, OnInit {
       this.dataSource = new MatTableDataSource(kitchenware)
       this.dataSource.sort = this.sort;
       this.cdr.markForCheck()
+      this.imagesUrl = Array(kitchenware.length).fill(this.imageNotAvailable)
+      this.setImages(kitchenware)
     })
+
+
   }
 
   ngAfterViewInit(): void {
+  }
+
+  getImageByIdKitchenware(imageId: number, i: number) {
+    if (imageId != null) {
+      this.imageService.getImageById(imageId).subscribe(
+        (response) => {
+          if (response != null)
+            this.imagesUrl[i] = response.urlMiddle
+          else
+            this.imagesUrl[i] = this.imageNotAvailable
+        },
+        (error: HttpErrorResponse) => {
+          // alert(error.error.message);
+          throw error;
+        }
+      );
+    }
+  }
+
+  setImages(kitchenware: any) {
+    for (let i = 0; i < kitchenware.length; i++) {
+      this.getImageByIdKitchenware(kitchenware[i].photoId, i)
+    }
   }
 }

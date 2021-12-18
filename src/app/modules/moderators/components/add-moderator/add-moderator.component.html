@@ -11,15 +11,17 @@
       <div>
         <label>Name: </label>
         <input placeholder="Moderator name" formControlName="name"/>
+        <p *ngIf="form.get('name')?.invalid && form.get('name')?.touched">incorrect name</p>
       </div>
       <div>
         <label>Email: </label>
         <input placeholder="Email" formControlName="email"/>
+        <p *ngIf="form.get('email')?.invalid && form.get('email')?.touched" >incorrect email</p>
       </div>
-      <div>
-        <label>Status: </label>
-        <input type="checkbox" formControlName="status">
-      </div>
+<!--      <div>-->
+<!--        <label>Status: </label>-->
+<!--        <input type="checkbox" formControlName="status">-->
+<!--      </div>-->
       <div>
         <button *ngIf="!currentUserId else editButton" class="primary-button createButton" type="button" (click)="createModerator()">Create</button>
         <ng-template #editButton>
