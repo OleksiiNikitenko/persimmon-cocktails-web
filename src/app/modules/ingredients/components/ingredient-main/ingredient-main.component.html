@@ -16,7 +16,7 @@
       *ngIf="searchIngredientsForm.get('name').invalid && searchIngredientsForm.get('name').touched  && searchIngredientsForm != ''"
       class="text-danger">Incorrect format</small>
   </form>
-  <button class="secondary-button ingredient-add" [hidden]="!canEdit" type="button"  routerLink="/ingredients/add">Add ingredient </button>
+  <button *ngIf="canEdit" class="secondary-button ingredient-add" type="button" routerLink="/ingredients/add">Add ingredient </button>
   <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
          class="mat-elevation-z8">
 
