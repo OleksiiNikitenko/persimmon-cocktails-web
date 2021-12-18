@@ -10,10 +10,12 @@ export const URLS = {
   addIngredient: `${environment.apiBaseUrl}/ingredient`,
   updateIngredient: `${environment.apiBaseUrl}/ingredient`,
   deleteIngredient: `${environment.apiBaseUrl}/ingredient`,
+  updateIngredientPhoto: `${environment.apiBaseUrl}/ingredient/update-photo`,
 
   getKitchenware: `${environment.apiBaseUrl}/kitchenware`,
   addKitchenware: `${environment.apiBaseUrl}/kitchenware`,
   updateKitchenware: `${environment.apiBaseUrl}/kitchenware`,
+  updateKitchenwarePhoto: `${environment.apiBaseUrl}/kitchenware/update-photo`,
 
   getDish: `${environment.apiBaseUrl}/cocktail/search`,
   addDish: `${environment.apiBaseUrl}/cocktail/create`,

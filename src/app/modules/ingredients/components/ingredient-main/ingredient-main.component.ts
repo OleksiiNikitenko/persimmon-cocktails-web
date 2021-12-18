@@ -27,7 +27,7 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
   searchIngredientsForm: FormGroup | any;
   public findByNameIngredient: Query = {query: "", page: 0, sortByColumn: "nothing"}
   imagesUrl: string[] = []
-  imageNotAvailable = '../../../../assets/images/image-not-found.jpg'
+  imageNotAvailable = 'https://i.ibb.co/16mJRVD/67eb9e144841.jpg'
   constructor(private _liveAnnouncer: LiveAnnouncer,
               private ingredientsService: IngredientsService,
               private ingredientsQuery: IngredientsQuery,

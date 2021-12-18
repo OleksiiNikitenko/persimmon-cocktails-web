@@ -24,7 +24,7 @@
       <th mat-header-cell *matHeaderCellDef sortActionDescription="">
         Photo
       </th>
-      <td class="photo-container"  mat-cell *matCellDef="let element let i"><img class="photo" src="{{imagesUrl[i]}}" alt="photo"></td>
+      <td class="photo-container"  mat-cell *matCellDef="let element let i= index"><img class="photo" src="{{imagesUrl[i]}}" alt="photo"></td>
     </ng-container>
 
     <ng-container matColumnDef="ingredientId">
