@@ -150,6 +150,11 @@ button:disabled{
   cursor: auto;
 }
 
+button:disabled:hover{
+  background-color: lightgray;
+  cursor: auto;
+}
+
 body{
   width: 100vw;
 }
