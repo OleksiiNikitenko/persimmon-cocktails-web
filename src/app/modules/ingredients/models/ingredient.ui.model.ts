@@ -8,3 +8,4 @@ export interface IngredientUiModel {
   } | null,
   active: boolean
 }
+

@@ -8,3 +8,9 @@ export class Ingredient{
   } | null
   active!: boolean
 }
+
+export class IngredientRequest{
+  name!: string
+  ingredientCategoryId!: number | null
+  photoId!: number | null
+}
