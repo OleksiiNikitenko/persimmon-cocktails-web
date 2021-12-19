@@ -13,6 +13,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {ImageUploadService} from "../../../image/services/image-upload-service";
 import {getUser} from "../../../../core/models/user";
 import {Roles} from "../../../../core/models/roles";
+import {IngredientIdModel} from "../../models/ingredientId.model";
 
 
 @UntilDestroy()
@@ -26,6 +27,7 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['photoId', 'name', 'category', 'dynamicButton', 'statusButton'];
   canEdit: boolean = getUser().role === Roles.Moderator || getUser().role === Roles.Admin
   ingredients: Ingredient[] = [];
+  ingredientsId : IngredientIdModel[] = [];
   dataSource: any;
   searchIngredientsForm: FormGroup | any;
   public findByNameIngredient: Query = {query: "", page: 0, sortByColumn: "nothing"}
@@ -76,7 +78,8 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
         this.setImages(ingredients)
         this.statusBtn=Array(ingredients.length).fill('Enabled')
       this.handleIngredientStatus(ingredients)
-      this.buttonAddEnabled = Array(ingredients.length).fill(true);
+
+      this.getStockIngredientsId();
     })
   }
 
@@ -133,6 +136,23 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
       else
         this.statusBtn[index] = 'Enabled';
     }
+  }
+
+  public getStockIngredientsId() {
+    this.buttonAddEnabled = Array(this.ingredients.length).fill(true);
+    this.ingredientsService.getStockIngredientsId().subscribe(
+      ingredientsId => {
+        this.ingredientsId = ingredientsId;
+        for (let i = 0; i < this.ingredients.length; i++) {
+          for (let j = 0; j < this.ingredientsId.length; j++) {
+            if(this.ingredients[i].ingredientId==this.ingredientsId[j].ingredientId) {
+              this.buttonAddEnabled[i] = false;
+            }
+          }
+        }
+      }
+    )
+
   }
 }
 
