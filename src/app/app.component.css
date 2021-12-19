@@ -9,11 +9,11 @@
   background-color: #4E5953;
 }
 
-.primary-button, .thirdly-button:hover {
+.primary-button:hover, .thirdly-button:hover {
   background-color: #282D27;
 }
 
-.primary-button, .thirdly-button:active {
+.primary-button:active, .thirdly-button:active {
   position: relative;
   top: 1px;
 }
