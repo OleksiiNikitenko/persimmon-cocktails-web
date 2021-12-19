@@ -24,6 +24,7 @@ th.mat-sort-header-sorted {
 
 .stock-small-photo{
   width: 100%;
+  border-radius: 5%;
 }
 
 .avatar-container{
@@ -31,8 +32,8 @@ th.mat-sort-header-sorted {
 }
 
 .stock-small-photo-container{
-  max-width: 18vw;
-  max-height: 36vh;
+  max-width: 6vw;
+  max-height: 6vh;
   padding-right: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
