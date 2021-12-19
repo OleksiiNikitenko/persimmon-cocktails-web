@@ -6,6 +6,9 @@ import {Ingredient} from "../models/ingredient.model";
 import {first} from "rxjs/operators";
 import {MatTableDataSource} from "@angular/material/table";
 import {IngredientsStore} from "./ingredients.store";
+import {Observable} from "rxjs";
+import {IngredientIdModel} from "../models/ingredientId.model";
+import {environment} from "../../../../environments/environment";
 
 class IngredientPhoto {
   ingredientId!: number
@@ -17,6 +20,9 @@ class IngredientPhoto {
 })
 export class IngredientsService {
   BASE_URLS = URLS
+
+  private apiServerUrl = environment.apiBaseUrl;
+  apiAddToStockUrl = this.apiServerUrl+"/stock/add-ingredientId";
 
   constructor(
     private http: HttpClient,
@@ -55,5 +61,11 @@ export class IngredientsService {
         this.store.update(ingredientPhotoId)
       }
     })
+  }
+
+  addToStock(ingredientId : number) {
+    let ingredientIdModel = new IngredientIdModel(ingredientId);
+    //ingredientIdModel.ingredientId = ingredientId;
+    return this.http.post<number>(this.apiAddToStockUrl,ingredientIdModel)
   }
 }

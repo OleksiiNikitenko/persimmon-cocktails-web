@@ -6,7 +6,7 @@ import {query} from "@angular/animations";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ResponseStockIngredient} from "../../models/responseStockIngredient";
 import {StockIngredient} from "../../models/stockIngredient";
-import {MatTableDataSource} from "@angular/material/table";
+
 
 @Component({
   selector: 'app-edit-stock-ingredient',
@@ -18,10 +18,10 @@ export class EditStockIngredientComponent implements OnInit {
   _form: FormGroup
   selectedFile: File = null as any;
   actualData: ResponseStockIngredient | null = null;
-  stockIngredient : StockIngredient | null = null;
+  dataSource: any;
 
-  patchQuery: StockIngredient = {ingredientId: 1, amount: 1, measureType: "l"}
-
+  patchQuery: StockIngredient = {ingredientId: 1, amount: 1, measureType: "", imageUrl: "https://media.timeout.com/images/105631937/image.jpg"}
+  defaultPhotoUrl: string = "https://media.timeout.com/images/105631937/image.jpg"
   ingredientId: string | null;
 
   constructor(
@@ -32,12 +32,12 @@ export class EditStockIngredientComponent implements OnInit {
   ) {
     this._form = new FormGroup ({
       amount: new FormControl(this.actualData?.amount),
-      measureType: new FormControl(this.actualData?.measureType)
+      measureType: new FormControl(this.actualData?.measureType),
     });
     this.ingredientId =  this.route.snapshot.paramMap.get('ingredientId')
     this._form = this.formBuilder.group({
       amount: this.actualData?.amount,
-      measureType: this.actualData?.measureType
+      measureType: this.actualData?.measureType,
     })
     this.stockService.getActualData(this.ingredientId).subscribe(responseStockIngredient => {
       this.actualData = responseStockIngredient
@@ -47,12 +47,11 @@ export class EditStockIngredientComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
-  // editQuery(query : QueryUpdate) : HttpParams {
-  //   let params :  HttpParams = new HttpParams()
-  //   params = params.set("ingredientId", )
-  // }
+
+
 
 
   editStockIngredient(): void {

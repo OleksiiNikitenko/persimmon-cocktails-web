@@ -6,11 +6,6 @@ export interface Query {
 export interface QueryDelete {
 ingredientId: number | undefined
 }
-// export interface QueryUpdate {
-//   ingredientId: number
-//   amount: number | null
-//   measureType: string | null
-// }
 
 export const columnsToSortBy : string[] = [
   "nothing",

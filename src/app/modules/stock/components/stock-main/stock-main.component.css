@@ -22,8 +22,20 @@ th.mat-sort-header-sorted {
   border-radius: 50%;
 }
 
+.stock-small-photo{
+  width: 100%;
+}
+
 .avatar-container{
   width: 6%;
+}
+
+.stock-small-photo-container{
+  max-width: 18vw;
+  max-height: 36vh;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .container-button-edit, .container-button-status{
@@ -71,4 +83,5 @@ th.mat-sort-header-sorted {
 .search-query-input{
   padding-bottom: 1em;
 }
+
 

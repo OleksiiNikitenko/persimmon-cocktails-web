@@ -9,7 +9,11 @@
  .edit-ingredient__content{
    display: flex;
    align-items: flex-start;
+ }
 
+ .stock-edit-photo{
+   max-width: 20vw;
+   max-height: 40vh;
  }
 
  .form {
