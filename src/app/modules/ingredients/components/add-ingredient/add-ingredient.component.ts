@@ -7,6 +7,8 @@ import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
 import {ImageModel} from "../../../image/model/image.model";
 import {ImageUploadService} from "../../../image/services/image-upload-service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {MatDialog} from "@angular/material/dialog";
+import {ErrorDialog} from "../../../errors-popup/errors-popup.component";
 
 @UntilDestroy()
 @Component({
@@ -27,12 +29,11 @@ export class AddIngredientComponent implements OnInit {
     private ingredientsQuery: IngredientsQuery,
     private router: Router,
     private imageService: ImageUploadService,
-
-
+    public dialog: MatDialog
   ) {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
-      category: ['', Validators.required],
+      ingredientCategoryId: [null /*Validators.required*/],
     })
   }
   onChange(event: any) {
@@ -50,9 +51,7 @@ export class AddIngredientComponent implements OnInit {
         this.name?.setValue(ingredient?.name)
         this.category?.setValue(ingredient?.category?.name)
         this.getImageById(ingredient?.photoId)
-
       })
-
     }
   }
 
@@ -71,13 +70,16 @@ export class AddIngredientComponent implements OnInit {
   resetFormHandler() {
     this.name?.setValue('')
     this.category?.setValue('')
-    this.status?.setValue(false)
   }
 
   createIngredient() {
     if (this.form.valid) {
-      this.ingredientsService.createIngredient(this.form.value)
-      this.router.navigate(['ingredients'])
+      this.ingredientsService.createIngredient(this.form.value).subscribe(() => {
+          this.router.navigate(['ingredients'])
+        },
+        (error: HttpErrorResponse) => {
+          this.dialog.open(ErrorDialog, {data: {message: error.error.message}})
+        })
     }
   }
 

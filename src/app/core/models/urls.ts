@@ -8,8 +8,9 @@ export const URLS = {
 
   getIngredients: `${environment.apiBaseUrl}/ingredient`,
   addIngredient: `${environment.apiBaseUrl}/ingredient`,
-  updateIngredient: `${environment.apiBaseUrl}/ingredient`,
-  deleteIngredient: `${environment.apiBaseUrl}/ingredient`,
+  updateIngredient: `${environment.apiBaseUrl}/ingredient/update-name`,
+  activateIngredient: `${environment.apiBaseUrl}/ingredient/activate/`,
+  deactivateIngredient: `${environment.apiBaseUrl}/ingredient/deactivate/`,
   updateIngredientPhoto: `${environment.apiBaseUrl}/ingredient/update-photo`,
 
   getKitchenware: `${environment.apiBaseUrl}/kitchenware`,

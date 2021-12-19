@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {URLS} from "../../../core/models/urls";
 import {IngredientUiModel} from "../models/ingredient.ui.model";
-import {Ingredient} from "../models/ingredient.model";
+import {IngredientRequest} from "../models/ingredient.model";
 import {first} from "rxjs/operators";
 import {MatTableDataSource} from "@angular/material/table";
 import {IngredientsStore} from "./ingredients.store";
@@ -37,16 +37,19 @@ export class IngredientsService {
     })
   }
 
-  createIngredient(data: Ingredient) {
-    this.http.post(this.BASE_URLS.addIngredient, data).pipe(first()).subscribe()
+  createIngredient(data: IngredientRequest): Observable<any> {
+    return this.http.post(this.BASE_URLS.addIngredient, data).pipe(first())
   }
 
   updateIngredient(data: any) {
     this.http.patch(this.BASE_URLS.updateIngredient, data).pipe(first()).subscribe()
   }
 
-  deleteIngredient(data: Ingredient) {
-    this.http.patch(this.BASE_URLS.deleteIngredient, data).pipe(first()).subscribe()
+  changeStatus(ingredientId:number, isActive: boolean){
+    if(isActive)
+      this.http.patch(this.BASE_URLS.deactivateIngredient + ingredientId, {}).pipe(first()).subscribe()
+    else
+      this.http.patch(this.BASE_URLS.activateIngredient + ingredientId, {}).pipe(first()).subscribe()
   }
   updatePhoto( ingredientId: any, ingredientPhotoId: any){
     this.http.patch(this.BASE_URLS.updateIngredientPhoto, {

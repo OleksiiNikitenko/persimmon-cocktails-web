@@ -31,6 +31,11 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
   public findByNameIngredient: Query = {query: "", page: 0, sortByColumn: "nothing"}
   imagesUrl: string[] = []
   imageNotAvailable = 'https://i.ibb.co/16mJRVD/67eb9e144841.jpg'
+  @ViewChild(MatSort, {static: false}) sort!: MatSort;
+  toggle = true;
+  statusBtn:string[] = [];
+  status: boolean[] = []
+
   constructor(private _liveAnnouncer: LiveAnnouncer,
               private ingredientsService: IngredientsService,
               private ingredientsQuery: IngredientsQuery,
@@ -38,12 +43,11 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
               private cdr: ChangeDetectorRef,
               private imageService: ImageUploadService) {}
 
+
   getIngredients(): Ingredient[]{
+    this.handleIngredientStatus(this.ingredients)
     return this.ingredients;
   }
-
-  @ViewChild(MatSort, { static: false }) sort!: MatSort;
-
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
@@ -62,11 +66,15 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
     this.ingredientsQuery.selectAll().pipe(
       untilDestroyed(this)
     ).subscribe(ingredients => {
-      this.dataSource = new MatTableDataSource(ingredients)
-      this.dataSource.sort = this.sort;
-      this.cdr.markForCheck()
-      this.imagesUrl = Array(ingredients.length).fill(this.imageNotAvailable)
-      this.setImages(ingredients)
+        this.ingredients = ingredients
+        this.dataSource = new MatTableDataSource(ingredients)
+        this.dataSource.sort = this.sort;
+        this.cdr.markForCheck()
+      console.log(ingredients)
+        this.imagesUrl = Array(ingredients.length).fill(this.imageNotAvailable)
+        this.setImages(ingredients)
+        this.statusBtn=Array(ingredients.length).fill('Enabled')
+      this.handleIngredientStatus(ingredients)
     })
   }
 
@@ -75,12 +83,15 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
       event.code : event.preventDefault();
   }
 
-  /*deleteIngredient() {
-    if (this.form.valid) {
-      this.ingredientsService.deleteIngredient(this.form.value)
-      this.router.navigate(['ingredients'])
+  handleIngredientStatus(ingredients :any){
+    for (let i = 0; i < this.ingredients.length; i++) {
+      if (!this.ingredients[i].active){
+        this.statusBtn[i]='Disabled';
+      }
+      else  this.statusBtn[i]='Enabled';
+
     }
-  }*/
+  }
   getImageByIdIngredients(imageId: number, i: number) {
     if (imageId != null) {
       this.imageService.getImageById(imageId).subscribe(
@@ -108,4 +119,18 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
   addToStock(ingredientId : number) {
     this.ingredientsService.addToStock(ingredientId).subscribe((response) => {})
   }
+
+  public changeStatus(ingredientId:number, index: number) {
+    console.log(this.ingredients)
+    if(this.ingredients.length != 0)
+    {
+      this.ingredientsService.changeStatus(ingredientId, this.ingredients[index].active)
+      // this.toggle = !this.toggle;
+      if (this.statusBtn[index]=='Enabled'){
+        this.statusBtn[index] ='Disabled'}
+      else
+        this.statusBtn[index] = 'Enabled';
+    }
+  }
 }
+
