@@ -2,11 +2,12 @@
   <div class="settings__content">
     <img class="settings__img" src="../../../../assets/images/settings.png" alt="settings">
     <div class="settings__buttons" [formGroup]="form">
+      <h3>Edit Profile</h3>
       <div>
-        <input placeholder="Change name" formControlName="name"/>
+        <input [hidden]="!canChangePass" placeholder="Change name" formControlName="name"/>
       </div>
       <div>
-        <button class="thirdly-button renameButton" type="button" (click)="renameUser()">Rename</button>
+        <button [hidden]="!canChangePass" class="thirdly-button renameButton" type="button" (click)="renameUser()">Rename</button>
       </div>
       <div>
         <button class="thirdly-button changePasswordButton" type="button" (click)="dialogChangePass.openDialog()">Change
