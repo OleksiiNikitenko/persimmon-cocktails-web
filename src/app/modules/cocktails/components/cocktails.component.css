@@ -112,3 +112,20 @@
   display: inline-block;
   overflow: hidden;
 }
+
+.check-match-stock{
+  position: relative;
+  margin-top: 1em;
+
+}
+
+.input-ingredient{
+  position: relative;
+  /*margin-top: 30em;*/
+  margin-right: 21%;
+}
+
+.ingredients-search{
+  width: 300px;
+}
+

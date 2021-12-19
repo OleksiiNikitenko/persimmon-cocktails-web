@@ -18,7 +18,6 @@ import {CocktailCategory, SearchCocktailsResponse} from "../../cocktail/models/f
   styleUrls: ['./cocktails.component.css', '../../../app.component.css']
 })
 export class CocktailsComponent implements OnInit {
-  // private validationQueryStringPattern: RegExp = /^(?:[a-zA-Z0-9 -]{2,255})$/;
   private subscription: Subscription = new Subscription();
   public ingredientsControl: FormControl = new FormControl()
   categories: CocktailCategory[] = [];
@@ -26,6 +25,7 @@ export class CocktailsComponent implements OnInit {
   filteredOptions: Observable<IngredientName[]>;
   ingredientFormControl: FormControl = new FormControl()
   public ingredientList: { ingredientId: number, name: string }[] = []
+  canView: boolean = getUser().role === Roles.User|| getUser().role === Roles.Moderator || getUser().role === Roles.Admin
 
   constructor(private cocktailsService: CocktailsService) {
     this.filteredOptions = this.ingredientFormControl.valueChanges
@@ -51,8 +51,15 @@ export class CocktailsComponent implements OnInit {
     else return ingr.name
   }
 
-  deleteAddedIngredient(ingredientId: number) {
-    this.ingredientList = this.ingredientList.filter(i => i.ingredientId != ingredientId)
+  deleteAddedIngredient(ingredient: object, ingredientId: number) {
+    this.ingredientList = this.ingredientList.filter(obj => obj != ingredient)
+    this.currentQuery.searchByListIngredients = this.currentQuery.searchByListIngredients.filter(i => i != ingredientId)
+
+    let listAll = specifiedIngredients.filter(i => i != ingredientId)
+    specifiedIngredients.splice(0,specifiedIngredients.length)
+    for (let i = 0; i < listAll.length; i++) {
+      specifiedIngredients.push(listAll[i])
+    }
   }
 
   public currentQuery: Query = {
