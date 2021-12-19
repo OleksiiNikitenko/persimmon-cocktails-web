@@ -35,6 +35,7 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
   toggle = true;
   statusBtn:string[] = [];
   status: boolean[] = []
+  buttonAddEnabled: boolean[] = []
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
               private ingredientsService: IngredientsService,
@@ -75,6 +76,7 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
         this.setImages(ingredients)
         this.statusBtn=Array(ingredients.length).fill('Enabled')
       this.handleIngredientStatus(ingredients)
+      this.buttonAddEnabled = Array(ingredients.length).fill(true);
     })
   }
 
