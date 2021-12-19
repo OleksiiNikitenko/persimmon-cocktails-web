@@ -210,8 +210,9 @@ export class CocktailComponent implements OnInit {
     this.allCategories.push({categoryId: -1, categoryName: "Nothing"})
   }
 
-  deleteLabel(label: string) {
+  deleteLabel(label: string, $event: MouseEvent) {
     this.editedCocktailData.labels = this.editedCocktailData.labels.filter(l => l != label)
+    $event.preventDefault()
   }
 
   submitSaveForm() {
@@ -236,12 +237,13 @@ export class CocktailComponent implements OnInit {
     }
   }
 
-  addLabel() {
+  addLabel($event: MouseEvent) {
     if (this.editedCocktailData.newLabel.length != 0 &&
       this.editedCocktailData.labels.indexOf(this.editedCocktailData.newLabel) == -1) {
       this.editedCocktailData.labels.push(this.editedCocktailData.newLabel)
     }
     this.editedCocktailData.newLabel = ''
+    $event.preventDefault()
   }
 
   addIngredient($event: MouseEvent) {
@@ -261,8 +263,9 @@ export class CocktailComponent implements OnInit {
     $event.preventDefault()
   }
 
-  deleteAddedIngredient(ingredientId: number) {
+  deleteAddedIngredient(ingredientId: number, $event: MouseEvent) {
     this.editedCocktailData.ingredientList = this.editedCocktailData.ingredientList.filter(i => i.ingredientId != ingredientId)
+    $event.preventDefault()
   }
 
   displayIngredientName(ingr: IngredientName | null): string {
@@ -274,13 +277,15 @@ export class CocktailComponent implements OnInit {
     this.canAddLabel = this.editedCocktailData.labels.indexOf(this.editedCocktailData.newLabel) !== -1
   }
 
-  deleteAddedKitchenware(kitchenwareId: number) {
+    deleteAddedKitchenware(kitchenwareId: number, $event: MouseEvent) {
     this.editedCocktailData.kitchenwareList =
-      this.editedCocktailData.kitchenwareList.filter(i => i.kitchenwareId != kitchenwareId)
+      this.editedCocktailData.kitchenwareList.filter(i => i.kitchenwareId != kitchenwareId);
+    $event.preventDefault()
   }
 
   onChangePhoto($event: any) {
     this.file = $event.target.files[0];
+    $event.preventDefault()
   }
 
   onPhotoUpload($event: MouseEvent) {

@@ -79,14 +79,14 @@
     <div class="labels">
       <div class="label edit-label" *ngFor="let label of editedCocktailData.labels">
         <span class="edit-label-text">{{label}}</span>
-        <button (click)="deleteLabel(label)">X</button>
+        <button (click)="deleteLabel(label, $event)">X</button>
       </div>
     </div>
     <div class="new-label">
       <label for="add_label">New label: </label>
       <input matInput [(ngModel)]="editedCocktailData.newLabel" type="text" placeholder="Label name"
              id="add_label" formControlName="newLabel" (keyup)="updateCanAddLabel($event)">
-      <button type="button" (click)="addLabel()"
+      <button type="button" (click)="addLabel($event)"
               [disabled]="canAddLabel">Add label
       </button>
     </div>
@@ -118,7 +118,7 @@
         <img class="ingredient-small-photo"
              [src]="ingredient.image === null ? defaultIngredientUrl : ingredient.image.urlMiddle">
         <div class="ingredient-name">{{ingredient.name}}</div>
-        <button *ngIf="!viewMode" (click)="deleteAddedIngredient(ingredient.ingredientId)">Delete</button>
+        <button *ngIf="!viewMode" (click)="deleteAddedIngredient(ingredient.ingredientId, $event)">Delete</button>
       </li>
     </div>
   </div>
@@ -156,7 +156,7 @@
         <img class="ingredient-small-photo"
              [src]="defaultKitchenwareUrl">
         <div class="ingredient-name">{{kitchenware.name}}</div>
-        <button *ngIf="!viewMode" (click)="deleteAddedKitchenware(kitchenware.kitchenwareId)">Delete</button>
+        <button *ngIf="!viewMode" (click)="deleteAddedKitchenware(kitchenware.kitchenwareId, $event)">Delete</button>
       </li>
     </div>
   </div>
