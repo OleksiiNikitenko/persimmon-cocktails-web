@@ -61,11 +61,46 @@
           </mat-form-field>
         </div>
       </div>
+      <!--      list-->
+      <div class="ingredients-search">
+        <h4>Search by Specified Ingredients:</h4>
+        <div>
+          <li  *ngFor="let ingredient of ingredientList">
+            <span>{{ingredient.name}}
+              <button class="secondary-button"
+                      (click)="deleteAddedIngredient(ingredient, ingredient.ingredientId)">X</button>
+              </span>
+          </li>
+        </div>
+      </div>
+      <div class="input-ingredient">
+          <mat-form-field class="example-full-width">
+            <input type="text" placeholder="Choose ingredient" matInput
+                   [formControl]="ingredientFormControl" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayIngredientName">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{ option.name }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <button class="primary-button" (click)="addIngredient()" [disabled]="this.ingredientFormControl.value == null ||
+        !this.ingredientFormControl.value.hasOwnProperty('ingredientId')"
+          >Add to list</button>
+        </div>
     </mat-card-content>
+
     <mat-card-actions>
     </mat-card-actions>
 <!--    <small *ngIf="searchCocktailsForm.get('name').invalid" class="text-danger">Incorrect format</small>-->
 <!--    // && searchCocktailsForm.get('name').touched  && searchCocktailsForm != ''-->
+
+    <!--   match-->
+    <div [hidden]="!canView" class="check-match-stock">
+      <mat-checkbox   formControlName="matchToStock"
+                    [(ngModel)]="currentQuery.matchToStock" [checked]="currentQuery.matchToStock">
+        <span>Search cocktails match to stock</span>
+      </mat-checkbox>
+    </div>
   </form>
   <div *ngIf="canCreate" class="new-cocktail-block">
     <button class="primary-button" [routerLink]="['/cocktails/create']">New cocktail</button>

@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {CocktailBasicInfo} from "../models/cocktails-basic-info";
 import {CocktailsService} from "../services/cocktails.service";
-import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn} from "@angular/forms";
-import {columnsToSortBy, Query, ShowActiveMode} from "../models/query";
-import {Subscription} from "rxjs";
+import {MatTableDataSource} from "@angular/material/table";
+import {Observable, Subscription} from "rxjs";
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, FormBuilder, Validators} from "@angular/forms";
+import {columnsToSortBy, Query, ShowActiveMode, specifiedIngredients} from "../models/query";
 import {IngredientName} from "../models/IngredientName";
+import {debounceTime, distinctUntilChanged, map, startWith, switchMap} from "rxjs/operators";
 import {getUser} from "../../../core/models/user";
 import {Roles} from "../../../core/models/roles";
 import {CocktailCategory, SearchCocktailsResponse} from "../../cocktail/models/fullCocktail";
@@ -16,11 +18,48 @@ import {CocktailCategory, SearchCocktailsResponse} from "../../cocktail/models/f
   styleUrls: ['./cocktails.component.css', '../../../app.component.css']
 })
 export class CocktailsComponent implements OnInit {
-  // private validationQueryStringPattern: RegExp = /^(?:[a-zA-Z0-9 -]{2,255})$/;
   private subscription: Subscription = new Subscription();
+  public ingredientsControl: FormControl = new FormControl()
   categories: CocktailCategory[] = [];
 
+  filteredOptions: Observable<IngredientName[]>;
+  ingredientFormControl: FormControl = new FormControl()
+  public ingredientList: { ingredientId: number, name: string }[] = []
+  canView: boolean = getUser().role === Roles.User|| getUser().role === Roles.Moderator || getUser().role === Roles.Admin
+
   constructor(private cocktailsService: CocktailsService) {
+    this.filteredOptions = this.ingredientFormControl.valueChanges
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        switchMap(val => {
+          return this.cocktailsService.fetchIngredients(val || '')
+        })
+      );
+  }
+
+  addIngredient() {
+    if (this.ingredientList.find(i => i.ingredientId == this.ingredientFormControl.value.ingredientId) == null) {
+      this.ingredientList.push(this.ingredientFormControl.value)
+      specifiedIngredients.push(this.ingredientFormControl.value.ingredientId)
+    }
+    this.ingredientFormControl.setValue('')
+  }
+
+  displayIngredientName(ingr: IngredientName | null): string {
+    if (ingr == null) return ''
+    else return ingr.name
+  }
+
+  deleteAddedIngredient(ingredient: object, ingredientId: number) {
+    this.ingredientList = this.ingredientList.filter(obj => obj != ingredient)
+    this.currentQuery.searchByListIngredients = this.currentQuery.searchByListIngredients.filter(i => i != ingredientId)
+
+    let listAll = specifiedIngredients.filter(i => i != ingredientId)
+    specifiedIngredients.splice(0,specifiedIngredients.length)
+    for (let i = 0; i < listAll.length; i++) {
+      specifiedIngredients.push(listAll[i])
+    }
   }
 
   public currentQuery: Query = {
@@ -28,10 +67,13 @@ export class CocktailsComponent implements OnInit {
     page: 0,
     sortByColumn: columnsToSortBy[0],
     sortDirection: true,
+    matchToStock: false,
+    searchByListIngredients: specifiedIngredients,
     showActiveMode: ShowActiveMode.OnlyActive,
     currentCategory: {categoryId: -1, categoryName: "Doesn't matter"}
   }
   public previousQuery: Query | null = null
+
   cocktails: CocktailBasicInfo[] = []
   searchCocktailsForm: FormGroup | any;
   defaultPhotoUrl: string = "https://www.yahire.com/blogs/wp-content/uploads/2017/04/summer-cocktails.jpg"
@@ -46,6 +88,8 @@ export class CocktailsComponent implements OnInit {
       name: new FormControl(''),
       sortColumn: new FormControl(columnsToSortBy),
       sortDirection: new FormControl(true),
+      matchToStock: new FormControl(false),
+      searchByListIngredients: new FormControl(specifiedIngredients),
       activeMode: new FormControl(this.currentQuery.showActiveMode)
     });
     this.searchCocktailsForm.setValidators(this.searchCocktailsValidator())
@@ -81,13 +125,13 @@ export class CocktailsComponent implements OnInit {
       event.code : event.preventDefault();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.subscription.unsubscribe()
   }
 
-  private searchCocktailsValidator() : ValidatorFn {
+  private searchCocktailsValidator(): ValidatorFn {
     return (group: AbstractControl): ValidationErrors | null => {
-      const formGroup : FormGroup = group as FormGroup
+      const formGroup: FormGroup = group as FormGroup
       const name = formGroup.controls['name']
       if (name.value != null && name.value.length == 1) {
         name.setErrors({shortLength: true});

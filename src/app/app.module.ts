@@ -60,6 +60,8 @@ import {StockComponent} from './modules/stock/components/stock.component';
 import {StockMainComponent} from './modules/stock/components/stock-main/stock-main.component';
 import {AddStockIngredientComponent} from './modules/stock/components/add-stock-ingredient/add-stock-ingredient.component';
 import {EditStockIngredientComponent} from "./modules/stock/components/edit-stock-ingredient/edit-stock-ingredient.component";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+
 
 @NgModule({
   declarations: [
@@ -119,7 +121,8 @@ import {EditStockIngredientComponent} from "./modules/stock/components/edit-stoc
     MatRadioModule,
     MatSelectModule,
     MatAutocompleteModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatCheckboxModule
   ],
   providers: [FormBuilder,
     RecoverPasswordComponent,

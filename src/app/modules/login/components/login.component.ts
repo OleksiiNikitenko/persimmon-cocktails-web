@@ -60,6 +60,7 @@ export class LoginComponent implements OnInit {
         // console.log(response);
         // console.log(this.registerForm.value)
         this.registerForm.reset();
+        this.dialog.closeAll()
         this.toolbarComponent.navigateHandler('/cocktails');
         this.router.navigate(['/cocktails'])
       },
