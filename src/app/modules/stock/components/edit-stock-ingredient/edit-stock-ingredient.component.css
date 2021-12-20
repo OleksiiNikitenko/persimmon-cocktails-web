@@ -9,7 +9,12 @@
  .edit-ingredient__content{
    display: flex;
    align-items: flex-start;
+ }
 
+ .stock-edit-photo{
+   max-width: 25vw;
+   max-height: 25vh;
+   border-radius: 5%;
  }
 
  .form {

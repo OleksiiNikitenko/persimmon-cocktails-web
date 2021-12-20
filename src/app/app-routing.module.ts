@@ -50,6 +50,7 @@ const routes: Routes = [
       { path: 'account', component: AccountComponent, canActivate: [CanActivateRoute] },
       { path: 'login', component: LoginComponent, canActivate: [CanActivateRoute] },
       {path: 'recover-password/:id/:nn', component: RecoverPasswordReceiveComponent},
+      {path: 'moderator/create-password/:id/:nn', component: RecoverPasswordReceiveComponent, data: {isModerator: true}},
 
       { path: 'moderators', component: ModeratorsComponent, children: [
           { path: '', component: ModeratorsMainComponent, canActivate: [CanActivateRoute] },

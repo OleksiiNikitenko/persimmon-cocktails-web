@@ -15,6 +15,8 @@ import {AccountComponent} from "../../account/components/account.component";
 import {HttpErrorResponse} from "@angular/common/http";
 import {of} from "rxjs";
 import {first} from "rxjs/operators";
+import {getUser} from "../../../core/models/user";
+import {Roles} from "../../../core/models/roles";
 
 
 
@@ -31,6 +33,7 @@ export class SettingsComponent implements OnInit {
   imageNotAvailable = '../../../../assets/images/user.png';
   loading: boolean = false;
   file: File | undefined;
+  canChangePass: boolean = getUser().role === Roles.User || getUser().role === Roles.Admin
 
   constructor(
     public dialogChangePass: ChangePasswordComponent,

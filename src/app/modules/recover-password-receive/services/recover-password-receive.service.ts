@@ -13,7 +13,11 @@ export class RecoverPasswordReceiveService{
 
   constructor(private http: HttpClient){}
 
-  public setNewUserPassword(jsonRecover: object): Observable<Person> {
-    return this.http.post<Person>(`${this.apiServerUrl}/recover-password`, jsonRecover);
+  public setNewPassword(jsonRecover: object, isModerator: boolean): Observable<Person> {
+    if(!isModerator){
+      return this.http.post<Person>(`${this.apiServerUrl}/recover-password`, jsonRecover); // /person/change-password
+    } else {
+      return this.http.post<Person>(`${this.apiServerUrl}/moderator/create-password`, jsonRecover)
+    }
   }
 }

@@ -9,11 +9,11 @@
   background-color: #4E5953;
 }
 
-.primary-button, .thirdly-button:hover {
+.primary-button:hover, .thirdly-button:hover {
   background-color: #282D27;
 }
 
-.primary-button, .thirdly-button:active {
+.primary-button:active, .thirdly-button:active {
   position: relative;
   top: 1px;
 }
@@ -40,7 +40,30 @@
   width: 100%;
   color: white;
   height: 40px;
-  background-color: #4E5953;
+  /*background-color: #4E5953;*/
+
+  /* Border */
+  border: 1px solid #000000;
+
+  /* Border-Radius */
+  -webkit-border-radius: 33px;
+  -moz-border-radius: 33px;
+  border-radius: 33px;
+
+  /* Gradient */
+  background: #465143;
+  background: -moz-linear-gradient(top, #465143 0%, #282D27 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #465143), color-stop(100%, #282D27));
+  background: -webkit-linear-gradient(top, #465143 0%, #282D27 100%);
+  background: -o-linear-gradient(top, #465143 0%, #282D27 100%);
+  background: -ms-linear-gradient(top, #465143 0%, #282D27 100%);
+  background: linear-gradient(top, #465143 0%, #282D27 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#465143", endColorstr="#282D27", GradientType=0);
+
+  /* Box-Shadow */
+  -webkit-box-shadow: 0px 0px 0px 0px #000;
+  -moz-box-shadow: 0px 0px 0px 0px #000;
+  box-shadow: 0px 0px 0px 0px #000;
 }
 
 .text-danger {
@@ -123,6 +146,11 @@ button{
 }
 
 button:disabled{
+  background-color: lightgray;
+  cursor: auto;
+}
+
+button:disabled:hover{
   background-color: lightgray;
   cursor: auto;
 }

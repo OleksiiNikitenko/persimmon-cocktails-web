@@ -20,13 +20,13 @@ export const routes = [
     canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
   },
   {
-    text: 'My ingredients',
+    text: 'Ingredients',
     url: '/ingredients',
     isActive: true,
     canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
   },
   {
-    text: 'My kitchenware',
+    text: 'Kitchenware',
     url: '/kitchenware',
     isActive: true,
     canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
@@ -35,7 +35,7 @@ export const routes = [
     text: 'Personal stock',
     url: '/stock',
     isActive: true,
-    canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
+    canActivate: [Roles.User]
   },
   {
     text: 'Cocktails',

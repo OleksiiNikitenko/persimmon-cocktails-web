@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
 import {environment} from "../../../../environments/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {CocktailBasicInfo} from "../models/cocktails-basic-info";
 import {Query, ShowActiveMode} from "../models/query";
 import {CocktailCategory, SearchCocktailsResponse} from "../../cocktail/models/fullCocktail";
+import {tap} from "rxjs/operators";
+import {IngredientName} from "../models/IngredientName";
 
 @Injectable({
   providedIn: 'root'
@@ -42,8 +44,26 @@ export class CocktailsService {
     params = params.set("show-active", showActive)
     params = params.set("show-inactive", showInactive)
     if(query.currentCategory.categoryId !== -1) params = params.set("dish-category-id", query.currentCategory.categoryId)
+    if(query.matchToStock){
+      params = params.set("show-match-stock", query.matchToStock)
+    }
+    if(query.searchByListIngredients != null ){
+      query.searchByListIngredients.forEach(value => {params = params.append("ingredients", value)})
+    }
     params = params.set("page", query.page)
     params = params.set("calculate-pages-amount", calculateAmountOfPages)
     return params
+  }
+
+  fetchIngredients(prefix: string | IngredientName, canEdit?: boolean) : Observable<IngredientName[]> {
+    if(typeof prefix === 'string') {
+      if (prefix.length < 2) return of([])
+      const url: string = `${this.apiServerUrl}/ingredient/active/search-by-prefix?prefix=${prefix}`
+      return this.http.get<IngredientName[]>(url)
+    }
+    return of([])
+    //   .pipe(
+    //   map((ingredients : IngredientName[]) => ingredients.map(i => i.name))
+    // )
   }
 }

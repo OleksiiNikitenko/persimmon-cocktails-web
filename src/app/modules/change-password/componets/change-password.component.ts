@@ -43,6 +43,7 @@ export class ChangePasswordComponent implements OnInit {
         this.personId = response;
         console.log(response);
         this.changePasswordForm.reset();
+        this.dialog.closeAll()
       },
       (error: HttpErrorResponse) => {
         this.dialog.closeAll()

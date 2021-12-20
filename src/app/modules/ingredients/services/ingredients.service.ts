@@ -23,6 +23,7 @@ export class IngredientsService {
 
   private apiServerUrl = environment.apiBaseUrl;
   apiAddToStockUrl = this.apiServerUrl+"/stock/add-ingredientId";
+  apiGetStockIngredientsIdUrl = this.apiServerUrl+"/stock/ingredients-in-stock";
 
   constructor(
     private http: HttpClient,
@@ -72,7 +73,10 @@ export class IngredientsService {
 
   addToStock(ingredientId : number) {
     let ingredientIdModel = new IngredientIdModel(ingredientId);
-    //ingredientIdModel.ingredientId = ingredientId;
     return this.http.post<number>(this.apiAddToStockUrl,ingredientIdModel)
+  }
+
+  getStockIngredientsId() : Observable<IngredientIdModel[]> {
+    return this.http.get<IngredientIdModel[]>(this.apiGetStockIngredientsIdUrl)
   }
 }

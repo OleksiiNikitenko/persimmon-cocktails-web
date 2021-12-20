@@ -13,6 +13,7 @@ import {ImageUploadService} from "../../../image/services/image-upload-service";
 import {getUser} from "../../../../core/models/user";
 import {Roles} from "../../../../core/models/roles";
 import {first} from "rxjs/operators";
+import {IngredientIdModel} from "../../models/ingredientId.model";
 
 
 @UntilDestroy()
@@ -26,6 +27,7 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['photoId', 'name', 'category', 'dynamicButton', 'statusButton'];
   canEdit: boolean = getUser().role === Roles.Moderator || getUser().role === Roles.Admin
   ingredients: Ingredient[] = [];
+  ingredientsId : IngredientIdModel[] = [];
   dataSource: any;
   searchIngredientsForm: FormGroup | any;
   searchIngredientsRequest: string = "";
@@ -35,7 +37,8 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort, {static: false}) sort!: MatSort;
   toggle = true;
   statusBtn:string[] = [];
-  status: boolean[] = [];
+  status: boolean[] = []
+  buttonAddEnabled: boolean[] = []
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
               private ingredientsService: IngredientsService,
@@ -74,6 +77,7 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
         this.imagesUrl = Array(ingredients.length).fill(this.imageNotAvailable)
         this.setImages(ingredients)
         this.statusBtn=Array(ingredients.length).fill('Enabled')
+
       this.handleIngredientStatus()
     })
   }
@@ -89,6 +93,7 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
       this.cdr.markForCheck()
       this.statusBtn=Array(ingredients.length).fill('Enabled')
       this.handleIngredientStatus()
+      this.getStockIngredientsId();
     })
   }
 
@@ -169,6 +174,23 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
       this.ingredients = [];
       this.dataSource = new MatTableDataSource(this.ingredients);
     }
+  }
+
+  public getStockIngredientsId() {
+    this.buttonAddEnabled = Array(this.ingredients.length).fill(true);
+    this.ingredientsService.getStockIngredientsId().subscribe(
+      ingredientsId => {
+        this.ingredientsId = ingredientsId;
+        for (let i = 0; i < this.ingredients.length; i++) {
+          for (let j = 0; j < this.ingredientsId.length; j++) {
+            if(this.ingredients[i].ingredientId==this.ingredientsId[j].ingredientId) {
+              this.buttonAddEnabled[i] = false;
+            }
+          }
+        }
+      }
+    )
+
   }
 }
 

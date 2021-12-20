@@ -34,6 +34,8 @@ export class RecoverPasswordComponent implements OnInit {
         this.personId = response;
         console.log(response);
         this.recoverForm.reset();
+        this.dialog.closeAll()
+
       },
       (error: HttpErrorResponse) => {
         this.dialog.closeAll()

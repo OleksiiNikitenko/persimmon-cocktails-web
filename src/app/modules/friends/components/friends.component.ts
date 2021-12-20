@@ -1,10 +1,9 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {FriendsService} from "../services/friends.service";
 import {PersonsService} from "../services/persons.service";
 import {InvitationsService} from "../services/invitations.service";
 import {FriendModel} from "../models/friend.model";
-import {MatSort, Sort} from "@angular/material/sort";
 import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {InviteFriendModel} from "../models/invite-friend.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
@@ -13,61 +12,62 @@ import {DatePipe} from "@angular/common";
 import {MainService} from "../services/main.service";
 import {FoundUsersModel} from "../models/found-users.model";
 import {ImageUploadService} from "../../image/services/image-upload-service";
+import {Subscription} from "rxjs";
 
 @Component({
-    selector: 'app-friends',
-    templateUrl: './friends.component.html',
-    styleUrls: ['./friends.component.css', '../../../app.component.css']
+  selector: 'app-friends',
+  templateUrl: './friends.component.html',
+  styleUrls: ['./friends.component.css', '../../../app.component.css']
 })
-export class FriendsComponent implements OnInit {
+export class FriendsComponent implements OnInit, OnDestroy {
+  defaultAvatar = 'https://i.ibb.co/rcW8LRm/user.png'
+  imageNotAvailable = 'https://i.ibb.co/BgXbNNc/image-not-found.jpg'
 
+  private subscription: Subscription = new Subscription();
 
-    defaultAvatar = 'https://i.ibb.co/rcW8LRm/user.png'
-    imageNotAvailable = 'https://i.ibb.co/BgXbNNc/image-not-found.jpg'
+  friends: FriendModel[] = [];
+  persons: FoundUsersModel[] = [];
+  invites: InviteFriendModel[] = [];
 
-    friends: FriendModel[] = [];
-    persons: FoundUsersModel[] = [];
-    invites: InviteFriendModel[] = [];
+  personsDisplayedColumns: string[] = ['photoId', 'name', 'buttonsBlock'];
 
-    personsDisplayedColumns: string[] = ['photoId', 'name', 'buttonsBlock'];
+  friendsDisplayedColumns: string[] = ['photoId', 'name', 'deleteButton'];
+  invitationDisplayedColumns: string[] = ['photoId', 'name', 'date', 'acceptButton', 'declineButton'];
 
-    friendsDisplayedColumns: string[] = ['photoId', 'name', 'deleteButton'];
-    invitationDisplayedColumns: string[] = ['photoId', 'name', 'date', 'acceptButton', 'declineButton'];
+  buttonInvitePersonEnabled: boolean[] = []
+  buttonAcceptInvitationEnabled: boolean[] = []
+  buttonDeclineInvitationEnabled: boolean[] = []
+  buttonDeleteFriendEnabled: boolean[] = []
+  fieldInvitationMessageEnabled: boolean[] = []
+  fieldInvitationMessageText: string[] = []
 
-    buttonInvitePersonEnabled: boolean[] = []
-    buttonAcceptInvitationEnabled: boolean[] = []
-    buttonDeclineInvitationEnabled: boolean[] = []
-    buttonDeleteFriendEnabled: boolean[] = []
-    fieldInvitationMessageEnabled: boolean[] = []
-    fieldInvitationMessageText: string[] = []
+  imagesUrlPersons: string[] = []
+  imagesUrlFriends: string[] = []
+  imagesUrlInvitation: string[] = []
 
-    imagesUrlPersons: string[] = []
-    imagesUrlFriends: string[] = []
-    imagesUrlInvitation: string[] = []
+  friendsDataSource: any;
+  personsDataSource: any;
+  invitationDataSource: any;
 
-    friendsDataSource: any;
-    personsDataSource: any;
-    invitationDataSource: any;
+  searchPersonsForm: FormGroup | any;
+  searchFriendsForm: FormGroup | any;
+  messageInvitationForm: FormGroup | any;
 
-    searchPersonsForm: FormGroup | any;
-    searchFriendsForm: FormGroup | any;
-    messageInvitationForm: FormGroup | any;
+  searchFriendsRequest: string = "";
+  searchPersonsRequest: string = "";
 
-    searchFriendsRequest: string = "";
-    searchPersonsRequest: string = "";
+  currentPageNumberInvitation: number = 0;
+  currentPageNumberFriends: number = 0;
+  currentPageNumberPersons: number = 0;
 
-    currentPageNumberInvitation: number = 0;
-    currentPageNumberFriends: number = 0;
-    currentPageNumberPersons: number = 0;
+  amountPagesPersons: number = 0;
+  amountPagesFriends: number = 0;
+  amountPagesInvitation: number = 0;
 
-    amountPagesPersons: number = 0;
-    amountPagesFriends: number = 0;
-    amountPagesInvitation: number = 0;
+  personsWasSearched: boolean = false;
 
-    personsWasSearched: boolean = false;
-
-    validationNamePattern: RegExp = /^(|[a-zA-Z0-9 ]{3,255})$/
-    validationMessagePattern: RegExp = /^.{,100}$/
+  validationNamePattern: RegExp = /^(|[a-zA-Z0-9 ]{3,255})$/
+  validationMessagePattern: RegExp = /^.{,100}$/
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
               private friendsService: FriendsService,
@@ -77,116 +77,120 @@ export class FriendsComponent implements OnInit {
               private imageService: ImageUploadService) {
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe()
+  }
+
   ngOnInit(): void {
     this.getFriends(0);
     this.getInvitations();
 
-        this.searchFriendsForm = new FormGroup({
-            name: new FormControl('', [Validators.required, Validators.pattern(this.validationNamePattern)])
-        });
-        this.searchPersonsForm = new FormGroup({
-            name: new FormControl('', [Validators.required, Validators.pattern(this.validationNamePattern)])
-        });
-        this.messageInvitationForm = new FormGroup({
-            message: new FormControl('', [Validators.required, Validators.pattern(this.validationMessagePattern)])
-        });
-    }
+    this.searchFriendsForm = new FormGroup({
+      name: new FormControl('', [Validators.required, Validators.pattern(this.validationNamePattern)])
+    });
+    this.searchPersonsForm = new FormGroup({
+      name: new FormControl('', [Validators.required, Validators.pattern(this.validationNamePattern)])
+    });
+    this.messageInvitationForm = new FormGroup({
+      message: new FormControl('', [Validators.required, Validators.pattern(this.validationMessagePattern)])
+    });
+  }
 
-    getFriends(page: number): void {
-        this.friendsService
-            .getFriends(page)
-            .subscribe((friends: FriendModel[]) => {
-                this.friends = friends;
-                this.friendsDataSource = new MatTableDataSource(this.friends);
-                this.imagesUrlFriends = Array(friends.length).fill(this.defaultAvatar);
-                this.initFriendsPagesAmount();
-                this.setImagesFriends(friends);
-                this.buttonDeleteFriendEnabled = Array(friends.length).fill(true);
-            });
-    }
+  getFriends(page: number): void {
+    this.subscription.add(
+      this.friendsService.getFriends(page).subscribe((friends: FriendModel[]) => {
+        this.friends = friends;
+        this.friendsDataSource = new MatTableDataSource(this.friends);
+        this.imagesUrlFriends = Array(friends.length).fill(this.defaultAvatar);
+        this.initFriendsPagesAmount();
+        this.setImagesFriends(friends);
+        this.buttonDeleteFriendEnabled = Array(friends.length).fill(true);
+      }))
+  }
 
-    getFriendsByName(name: string): void {
-        let page = this.currentPageNumberFriends;
-        if (this.searchFriendsForm.valid) {
-            this.friendsService
-                .getFriendsByName(name, page)
-                .subscribe((friends: FriendModel[]) => {
-                    this.friends = friends;
-                    this.friendsDataSource = new MatTableDataSource(this.friends);
-                    this.imagesUrlFriends = Array(friends.length).fill(this.defaultAvatar);
-                    this.buttonDeleteFriendEnabled = Array(friends.length).fill(true);
-                    this.setImagesFriends(friends);
-                });
-        } else if (name == "") {
-            this.getFriends(page)
-        }
+  getFriendsByName(name: string): void {
+    let page = this.currentPageNumberFriends;
+    if (this.searchFriendsForm.valid) {
+      this.subscription.add(this.friendsService
+        .getFriendsByName(name, page)
+        .subscribe((friends: FriendModel[]) => {
+          this.friends = friends;
+          this.friendsDataSource = new MatTableDataSource(this.friends);
+          this.imagesUrlFriends = Array(friends.length).fill(this.defaultAvatar);
+          this.buttonDeleteFriendEnabled = Array(friends.length).fill(true);
+          this.setImagesFriends(friends);
+        })
+      )
+    } else if (name == "") {
+      this.getFriends(page)
     }
+  }
 
-    getInvitations(): void {
-        let page = this.currentPageNumberInvitation;
-        this.invitationsService
-            .getInvitations(page)
-            .subscribe((invites: InviteFriendModel[]) => {
-                this.invites = invites;
-                this.invitationDataSource = new MatTableDataSource(this.invites);
-                this.buttonAcceptInvitationEnabled = Array(invites.length).fill(true);
-                this.buttonDeclineInvitationEnabled = Array(invites.length).fill(true);
-                this.imagesUrlInvitation = Array(invites.length).fill(this.defaultAvatar)
-                this.setImagesInvitations(invites);
-                this.initInvitationsPagesAmount();
-            });
-    }
+  getInvitations(): void {
+    let page = this.currentPageNumberInvitation;
+    this.subscription.add(this.invitationsService
+      .getInvitations(page)
+      .subscribe((invites: InviteFriendModel[]) => {
+        this.invites = invites;
+        this.invitationDataSource = new MatTableDataSource(this.invites);
+        this.buttonAcceptInvitationEnabled = Array(invites.length).fill(true);
+        this.buttonDeclineInvitationEnabled = Array(invites.length).fill(true);
+        this.imagesUrlInvitation = Array(invites.length).fill(this.defaultAvatar)
+        this.setImagesInvitations(invites);
+        this.initInvitationsPagesAmount();
+      }))
+  }
 
-    getPersonsByName(name: string): void {
-        let page = this.currentPageNumberPersons;
-        if (this.searchPersonsForm.valid) {
-            this.personsService
-                .getPersonsByName(name, page)
-                .subscribe((persons: FoundUsersModel[]) => {
-                    this.persons = persons;
-                    this.personsDataSource = new MatTableDataSource(this.persons);
-                    this.buttonInvitePersonEnabled = Array(persons.length).fill(true);
-                    this.actualizeButtonInviteStatus();
-                    this.fieldInvitationMessageEnabled = Array(persons.length).fill(false);
-                    this.fieldInvitationMessageText = Array(persons.length).fill('');
-                    this.imagesUrlPersons = Array(persons.length).fill(this.defaultAvatar)
-                    this.setImagesPersons(persons);
-                });
-        }
+  getPersonsByName(name: string): void {
+    let page = this.currentPageNumberPersons;
+    if (this.searchPersonsForm.valid) {
+      this.subscription.add(this.personsService
+        .getPersonsByName(name, page)
+        .subscribe((persons: FoundUsersModel[]) => {
+          this.persons = persons;
+          this.personsDataSource = new MatTableDataSource(this.persons);
+          this.buttonInvitePersonEnabled = Array(persons.length).fill(true);
+          this.actualizeButtonInviteStatus();
+          this.fieldInvitationMessageEnabled = Array(persons.length).fill(false);
+          this.fieldInvitationMessageText = Array(persons.length).fill('');
+          this.imagesUrlPersons = Array(persons.length).fill(this.defaultAvatar)
+          this.setImagesPersons(persons);
+        }))
     }
+  }
 
-    fieldFriendsChanged(name: string, page: number): void {
-        if (name.length == 0) {
-            this.getFriends(page);
-        }
+  fieldFriendsChanged(name: string, page: number): void {
+    if (name.length == 0) {
+      this.getFriends(page);
     }
+  }
 
-    fieldPersonsChanged(name: string): void {
-        if (name.length == 0) {
-            this.persons = [];
-            this.personsDataSource = new MatTableDataSource(this.persons);
-        }
+  fieldPersonsChanged(name: string): void {
+    if (name.length == 0) {
+      this.persons = [];
+      this.personsDataSource = new MatTableDataSource(this.persons);
     }
+  }
 
-    checkValue(event: any) {
-        return this.mainService.checkValue(event);
-    }
+  checkValue(event: any) {
+    return this.mainService.checkValue(event);
+  }
 
-    sendFriendshipInvitation(personId: number, message: string): void {
-        this.invitationsService.sendFriendshipInvitation(personId, message).subscribe(
-            (response) => {
-                console.log('response received')
-            },
-            (error: HttpErrorResponse) => {
-                alert(error.error.message);
-                throw error;
-            }
-        );
-    }
+  sendFriendshipInvitation(personId: number, message: string): void {
+    this.subscription.add(this.invitationsService.sendFriendshipInvitation(personId, message).subscribe(
+      (response) => {
+        console.log('response received')
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.error.message);
+        throw error;
+      }
+    ))
+  }
 
   getImageByIdInvitations(imageId: number, i: number) {
     if (imageId != null) {
-      this.imageService.getImageById(imageId).subscribe(
+      this.subscription.add(this.imageService.getImageById(imageId).subscribe(
         (response) => {
           if (response != null)
             this.imagesUrlInvitation[i] = response.urlMiddle
@@ -195,13 +199,13 @@ export class FriendsComponent implements OnInit {
         (error: HttpErrorResponse) => {
           throw error;
         }
-      );
+      ))
     }
   }
 
   getImageByIdFriends(imageId: number, i: number) {
     if (imageId != null) {
-      this.imageService.getImageById(imageId).subscribe(
+      this.subscription.add(this.imageService.getImageById(imageId).subscribe(
         (response) => {
           if (response != null)
             this.imagesUrlFriends[i] = response.urlMiddle
@@ -209,17 +213,16 @@ export class FriendsComponent implements OnInit {
             this.imagesUrlFriends[i] = this.imageNotAvailable
 
         },
-
         (error: HttpErrorResponse) => {
           throw error;
         }
-      );
+      ))
     }
   }
 
   getImageByIdPersons(imageId: number, i: number) {
     if (imageId != null) {
-      this.imageService.getImageById(imageId).subscribe(
+      this.subscription.add(this.imageService.getImageById(imageId).subscribe(
         (response) => {
           if (response != null)
             this.imagesUrlPersons[i] = response.urlMiddle
@@ -229,142 +232,144 @@ export class FriendsComponent implements OnInit {
         (error: HttpErrorResponse) => {
           throw error;
         }
-      );
+      ))
     }
   }
 
-    setImagesInvitations(persons: InviteFriendModel[]) {
-        for (let i = 0; i < persons.length; i++) {
-            this.getImageByIdInvitations(persons[i].photoId, i)
-        }
+  setImagesInvitations(persons: InviteFriendModel[]) {
+    for (let i = 0; i < persons.length; i++) {
+      this.getImageByIdInvitations(persons[i].photoId, i)
     }
+  }
 
-    setImagesFriends(persons: FriendModel[]) {
-        for (let i = 0; i < persons.length; i++) {
-            this.getImageByIdFriends(persons[i].photoId, i)
-        }
+  setImagesFriends(persons: FriendModel[]) {
+    for (let i = 0; i < persons.length; i++) {
+      this.getImageByIdFriends(persons[i].photoId, i)
     }
+  }
 
-    setImagesPersons(persons: FoundUsersModel[]) {
-        for (let i = 0; i < persons.length; i++) {
-            this.getImageByIdPersons(persons[i].photoId, i)
-        }
+  setImagesPersons(persons: FoundUsersModel[]) {
+    for (let i = 0; i < persons.length; i++) {
+      this.getImageByIdPersons(persons[i].photoId, i)
     }
+  }
 
-    acceptInvitation(friendId: number) {
-        this.invitationsService.acceptInvitation(friendId).subscribe(
-            (response) => {
-              this.getFriendsByName('');
-            },
-            (error: HttpErrorResponse) => {
-                alert(error.error.message);
-                throw error;
-            });
-    }
-
-    declineInvitation(friendId: number) {
-        this.invitationsService.declineInvitation(friendId).subscribe(
-            (response) => {
-            },
-            (error: HttpErrorResponse) => {
-                alert(error.error.message);
-                throw error;
-            });
-    }
-
-    getInvitationDate(dateTime: Date): any {
-        if (dateTime == null) return 'Date not specified'
-        dateTime = new Date(dateTime)
-        const datePipe: DatePipe = new DatePipe('en-US')
-        if (this.mainService.getDifferenceInDays(dateTime) < 1) {
-            return datePipe.transform(dateTime, 'HH:mm:ss');
-        }
-        return datePipe.transform(dateTime, 'dd-MM-YYYY HH:mm:ss');
-    }
-
-    changeMessageFieldVisibility(i: number): void {
-        this.fieldInvitationMessageEnabled[i] = !this.fieldInvitationMessageEnabled[i];
-    }
-
-    handleMessage(message: string): string {
-        return this.invitationsService.handleMessage(message);
-    }
-
-    initPersonsPagesAmount(): void {
-        this.personsService.getPagesAmount(this.searchPersonsRequest).subscribe((numberOfPages: number) => {
-            this.amountPagesPersons = numberOfPages;
-        });
-    }
-
-    initFriendsPagesAmount(): void {
-        this.friendsService.getPagesAmount(this.searchFriendsRequest).subscribe((numberOfPages: number) => {
-            this.amountPagesFriends = numberOfPages;
-        });
-    }
-
-    initInvitationsPagesAmount(): void {
-        this.invitationsService.getPagesAmount().subscribe((numberOfPages: number) => {
-            this.amountPagesInvitation = numberOfPages;
-        });
-    }
-  deleteFriend(personId: number): void {
-    this.friendsService.deleteFriend(personId).subscribe((response) => {
+  acceptInvitation(friendId: number) {
+    this.subscription.add(this.invitationsService.acceptInvitation(friendId).subscribe(
+      (response) => {
+        this.getFriendsByName('');
       },
       (error: HttpErrorResponse) => {
         alert(error.error.message);
         throw error;
-      });
+      }))
   }
-    setPageDiffUsers(pageDiff: number): void {
-        this.currentPageNumberPersons += pageDiff
-        this.getPersonsByName(this.searchPersonsRequest)
-    }
 
-    endPageUsers() {
-        this.currentPageNumberPersons = this.amountPagesPersons - 1
-        this.getPersonsByName(this.searchPersonsRequest)
-    }
+  declineInvitation(friendId: number) {
+    this.subscription.add(this.invitationsService.declineInvitation(friendId).subscribe(
+      (response) => {
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.error.message);
+        throw error;
+      }))
+  }
 
-    beginPageUsers() {
-        this.currentPageNumberPersons = 0
-        this.getPersonsByName(this.searchPersonsRequest)
+  getInvitationDate(dateTime: Date): any {
+    if (dateTime == null) return 'Date not specified'
+    dateTime = new Date(dateTime)
+    const datePipe: DatePipe = new DatePipe('en-US')
+    if (this.mainService.getDifferenceInDays(dateTime) < 1) {
+      return datePipe.transform(dateTime, 'HH:mm:ss');
     }
+    return datePipe.transform(dateTime, 'dd-MM-YYYY HH:mm:ss');
+  }
 
-    setPageDiffFriends(pageDiff: number): void {
-        this.currentPageNumberFriends += pageDiff
-        this.getFriendsByName(this.searchFriendsRequest)
-    }
+  changeMessageFieldVisibility(i: number): void {
+    this.fieldInvitationMessageEnabled[i] = !this.fieldInvitationMessageEnabled[i];
+  }
 
-    endPageFriends() {
-        this.currentPageNumberFriends = this.amountPagesFriends - 1
-        this.getFriendsByName(this.searchFriendsRequest)
-    }
+  handleMessage(message: string): string {
+    return this.invitationsService.handleMessage(message);
+  }
 
-    beginPageFriends() {
-        this.currentPageNumberFriends = 0
-        this.getFriendsByName(this.searchFriendsRequest)
-    }
+  initPersonsPagesAmount(): void {
+    this.subscription.add(this.personsService.getPagesAmount(this.searchPersonsRequest).subscribe((numberOfPages: number) => {
+      this.amountPagesPersons = numberOfPages;
+    }))
+  }
 
-    setPageDiffInvitations(pageDiff: number): void {
-        this.currentPageNumberInvitation += pageDiff
-        this.getInvitations()
-    }
+  initFriendsPagesAmount(): void {
+    this.subscription.add(this.friendsService.getPagesAmount(this.searchFriendsRequest).subscribe((numberOfPages: number) => {
+      this.amountPagesFriends = numberOfPages;
+    }))
+  }
 
-    endPageInvitations() {
-        this.currentPageNumberInvitation = this.amountPagesInvitation - 1
-        this.getInvitations()
-    }
+  initInvitationsPagesAmount(): void {
+    this.subscription.add(this.invitationsService.getPagesAmount().subscribe((numberOfPages: number) => {
+      this.amountPagesInvitation = numberOfPages;
+    }))
+  }
 
-    beginPageInvitations() {
-        this.currentPageNumberInvitation = 0
-        this.getInvitations()
-    }
+  deleteFriend(personId: number): void {
+    this.subscription.add(this.friendsService.deleteFriend(personId).subscribe((response) => {
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.error.message);
+        throw error;
+      }))
+  }
 
-    private actualizeButtonInviteStatus() {
-        for (let i = 0; i < this.persons.length; i++) {
-            if (this.persons[i].isInvited) {
-                this.buttonInvitePersonEnabled[i] = false;
-            }
-        }
+  setPageDiffUsers(pageDiff: number): void {
+    this.currentPageNumberPersons += pageDiff
+    this.getPersonsByName(this.searchPersonsRequest)
+  }
+
+  endPageUsers() {
+    this.currentPageNumberPersons = this.amountPagesPersons - 1
+    this.getPersonsByName(this.searchPersonsRequest)
+  }
+
+  beginPageUsers() {
+    this.currentPageNumberPersons = 0
+    this.getPersonsByName(this.searchPersonsRequest)
+  }
+
+  setPageDiffFriends(pageDiff: number): void {
+    this.currentPageNumberFriends += pageDiff
+    this.getFriendsByName(this.searchFriendsRequest)
+  }
+
+  endPageFriends() {
+    this.currentPageNumberFriends = this.amountPagesFriends - 1
+    this.getFriendsByName(this.searchFriendsRequest)
+  }
+
+  beginPageFriends() {
+    this.currentPageNumberFriends = 0
+    this.getFriendsByName(this.searchFriendsRequest)
+  }
+
+  setPageDiffInvitations(pageDiff: number): void {
+    this.currentPageNumberInvitation += pageDiff
+    this.getInvitations()
+  }
+
+  endPageInvitations() {
+    this.currentPageNumberInvitation = this.amountPagesInvitation - 1
+    this.getInvitations()
+  }
+
+  beginPageInvitations() {
+    this.currentPageNumberInvitation = 0
+    this.getInvitations()
+  }
+
+  private actualizeButtonInviteStatus() {
+    for (let i = 0; i < this.persons.length; i++) {
+      if (this.persons[i].isInvited) {
+        this.buttonInvitePersonEnabled[i] = false;
+      }
     }
+  }
 }

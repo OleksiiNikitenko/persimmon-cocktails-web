@@ -45,7 +45,6 @@
       <td class="container-button-edit" mat-cell *matCellDef="let element;let i = index">
         <table class="invite-button-reactions">
           <tr>
-            <!--            <td><p>ID:{{persons[i].personId}}</p></td>-->
             <td>
               <button class="primary-button button-action" [hidden]="!buttonInvitePersonEnabled[i]"
                       (click)="sendFriendshipInvitation(persons[i].personId, fieldInvitationMessageText[i]); buttonInvitePersonEnabled[i] = false">
@@ -57,7 +56,6 @@
               <button class="primary-button button-show-field" [hidden]="!buttonInvitePersonEnabled[i]"
                       (click)="changeMessageFieldVisibility(i); fieldInvitationMessageText[i]=''">ᐯ
               </button>
-              <!--              <button class="disabled-button" [hidden]="buttonInvitePersonEnabled[i]">ᐯ</button>-->
             </td>
             <td>
               <button class="primary-button button-action">Profile</button>
@@ -113,9 +111,10 @@
 
     <ng-container matColumnDef="photoId">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td class="avatar-secondary-container" mat-cell *matCellDef="let element;let i = index"><img class="avatar-second"
-                                                                                                   src="{{imagesUrlInvitation[i]}}"
-                                                                                                   alt="avatar"></td>
+      <td class="avatar-secondary-container" mat-cell *matCellDef="let element;let i = index">
+        <img class="avatar-second"
+             src="{{imagesUrlInvitation[i]}}"
+             alt="avatar"></td>
     </ng-container>
 
     <ng-container matColumnDef="name">
