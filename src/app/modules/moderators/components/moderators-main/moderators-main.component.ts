@@ -22,7 +22,7 @@ export class ModeratorsMainComponent implements AfterViewInit, OnInit {
   moderators: Moderator[] = [];
   imagesUrl: string[] = []
   dataSource: any;
-  imageNotAvailable = '../../../../assets/images/moder-avatar.png'
+  imageNotAvailable = 'https://i.ibb.co/19rwzVw/22fa8a07b693.png'
   @ViewChild(MatSort, {static: false}) sort!: MatSort;
   toggle = true;
   statusBtn:string[] = [];

@@ -9,7 +9,6 @@ import {ToolbarComponent} from "../toolbar/components/toolbar.component";
   selector: 'app-logout',
   templateUrl: './logout.component.html',
   styleUrls: ['./logout.component.css', "../../app.component.css"],
-  // encapsulation: ViewEncapsulation.None
 })
 export class LogoutComponent implements OnInit {
 
@@ -34,7 +33,6 @@ export class LogoutComponent implements OnInit {
 
     console.log("User logged out")
     this.dialog.closeAll()
-    // window.location.reload();
   }
 
   openDialog() {
