@@ -9,6 +9,7 @@ import {ImageUploadService} from "../../../image/services/image-upload-service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MatDialog} from "@angular/material/dialog";
 import {ErrorDialog} from "../../../errors-popup/errors-popup.component";
+import {IngredientCategory, IngredientUiModel} from "../../models/ingredient.ui.model";
 
 @UntilDestroy()
 @Component({
@@ -45,6 +46,7 @@ export class AddIngredientComponent implements OnInit {
     this.currentIngredientId = parseInt(route[route.length - 1])
 
     if (this.currentIngredientId) {
+      this.category?.disable()
       this.ingredientsQuery.selectEntity(this.currentIngredientId).pipe(
         untilDestroyed(this)
       ).subscribe(ingredient => {

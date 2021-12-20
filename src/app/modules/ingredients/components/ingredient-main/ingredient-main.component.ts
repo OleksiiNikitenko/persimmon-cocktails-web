@@ -8,11 +8,11 @@ import {IngredientsStore} from "../../services/ingredients.store";
 import {IngredientsService} from "../../services/ingredients.service";
 import {untilDestroyed, UntilDestroy} from '@ngneat/until-destroy';
 import {FormControl, FormGroup} from "@angular/forms";
-import {columnsToSortBy, Query} from "../../../stock/models/query";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ImageUploadService} from "../../../image/services/image-upload-service";
 import {getUser} from "../../../../core/models/user";
 import {Roles} from "../../../../core/models/roles";
+import {first} from "rxjs/operators";
 
 
 @UntilDestroy()
@@ -28,13 +28,14 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
   ingredients: Ingredient[] = [];
   dataSource: any;
   searchIngredientsForm: FormGroup | any;
-  public findByNameIngredient: Query = {query: "", page: 0, sortByColumn: "nothing"}
-  imagesUrl: string[] = []
+  searchIngredientsRequest: string = "";
+  ingredientsWasSearched: boolean = false;
+  imagesUrl: string[] = [];
   imageNotAvailable = 'https://i.ibb.co/16mJRVD/67eb9e144841.jpg'
   @ViewChild(MatSort, {static: false}) sort!: MatSort;
   toggle = true;
   statusBtn:string[] = [];
-  status: boolean[] = []
+  status: boolean[] = [];
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
               private ingredientsService: IngredientsService,
@@ -45,7 +46,7 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
 
 
   getIngredients(): Ingredient[]{
-    this.handleIngredientStatus(this.ingredients)
+    this.handleIngredientStatus()
     return this.ingredients;
   }
 
@@ -60,8 +61,7 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
   ngOnInit(): void {
     this.ingredientsService.fetchIngredients()
     this.searchIngredientsForm = new FormGroup({
-      name: new FormControl(''),
-      sortColumn: new FormControl(columnsToSortBy)
+      name: new FormControl('')
     });
     this.ingredientsQuery.selectAll().pipe(
       untilDestroyed(this)
@@ -74,7 +74,21 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
         this.imagesUrl = Array(ingredients.length).fill(this.imageNotAvailable)
         this.setImages(ingredients)
         this.statusBtn=Array(ingredients.length).fill('Enabled')
-      this.handleIngredientStatus(ingredients)
+      this.handleIngredientStatus()
+    })
+  }
+
+  getIngredientFromDB(): void{
+    this.ingredientsService.fetchIngredients()
+    this.ingredientsQuery.selectAll().pipe(
+      untilDestroyed(this)
+    ).subscribe(ingredients => {
+      this.ingredients = ingredients
+      this.dataSource = new MatTableDataSource(ingredients)
+      this.dataSource.sort = this.sort;
+      this.cdr.markForCheck()
+      this.statusBtn=Array(ingredients.length).fill('Enabled')
+      this.handleIngredientStatus()
     })
   }
 
@@ -83,7 +97,7 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
       event.code : event.preventDefault();
   }
 
-  handleIngredientStatus(ingredients :any){
+  handleIngredientStatus(){
     for (let i = 0; i < this.ingredients.length; i++) {
       if (!this.ingredients[i].active){
         this.statusBtn[i]='Disabled';
@@ -124,12 +138,36 @@ export class IngredientMainComponent implements AfterViewInit, OnInit {
     console.log(this.ingredients)
     if(this.ingredients.length != 0)
     {
-      this.ingredientsService.changeStatus(ingredientId, this.ingredients[index].active)
-      // this.toggle = !this.toggle;
-      if (this.statusBtn[index]=='Enabled'){
-        this.statusBtn[index] ='Disabled'}
-      else
+      this.ingredientsService.changeStatus(ingredientId, this.ingredients[index].active).pipe(first()).subscribe((response: any)=>{
+        this.getIngredientFromDB()
+      })
+      if (this.statusBtn[index]=='Enabled') {
+        this.statusBtn[index] ='Disabled';
+      }
+      else {
         this.statusBtn[index] = 'Enabled';
+      }
+    }
+  }
+
+  getIngredientByName(name: string): void {
+    if (this.searchIngredientsForm.valid && name!='') {
+      this.ingredientsService
+        .searchIngredient(name)
+        .subscribe((ingredients: Ingredient[]) => {
+          this.ingredients = ingredients;
+          this.dataSource = new MatTableDataSource(this.ingredients);
+        });
+    }
+    else{
+      this.getIngredientFromDB()
+    }
+  }
+
+  fieldIngredientsChanged(name: string): void {
+    if (name.length == 0) {
+      this.ingredients = [];
+      this.dataSource = new MatTableDataSource(this.ingredients);
     }
   }
 }

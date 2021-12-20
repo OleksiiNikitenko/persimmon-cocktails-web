@@ -14,3 +14,4 @@ export class IngredientRequest{
   ingredientCategoryId!: number | null
   photoId!: number | null
 }
+
