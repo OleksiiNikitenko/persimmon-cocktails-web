@@ -12,11 +12,15 @@ export const URLS = {
   activateIngredient: `${environment.apiBaseUrl}/ingredient/activate/`,
   deactivateIngredient: `${environment.apiBaseUrl}/ingredient/deactivate/`,
   updateIngredientPhoto: `${environment.apiBaseUrl}/ingredient/update-photo`,
+  searchIngredient: `${environment.apiBaseUrl}/ingredient/active/search-by-prefix`,
 
-  getKitchenware: `${environment.apiBaseUrl}/kitchenware`,
+  getKitchenware: `${environment.apiBaseUrl}/kitchenware/active`,
   addKitchenware: `${environment.apiBaseUrl}/kitchenware`,
-  updateKitchenware: `${environment.apiBaseUrl}/kitchenware`,
+  updateKitchenware: `${environment.apiBaseUrl}/kitchenware/update-name`,
+  activateKitchenware: `${environment.apiBaseUrl}/kitchenware/activate/`,
+  deactivateKitchenware: `${environment.apiBaseUrl}/kitchenware/deactivate/`,
   updateKitchenwarePhoto: `${environment.apiBaseUrl}/kitchenware/update-photo`,
+  searchKitchenware: `${environment.apiBaseUrl}/kitchenware/active/search-by-prefix`,
 
   getDish: `${environment.apiBaseUrl}/cocktail/search`,
   addDish: `${environment.apiBaseUrl}/cocktail/create`,

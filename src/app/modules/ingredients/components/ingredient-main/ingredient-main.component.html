@@ -1,13 +1,15 @@
-<div class="main" >
+<div class="main">
   <form [formGroup]="searchIngredientsForm" autocomplete="off" class="search-form"
-        (submit)="getIngredients()">
+        (submit)="getIngredientByName(searchIngredientsRequest)">
     <mat-card-content>
       <div class="search-query-input-and-button">
         <mat-form-field class="search-query-input">
           <mat-label>Search ingredients</mat-label>
-          <input matInput [(ngModel)]="findByNameIngredient.query" type="text" placeholder="Ingredient name" formControlName="name"
-                 id="ingredients_search_name" (keypress)="checkValue($event)">
-          <mat-hint align="end">More than 2 characters, space and hyphen are available.</mat-hint>
+          <input matInput [(ngModel)]="searchIngredientsRequest" type="text" placeholder="Ex. knife" formControlName="name"
+               id="name_search_ingredient"
+               (keyup)="fieldIngredientsChanged(searchIngredientsRequest); ingredientsWasSearched=false" maxlength="100"
+               (keyup.enter)="getIngredientByName(searchIngredientsRequest); ingredientsWasSearched=true">
+          <mat-hint align="end">More than 2 characters and no special characters.</mat-hint>
         </mat-form-field>
         <button class="search-submit-button primary-button" type="submit" value="submit" [disabled]="!searchIngredientsForm.valid" >Search</button>
       </div>
@@ -25,13 +27,6 @@
         Photo
       </th>
       <td class="photo-container"  mat-cell *matCellDef="let element let i= index"><img class="photo" src="{{imagesUrl[i]}}" alt="photo"></td>
-    </ng-container>
-
-    <ng-container matColumnDef="ingredientId">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by ID">
-
-      </th>
-      <td mat-cell *matCellDef="let element"> </td>
     </ng-container>
 
     <ng-container matColumnDef="name">
@@ -53,7 +48,7 @@
       </th>
       <td class="container-button-edit" mat-cell *matCellDef="let element; let i = index">
         <button *ngIf="canEdit" class="primary-button button-edit"  [routerLink]="'edit/' + element.ingredientId">EDIT</button>
-        <button *ngIf="!canEdit"class="primary-button button-edit" [disabled]="!buttonAddEnabled[i]" (click)="addToStock(element.ingredientId);buttonAddEnabled[i]=false">Add to stock</button>
+        <button *ngIf="!canEdit"class="primary-button button-add-to-stock" [disabled]="!buttonAddEnabled[i]" (click)="addToStock(element.ingredientId);buttonAddEnabled[i]=false">Add to stock</button>
       </td>
     </ng-container>
 

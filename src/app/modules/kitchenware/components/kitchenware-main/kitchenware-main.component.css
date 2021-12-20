@@ -39,3 +39,24 @@ th.mat-sort-header-sorted {
   padding: 8px 20px !important;
   margin: 20px 20px 0 auto;
 }
+
+.search-form{
+  box-shadow: 0 0 0 white;
+}
+
+.search-field {
+  margin: 10px;
+}
+
+.search-submit-button{
+  height: 2em;
+}
+
+.search-query-input-and-button{
+  display: flex;
+  padding: 0.5em;
+}
+
+.search-query-input{
+  padding-bottom: 1em;
+}

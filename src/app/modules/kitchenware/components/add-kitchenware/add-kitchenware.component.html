@@ -6,19 +6,17 @@
     </ng-template>
   </div>
   <div class="add-kitchenware__content">
-    <img class="add-kitchenware__avatar" src="{{imageUrl}}" alt="glass">
+    <img class="add-kitchenware__avatar" src="{{imageUrl}}" alt="orange">
     <div [formGroup]="form" class="form">
-      <div>
+      <div class="input-element">
         <label>Name: </label>
         <input placeholder="Kitchenware name" formControlName="name"/>
+        <p *ngIf="form.get('name')?.invalid && form.get('name')?.touched">incorrect name</p>
       </div>
-      <div>
+      <div class="input-element">
         <label>Category: </label>
-        <input placeholder="Category" formControlName="category"/>
-      </div>
-      <div>
-        <label>Status: </label>
-        <input type="checkbox" formControlName="status">
+        <input placeholder="Category" type="number" min="1" max="3" formControlName="kitchenwareCategoryId"/>
+        <p *ngIf="form.get('category')?.invalid && form.get('category')?.touched" >incorrect category</p>
       </div>
       <div>
         <button *ngIf="!currentKitchenwareId else editButton" class="primary-button createButton" type="button" (click)="createKitchenware()">Create</button>
@@ -28,15 +26,13 @@
         <button class="secondary-button clearButton" type="button" (click)="resetFormHandler()">Clear</button>
       </div>
     </div>
-
-
-</div>
-<div class=" text-center">
-  <label class="secondary-button changeAvatarButton" for="image_uploads">Choose images to upload </label>
-  <input type="file" id="image_uploads" hidden
-         class="form-control"
-         (change)="onChange($event)">
-  <div class="upload">
-    <button class="thirdly-button uploadButton" (click)="onUpload()">Upload</button></div>
-</div>
+  </div>
+  <div class=" text-center">
+    <label class="secondary-button changeAvatarButton" for="image_uploads">Choose images to upload </label>
+    <input type="file" id="image_uploads" hidden
+           class="form-control"
+           (change)="onChange($event)">
+    <div class="upload">
+      <button class="thirdly-button uploadButton" (click)="onUpload()">Upload</button></div>
+  </div>
 </div>

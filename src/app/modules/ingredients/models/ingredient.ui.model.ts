@@ -9,3 +9,7 @@ export interface IngredientUiModel {
   active: boolean
 }
 
+export interface IngredientCategory {
+  ingredientCategoryId: number,
+  name: string
+}

@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {URLS} from "../../../core/models/urls";
 import {IngredientUiModel} from "../models/ingredient.ui.model";
-import {IngredientRequest} from "../models/ingredient.model";
+import {Ingredient, IngredientRequest} from "../models/ingredient.model";
 import {first} from "rxjs/operators";
 import {MatTableDataSource} from "@angular/material/table";
 import {IngredientsStore} from "./ingredients.store";
@@ -46,11 +46,15 @@ export class IngredientsService {
     this.http.patch(this.BASE_URLS.updateIngredient, data).pipe(first()).subscribe()
   }
 
+  searchIngredient(name: string): Observable<Ingredient[]> {
+  return this.http.get<Ingredient[]>(this.BASE_URLS.searchIngredient + "?prefix=" + name);
+  }
+
   changeStatus(ingredientId:number, isActive: boolean){
     if(isActive)
-      this.http.patch(this.BASE_URLS.deactivateIngredient + ingredientId, {}).pipe(first()).subscribe()
+      return this.http.patch(this.BASE_URLS.deactivateIngredient + ingredientId, {})
     else
-      this.http.patch(this.BASE_URLS.activateIngredient + ingredientId, {}).pipe(first()).subscribe()
+      return this.http.patch(this.BASE_URLS.activateIngredient + ingredientId, {})
   }
   updatePhoto( ingredientId: any, ingredientPhotoId: any){
     this.http.patch(this.BASE_URLS.updateIngredientPhoto, {

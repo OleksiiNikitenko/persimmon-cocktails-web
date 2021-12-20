@@ -1,5 +1,24 @@
-<div class="main" >
-  <button class="secondary-button kitchenware-add" type="button" routerLink="/kitchenware/add">Add kitchenware </button>
+<div class="main">
+  <form [formGroup]="searchKitchenwareForm" autocomplete="off" class="search-form"
+        (submit)="getKitchenwareByName(searchKitchenwareRequest)">
+    <mat-card-content>
+      <div class="search-query-input-and-button">
+        <mat-form-field class="search-query-input">
+          <mat-label>Search kitchenware</mat-label>
+          <input matInput [(ngModel)]="searchKitchenwareRequest" type="text" placeholder="Ex. orange" formControlName="name"
+                 id="name_search_kitchenware"
+                 (keyup)="fieldKitchenwareChanged(searchKitchenwareRequest); kitchenwareWasSearched=false" maxlength="100"
+                 (keyup.enter)="getKitchenwareByName(searchKitchenwareRequest); kitchenwareWasSearched=true">
+          <mat-hint align="end">More than 2 characters and no special characters.</mat-hint>
+        </mat-form-field>
+        <button class="search-submit-button primary-button" type="submit" value="submit" [disabled]="!searchKitchenwareForm.valid" >Search</button>
+      </div>
+    </mat-card-content>
+    <small
+      *ngIf="searchKitchenwareForm.get('name').invalid && searchKitchenwareForm.get('name').touched  && searchKitchenwareForm != ''"
+      class="text-danger">Incorrect format</small>
+  </form>
+  <button *ngIf="canEdit" class="secondary-button kitchenware-add" type="button" routerLink="/kitchenware/add">Add kitchenware </button>
   <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
          class="mat-elevation-z8">
 
@@ -7,14 +26,7 @@
       <th mat-header-cell *matHeaderCellDef sortActionDescription="">
         Photo
       </th>
-      <td class="photo-container"  mat-cell *matCellDef="let element let i = index"><img class="photo" src="{{imagesUrl[i]}}" alt="photo"></td>
-    </ng-container>
-
-    <ng-container matColumnDef="kitchenwareId">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by ID">
-
-      </th>
-      <td mat-cell *matCellDef="let element">  </td>
+      <td class="photo-container"  mat-cell *matCellDef="let element let i= index"><img class="photo" src="{{imagesUrl[i]}}" alt="photo"></td>
     </ng-container>
 
     <ng-container matColumnDef="name">
@@ -28,15 +40,14 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by category">
         Category
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.category.name}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.category === null || undefined ? "No category" : element.category.name}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="editButton">
+    <ng-container matColumnDef="dynamicButton">
       <th mat-header-cell *matHeaderCellDef>
-
       </th>
       <td class="container-button-edit" mat-cell *matCellDef="let element">
-        <button class="primary-button button-edit" [routerLink]="'edit/' + element.kitchenwareId">EDIT</button>
+        <button *ngIf="canEdit"  class="primary-button button-edit"  [routerLink]="'edit/' + element.kitchenwareId">EDIT</button>
       </td>
     </ng-container>
 
@@ -44,8 +55,8 @@
       <th mat-header-cell *matHeaderCellDef>
 
       </th>
-      <td class="container-button-status" mat-cell *matCellDef="let element">
-        <button class="primary-button">DELETE</button>
+      <td class="container-button-status" mat-cell *matCellDef="let element, let i= index">
+        <button *ngIf="canEdit" class="primary-button" (click)="changeStatus(element.kitchenwareId, i)"> {{statusBtn[i]}} </button>
       </td>
     </ng-container>
 

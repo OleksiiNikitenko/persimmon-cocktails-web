@@ -1,9 +1,15 @@
 export interface KitchenwareUiModel {
   kitchenwareId: number,
   name: string,
+  photoId: number | null
   category: {
     kitchenwareCategoryId: number,
     name: string
   } | null,
-  photoId: number | null
+  active: boolean
+}
+
+export interface KitchenwareCategory {
+  kitchenwareCategoryId: number,
+  name: string
 }

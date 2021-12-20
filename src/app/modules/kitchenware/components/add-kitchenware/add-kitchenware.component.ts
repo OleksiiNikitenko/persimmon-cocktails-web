@@ -4,9 +4,12 @@ import {KitchenwareQuery} from "../../services/kitchenware.query";
 import {Router} from "@angular/router";
 import {KitchenwareService} from "../../services/kitchenware.service";
 import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
+import {ImageModel} from "../../../image/model/image.model";
 import {ImageUploadService} from "../../../image/services/image-upload-service";
 import {HttpErrorResponse} from "@angular/common/http";
-import {ImageModel} from "../../../image/model/image.model";
+import {MatDialog} from "@angular/material/dialog";
+import {ErrorDialog} from "../../../errors-popup/errors-popup.component";
+import {KitchenwareCategory, KitchenwareUiModel} from "../../models/kitchenware.ui.model";
 
 @UntilDestroy()
 @Component({
@@ -17,22 +20,21 @@ import {ImageModel} from "../../../image/model/image.model";
 export class AddKitchenwareComponent implements OnInit {
   form: FormGroup
   currentKitchenwareId: number | undefined
+  imageUrl: any;
   imageNotAvailable = '../../../../assets/images/user.png';
   loading: boolean = false;
   file: File | undefined;
-  imageUrl: any;
-
   constructor(
     private formBuilder: FormBuilder,
     private kitchenwareService: KitchenwareService,
     private kitchenwareQuery: KitchenwareQuery,
     private router: Router,
     private imageService: ImageUploadService,
+    public dialog: MatDialog
   ) {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
-      category: [''],
-      status: false,
+      kitchenwareCategoryId: [null /*Validators.required*/],
     })
   }
   onChange(event: any) {
@@ -44,13 +46,13 @@ export class AddKitchenwareComponent implements OnInit {
     this.currentKitchenwareId = parseInt(route[route.length - 1])
 
     if (this.currentKitchenwareId) {
+      this.category?.disable()
       this.kitchenwareQuery.selectEntity(this.currentKitchenwareId).pipe(
         untilDestroyed(this)
       ).subscribe(kitchenware => {
         this.name?.setValue(kitchenware?.name)
         this.category?.setValue(kitchenware?.category?.name)
         this.getImageById(kitchenware?.photoId)
-        // this.currentKitchenwareId=kitchenware?.kitchenwareId
       })
     }
   }
@@ -70,13 +72,16 @@ export class AddKitchenwareComponent implements OnInit {
   resetFormHandler() {
     this.name?.setValue('')
     this.category?.setValue('')
-    this.status?.setValue(false)
   }
 
   createKitchenware() {
     if (this.form.valid) {
-      this.kitchenwareService.createKitchenware(this.form.value)
-      this.router.navigate(['kitchenware'])
+      this.kitchenwareService.createKitchenware(this.form.value).subscribe(() => {
+          this.router.navigate(['ingredients'])
+        },
+        (error: HttpErrorResponse) => {
+          this.dialog.open(ErrorDialog, {data: {message: error.error.message}})
+        })
     }
   }
 
@@ -105,6 +110,8 @@ export class AddKitchenwareComponent implements OnInit {
       );
     }
   }
+
+
   onUpload() {
     if (this.file != undefined) {
       this.loading = !this.loading;
