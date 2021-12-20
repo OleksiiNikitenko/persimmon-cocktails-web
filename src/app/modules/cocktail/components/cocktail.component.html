@@ -145,7 +145,7 @@
     <div *ngIf="viewMode" class="ingredient-with-image-list">
       <li class="ingredient-with-image" *ngFor="let kitchenware of cocktailData.kitchenwareList">
         <img class="ingredient-small-photo"
-             [src]="kitchenware.photoId === null ? defaultKitchenwareUrl : kitchenware.photoId">
+             [src]="defaultKitchenwareUrl">
         <div class="ingredient-name">{{kitchenware.name}}</div>
         <div class="ingredient-category">{{kitchenware.category === null ? "No category" : kitchenware.category.name}}</div>
       </li>
