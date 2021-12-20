@@ -91,11 +91,8 @@
 
     <mat-card-actions>
     </mat-card-actions>
-<!--    <small *ngIf="searchCocktailsForm.get('name').invalid" class="text-danger">Incorrect format</small>-->
-<!--    // && searchCocktailsForm.get('name').touched  && searchCocktailsForm != ''-->
-
     <!--   match-->
-    <div [hidden]="!canView" class="check-match-stock">
+    <div *ngIf="canView" class="check-match-stock">
       <mat-checkbox   formControlName="matchToStock"
                     [(ngModel)]="currentQuery.matchToStock" [checked]="currentQuery.matchToStock">
         <span>Search cocktails match to stock</span>

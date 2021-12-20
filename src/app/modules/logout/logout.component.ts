@@ -34,7 +34,7 @@ export class LogoutComponent implements OnInit {
 
     console.log("User logged out")
     this.dialog.closeAll()
-    window.location.reload();
+    // window.location.reload();
   }
 
   openDialog() {

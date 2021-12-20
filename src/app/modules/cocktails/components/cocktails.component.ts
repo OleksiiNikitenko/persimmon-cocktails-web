@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CocktailBasicInfo} from "../models/cocktails-basic-info";
 import {CocktailsService} from "../services/cocktails.service";
-import {MatTableDataSource} from "@angular/material/table";
 import {Observable, Subscription} from "rxjs";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, FormBuilder, Validators} from "@angular/forms";
 import {columnsToSortBy, Query, ShowActiveMode, specifiedIngredients} from "../models/query";
@@ -25,7 +24,7 @@ export class CocktailsComponent implements OnInit {
   filteredOptions: Observable<IngredientName[]>;
   ingredientFormControl: FormControl = new FormControl()
   public ingredientList: { ingredientId: number, name: string }[] = []
-  canView: boolean = getUser().role === Roles.User|| getUser().role === Roles.Moderator || getUser().role === Roles.Admin
+  canView: boolean = getUser().role === Roles.User || getUser().role === Roles.Moderator || getUser().role === Roles.Admin
 
   constructor(private cocktailsService: CocktailsService) {
     this.filteredOptions = this.ingredientFormControl.valueChanges
