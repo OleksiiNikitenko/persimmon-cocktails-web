@@ -10,7 +10,7 @@ import {URLS} from "../../../core/models/urls";
 })
 
 export class PersonsService {
-  urls =URLS
+  urls = URLS
 
   constructor(private http: HttpClient) {
   }

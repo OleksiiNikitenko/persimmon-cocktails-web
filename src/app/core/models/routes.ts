@@ -35,7 +35,7 @@ export const routes = [
     text: 'Personal stock',
     url: '/stock',
     isActive: true,
-    canActivate: [Roles.User, Roles.Moderator, Roles.Admin]
+    canActivate: [Roles.User]
   },
   {
     text: 'Cocktails',
