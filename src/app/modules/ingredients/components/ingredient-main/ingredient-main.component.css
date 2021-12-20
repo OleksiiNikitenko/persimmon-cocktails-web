@@ -34,6 +34,12 @@ th.mat-sort-header-sorted {
 .button-edit{
   margin-right: 10px;
 }
+
+.button-add-to-stock{
+  margin-right: 10px;
+  width: 100px;
+}
+
 .ingredient-add {
   display: block;
   padding: 8px 20px !important;
@@ -55,8 +61,4 @@ th.mat-sort-header-sorted {
 .search-query-input-and-button{
   display: flex;
   padding: 0.5em;
-}
-
-.search-query-input{
-  padding-bottom: 1em;
 }

@@ -40,15 +40,14 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by category">
         Category
       </th>
-      <td mat-cell *matCellDef="let element"> {{element.category === null ? "No category" : element.category.name}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.category === null || undefined ? "No category" : element.category.name}} </td>
     </ng-container>
 
     <ng-container matColumnDef="dynamicButton">
       <th mat-header-cell *matHeaderCellDef>
       </th>
       <td class="container-button-edit" mat-cell *matCellDef="let element">
-        <button *ngIf="canEdit" class="primary-button button-edit"  [routerLink]="'edit/' + element.kitchenwareId">EDIT</button>
-        <!--<button *ngIf="!canEdit"class="primary-button button-edit"  (click)="addToStock(element.ingredientId)">Add to stock</button>-->
+        <button *ngIf="canEdit"  class="primary-button button-edit"  [routerLink]="'edit/' + element.kitchenwareId">EDIT</button>
       </td>
     </ng-container>
 

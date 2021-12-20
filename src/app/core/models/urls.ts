@@ -14,7 +14,7 @@ export const URLS = {
   updateIngredientPhoto: `${environment.apiBaseUrl}/ingredient/update-photo`,
   searchIngredient: `${environment.apiBaseUrl}/ingredient/active/search-by-prefix`,
 
-  getKitchenware: `${environment.apiBaseUrl}/kitchenware`,
+  getKitchenware: `${environment.apiBaseUrl}/kitchenware/active`,
   addKitchenware: `${environment.apiBaseUrl}/kitchenware`,
   updateKitchenware: `${environment.apiBaseUrl}/kitchenware/update-name`,
   activateKitchenware: `${environment.apiBaseUrl}/kitchenware/activate/`,

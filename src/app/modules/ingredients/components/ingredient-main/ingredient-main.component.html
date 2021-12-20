@@ -48,7 +48,7 @@
       </th>
       <td class="container-button-edit" mat-cell *matCellDef="let element">
         <button *ngIf="canEdit" class="primary-button button-edit"  [routerLink]="'edit/' + element.ingredientId">EDIT</button>
-        <button *ngIf="!canEdit"class="primary-button button-edit"  (click)="addToStock(element.ingredientId)">Add to stock</button>
+        <button *ngIf="!canEdit"class="primary-button button-add-to-stock"  (click)="addToStock(element.ingredientId)">Add to stock</button>
       </td>
     </ng-container>
 
